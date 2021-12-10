@@ -1227,8 +1227,6 @@ lbool Solver::search(int &nof_conflicts)
     bool cached = false;
     starts++;
 
-    printf("check - in MapleComps/core Solver.cpp\n");
-
     for (;;)
     {
         if (decisionLevel() == 0)
@@ -1522,6 +1520,9 @@ lbool Solver::solve_()
     // Search:
     int phase_allotment = 10000;
     int curr_restarts = 0;
+
+    printf("check - in MapleComps/core Solver.cpp %d\n", starts);
+
     for (;;)
     {
         int weighted = phase_allotment;

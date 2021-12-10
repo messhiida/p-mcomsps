@@ -239,7 +239,7 @@ MapleCOMSPSSolver::solve(const vector<int> &cube)
    {
       miniAssumptions.push(MINI_LIT(cube[ind]));
    }
-   printf("check - in MapleCompsSolver.cpp\n");
+
    lbool res = solver->solveLimited(miniAssumptions);
 
    if (res == l_True)

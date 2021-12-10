@@ -24,9 +24,8 @@
 #include "../utils/Parameters.h"
 #include "../utils/System.h"
 
-void
-SolverFactory::sparseRandomDiversification(
-      const vector<SolverInterface *> & solvers)
+void SolverFactory::sparseRandomDiversification(
+    const vector<SolverInterface *> &solvers)
 {
    if (solvers.size() == 0)
       return;
@@ -34,20 +33,23 @@ SolverFactory::sparseRandomDiversification(
    int vars = solvers[0]->getVariablesCount();
 
    // The first solver of the group (1 LRB/1 VSIDS) keeps polarity = false for all vars
-   for (int sid = 1; sid < solvers.size(); sid++) {
+   for (int sid = 1; sid < solvers.size(); sid++)
+   {
       srand(sid);
-      for (int var = 1; var <= vars; var++) {
-         if (rand() % solvers.size() == 0) {
+      for (int var = 1; var <= vars; var++)
+      {
+         if (rand() % solvers.size() == 0)
+         {
             solvers[sid]->setPhase(var, rand() % 2 == 1);
          }
       }
    }
 }
 
-void
-SolverFactory::nativeDiversification(const vector<SolverInterface *> & solvers)
+void SolverFactory::nativeDiversification(const vector<SolverInterface *> &solvers)
 {
-   for (int sid = 0; sid < solvers.size(); sid++) {
+   for (int sid = 0; sid < solvers.size(); sid++)
+   {
       solvers[sid]->diversify(sid);
    }
 }
@@ -57,7 +59,7 @@ SolverFactory::createMapleCOMSPSSolver()
 {
    int id = currentIdSolver.fetch_add(1);
 
-   SolverInterface * solver = new MapleCOMSPSSolver(id);
+   SolverInterface *solver = new MapleCOMSPSSolver(id);
 
    solver->loadFormula(Parameters::getFilename());
 
@@ -69,7 +71,7 @@ SolverFactory::createMapleChronoBTSolver()
 {
    int id = currentIdSolver.fetch_add(1);
 
-   SolverInterface * solver = new MapleChronoBTSolver(id);
+   SolverInterface *solver = new MapleChronoBTSolver(id);
 
    solver->loadFormula(Parameters::getFilename());
 
@@ -77,70 +79,71 @@ SolverFactory::createMapleChronoBTSolver()
 }
 
 SolverInterface *
-SolverFactory::createReducerSolver(SolverInterface* _solver)
+SolverFactory::createReducerSolver(SolverInterface *_solver)
 {
    int id = currentIdSolver.fetch_add(1);
 
-   SolverInterface * solver = new Reducer(id, _solver);
+   SolverInterface *solver = new Reducer(id, _solver);
 
    return solver;
 }
 
-void
-SolverFactory::createMapleCOMSPSSolvers(int maxSolvers,
-                                        vector<SolverInterface *> & solvers)
+void SolverFactory::createMapleCOMSPSSolvers(int maxSolvers,
+                                             vector<SolverInterface *> &solvers)
 {
    solvers.push_back(createMapleCOMSPSSolver());
 
-   double memoryUsed    = getMemoryUsed();
-   int maxMemorySolvers = Parameters::getIntParam("max-memory", 240) * 1024 *
-                          1024 / memoryUsed;
+   double memoryUsed = getMemoryUsed();
+   int maxMemorySolvers = Parameters::getIntParam("max-memory", 240) * 1024 * 1024 / memoryUsed;
 
-   if (maxSolvers > maxMemorySolvers) {
+   if (maxSolvers > maxMemorySolvers)
+   {
       maxSolvers = maxMemorySolvers;
    }
 
-   for (int i = 1; i < maxSolvers; i++) {
+   for (int i = 1; i < maxSolvers; i++)
+   {
       solvers.push_back(cloneSolver(solvers[0]));
    }
 }
 
-void
-SolverFactory::createMapleChronoBTSolvers(int nbSolvers,
-                           vector<SolverInterface *> & solvers)
+void SolverFactory::createMapleChronoBTSolvers(int nbSolvers,
+                                               vector<SolverInterface *> &solvers)
 {
-   for (size_t i = 0; i < nbSolvers; i++) {
-      MapleChronoBTSolver* maple = (MapleChronoBTSolver*) createMapleChronoBTSolver();
+   for (size_t i = 0; i < nbSolvers; i++)
+   {
+      MapleChronoBTSolver *maple = (MapleChronoBTSolver *)createMapleChronoBTSolver();
       solvers.push_back(maple);
    }
 }
 
 SolverInterface *
-SolverFactory::cloneSolver(SolverInterface * other)
+SolverFactory::cloneSolver(SolverInterface *other)
 {
-   SolverInterface * solver;
-   
+   SolverInterface *solver;
+
    int id = currentIdSolver.fetch_add(1);
 
-   switch(other->type) {
-      case MAPLE :
-	      solver = new MapleCOMSPSSolver((MapleCOMSPSSolver &) *other, id);
-      	break;
+   switch (other->type)
+   {
+   case MAPLE:
+      solver = new MapleCOMSPSSolver((MapleCOMSPSSolver &)*other, id);
+      break;
 
-      default :
-         return NULL;
+   default:
+      return NULL;
    }
 
    return solver;
 }
 
-void
-SolverFactory::printStats(const vector<SolverInterface *> & solvers)
+void SolverFactory::printStats(const vector<SolverInterface *> &solvers)
 {
-   printf("c | ID | conflicts  | propagations |  restarts  | decisions  " \
+   printf("c | ID | conflicts  | propagations |  restarts  | decisions  "
           "| memPeak |\n");
 
-   for (size_t i = 0; i < solvers.size(); i++) {
+   for (size_t i = 0; i < solvers.size(); i++)
+   {
       SolvingStatistics stats = solvers[i]->getStatistics();
 
       printf("c | %2zu | %10ld | %12ld | %10ld | %10ld | %7d |\n",

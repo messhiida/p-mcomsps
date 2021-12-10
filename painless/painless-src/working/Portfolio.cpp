@@ -30,82 +30,84 @@ Portfolio::Portfolio()
 
 Portfolio::~Portfolio()
 {
-   for (size_t i = 0; i < slaves.size(); i++) {
+   for (size_t i = 0; i < slaves.size(); i++)
+   {
       delete slaves[i];
    }
 }
 
-void
-Portfolio::solve(const vector<int> & cube)
+void Portfolio::solve(const vector<int> &cube)
 {
    strategyEnding = false;
 
-   for (size_t i = 0; i < slaves.size(); i++) {
+   for (size_t i = 0; i < slaves.size(); i++)
+   {
+
       slaves[i]->solve(cube);
    }
 }
 
-void
-Portfolio::join(WorkingStrategy * strat, SatResult res,
-                const vector<int> & model)
+void Portfolio::join(WorkingStrategy *strat, SatResult res,
+                     const vector<int> &model)
 {
    if (res == UNKNOWN || strategyEnding || globalEnding)
       return;
 
    strategyEnding = true;
 
-   setInterrupt();         
+   setInterrupt();
 
-   if (parent == NULL) { // If it is the top strategy
+   if (parent == NULL)
+   { // If it is the top strategy
       globalEnding = true;
-      finalResult  = res;
+      finalResult = res;
 
-      if (res == SAT) {
+      if (res == SAT)
+      {
          finalModel = model;
       }
-      SequentialWorker *winner = (SequentialWorker*)strat;
+      SequentialWorker *winner = (SequentialWorker *)strat;
       // log(0, "The winner is thread %d \\o/ !!!\n", winner->solver->id);
-   } else { // Else forward the information to the parent strategy
-      parent->join(this, res, model);  
+   }
+   else
+   { // Else forward the information to the parent strategy
+      parent->join(this, res, model);
    }
 }
 
-void
-Portfolio::setInterrupt()
+void Portfolio::setInterrupt()
 {
-   for (size_t i = 0; i < slaves.size(); i++) {
+   for (size_t i = 0; i < slaves.size(); i++)
+   {
       slaves[i]->setInterrupt();
    }
 }
 
-void
-Portfolio::unsetInterrupt()
+void Portfolio::unsetInterrupt()
 {
-   for (size_t i = 0; i < slaves.size(); i++) {
+   for (size_t i = 0; i < slaves.size(); i++)
+   {
       slaves[i]->unsetInterrupt();
    }
 }
 
-void
-Portfolio::waitInterrupt()
+void Portfolio::waitInterrupt()
 {
-   for (size_t i = 0; i < slaves.size(); i++) {
+   for (size_t i = 0; i < slaves.size(); i++)
+   {
       slaves[i]->waitInterrupt();
    }
 }
 
-int
-Portfolio::getDivisionVariable()
+int Portfolio::getDivisionVariable()
 {
    return 0;
 }
 
-void
-Portfolio::setPhase(int var, bool value)
+void Portfolio::setPhase(int var, bool value)
 {
 }
 
-void
-Portfolio::bumpVariableActivity(int var, int times)
+void Portfolio::bumpVariableActivity(int var, int times)
 {
 }

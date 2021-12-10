@@ -34,16 +34,15 @@ extern vector<int> finalModel;
 class WorkingStrategy
 {
 public:
-
    WorkingStrategy()
    {
       parent = NULL;
    }
 
-   virtual void solve (const vector<int> & cube) = 0;
+   virtual void solve(const vector<int> &cube) = 0;
 
-   virtual void join(WorkingStrategy * winner, SatResult res,
-                     const vector<int> & model) = 0;
+   virtual void join(WorkingStrategy *winner, SatResult res,
+                     const vector<int> &model) = 0;
 
    virtual int getDivisionVariable() = 0;
 
@@ -52,19 +51,19 @@ public:
    virtual void bumpVariableActivity(const int var, const int times) = 0;
 
    virtual void setInterrupt() = 0;
-   
+
    virtual void unsetInterrupt() = 0;
-   
+
    virtual void waitInterrupt() = 0;
 
-   virtual void addSlave(WorkingStrategy * slave)
+   virtual void addSlave(WorkingStrategy *slave)
    {
-     slaves.push_back(slave);
-     slave->parent = this;
+      slaves.push_back(slave);
+      slave->parent = this;
    }
 
 protected:
-   WorkingStrategy * parent;
+   WorkingStrategy *parent;
 
    vector<WorkingStrategy *> slaves;
 };

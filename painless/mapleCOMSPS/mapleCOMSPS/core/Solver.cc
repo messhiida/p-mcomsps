@@ -1227,6 +1227,8 @@ lbool Solver::search(int &nof_conflicts)
     bool cached = false;
     starts++;
 
+    printf("check - in MapleComps/core Solver.cpp\n");
+
     for (;;)
     {
         if (decisionLevel() == 0)

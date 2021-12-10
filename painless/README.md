@@ -1,6 +1,6 @@
 Painless: a Framework for Parallel SAT Solving 
 ==============================================
-
+test
 * Ludovic LE FRIOUX (ludovic@lefrioux.fr)
 * Vincent VALLADE (vincent.vallade@lip6.fr) 
 

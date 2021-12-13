@@ -46,6 +46,7 @@ void *mainWorker(void *arg)
 
       sq->waitInterruptLock.lock();
 
+      //UPDATE:: get ID
       printf("ID: %d\n", sq->solver->id);
 
       do

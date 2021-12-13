@@ -240,8 +240,6 @@ MapleCOMSPSSolver::solve(const vector<int> &cube)
       miniAssumptions.push(MINI_LIT(cube[ind]));
    }
 
-   printf("COMPSPSSolver in solve(-probably repeat until a certain limit)\n");
-
    lbool res = solver->solveLimited(miniAssumptions);
 
    if (res == l_True)

@@ -10,6 +10,15 @@
         "algorithm": "cpp",
         "functional": "cpp",
         "bitset": "cpp",
-        "cstdlib": "cpp"
+        "cstdlib": "cpp",
+        "__threading_support": "cpp",
+        "__locale": "cpp",
+        "locale": "cpp",
+        "memory": "cpp",
+        "thread": "cpp",
+        "utility": "cpp",
+        "*.tcc": "cpp",
+        "mutex": "cpp",
+        "stop_token": "cpp"
     }
 }

@@ -224,8 +224,6 @@ MapleChronoBTSolver::solve(const vector<int> &cube)
       miniAssumptions.push(MINI_LIT(cube[ind]));
    }
 
-   printf("COMBTSSolver in solve(-probably repeat until a certain limit)\n");
-
    lbool res = solver->solveLimited(miniAssumptions);
 
    if (res == l_True)

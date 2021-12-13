@@ -25,18 +25,20 @@
 using namespace std;
 
 // Main executed by worker threads
-void * mainWorker(void *arg)
+void *mainWorker(void *arg)
 {
-   SequentialWorker * sq = (SequentialWorker *)arg;
+   SequentialWorker *sq = (SequentialWorker *)arg;
 
    SatResult res = UNKNOWN;
 
    vector<int> model;
 
-   while (globalEnding == false && sq->force == false) {
+   while (globalEnding == false && sq->force == false)
+   {
       pthread_mutex_lock(&sq->mutexStart);
 
-      if (sq->waitJob == true) {
+      if (sq->waitJob == true)
+      {
          pthread_cond_wait(&sq->mutexCondStart, &sq->mutexStart);
       }
 
@@ -44,13 +46,17 @@ void * mainWorker(void *arg)
 
       sq->waitInterruptLock.lock();
 
-      do {
+      printf("ID: %d\n", sq->solver->id);
+
+      do
+      {
          res = sq->solver->solve(sq->actualCube);
       } while (sq->force == false && res == UNKNOWN);
 
       sq->waitInterruptLock.unlock();
 
-      if (res == SAT) {
+      if (res == SAT)
+      {
          model = sq->solver->getModel();
       }
 
@@ -65,14 +71,14 @@ void * mainWorker(void *arg)
 }
 
 // Constructor
-SequentialWorker::SequentialWorker(SolverInterface * solver_)
+SequentialWorker::SequentialWorker(SolverInterface *solver_)
 {
-   solver  = solver_;
-   force   = false;
+   solver = solver_;
+   force = false;
    waitJob = true;
 
    pthread_mutex_init(&mutexStart, NULL);
-   pthread_cond_init (&mutexCondStart, NULL);
+   pthread_cond_init(&mutexCondStart, NULL);
 
    worker = new Thread(mainWorker, this);
 }
@@ -86,81 +92,77 @@ SequentialWorker::~SequentialWorker()
    delete worker;
 
    pthread_mutex_destroy(&mutexStart);
-   pthread_cond_destroy (&mutexCondStart);
+   pthread_cond_destroy(&mutexCondStart);
 
    solver->release();
 }
 
-void
-SequentialWorker::solve(const vector<int> & cube)
+void SequentialWorker::solve(const vector<int> &cube)
 {
    actualCube = cube;
-   
+
    unsetInterrupt();
 
    waitJob = false;
 
-   pthread_mutex_lock  (&mutexStart);
-   pthread_cond_signal (&mutexCondStart);
+   pthread_mutex_lock(&mutexStart);
+   pthread_cond_signal(&mutexCondStart);
    pthread_mutex_unlock(&mutexStart);
 }
 
-void
-SequentialWorker::join(WorkingStrategy * winner, SatResult res,
-                       const vector<int> & model)
+void SequentialWorker::join(WorkingStrategy *winner, SatResult res,
+                            const vector<int> &model)
 {
    force = true;
 
    if (globalEnding)
       return;
 
-   if (parent == NULL) {
+   if (parent == NULL)
+   {
       globalEnding = true;
-      finalResult  = res;
+      finalResult = res;
 
-      if (res == SAT) {
+      if (res == SAT)
+      {
          finalModel = model;
       }
-   } else {
+   }
+   else
+   {
       parent->join(this, res, model);
    }
 }
 
-void
-SequentialWorker::waitInterrupt()
+void SequentialWorker::waitInterrupt()
 {
    waitInterruptLock.lock();
    waitInterruptLock.unlock();
 }
 
-void
-SequentialWorker::setInterrupt()
+void SequentialWorker::setInterrupt()
 {
    force = true;
    solver->setSolverInterrupt();
 }
 
-void
-SequentialWorker::unsetInterrupt()
+void SequentialWorker::unsetInterrupt()
 {
    force = false;
    solver->unsetSolverInterrupt();
 }
 
-int
-SequentialWorker::getDivisionVariable()
+int SequentialWorker::getDivisionVariable()
 {
    return solver->getDivisionVariable();
 }
 
-void
-SequentialWorker::setPhase(const int var, const bool phase)
+void SequentialWorker::setPhase(const int var, const bool phase)
 {
    solver->setPhase(var, phase);
 }
 
-void
-SequentialWorker::bumpVariableActivity(const int var, const int times)
+void SequentialWorker::bumpVariableActivity(const int var, const int times)
 {
    solver->bumpVariableActivity(var, times);
 }

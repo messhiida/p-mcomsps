@@ -164,7 +164,6 @@ int main(int argc, char **argv)
 
    // Init working
    working = new Portfolio();
-   printf("# of workers: %d\n", nSolvers);
    for (size_t i = 0; i < nSolvers; i++)
    {
       working->addSlave(new SequentialWorker(solvers[i]));

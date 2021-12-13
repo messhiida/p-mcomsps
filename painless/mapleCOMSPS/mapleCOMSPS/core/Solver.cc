@@ -1226,6 +1226,7 @@ lbool Solver::search(int &nof_conflicts)
     vec<Lit> learnt_clause;
     bool cached = false;
     starts++;
+    printf("restart:%d, #ofHeap %d, eg of Heap %d, #ofPolairty %d, eg of polarity %s\n", starts, order_heap_VSIDS.size(), order_heap_VSIDS[0], polarity.size(), polarity[0]);
 
     for (;;)
     {

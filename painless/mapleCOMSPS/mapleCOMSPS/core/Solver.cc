@@ -1232,7 +1232,7 @@ lbool Solver::search(int &nof_conflicts)
     printf("restart:%d, #ofHeap %d, #ofPolairty %d", starts, order_heap.size(), polarity.size());
     if (order_heap.inHeap(100))
     {
-        printf("e.g. heap[100]=%d, polarity[100]=%s\n", order_heap[100], polarity[100]);
+        printf(", e.g. heap[100]=%d, polarity[100]=%d\n", order_heap[100], (int)polarity[100]);
     }
     else
     {

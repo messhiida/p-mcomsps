@@ -30,16 +30,17 @@
 /// This is main of sharer threads.
 /// @param  arg contains a pointeur to the associated class
 /// @return return NULL if the thread exit correctly
-static void * mainThrSharing(void * arg)
+static void *mainThrSharing(void *arg)
 {
-   Sharer * shr  = (Sharer *)arg;
-   int round     = 0;
+   Sharer *shr = (Sharer *)arg;
+   int round = 0;
    int sleepTime = Parameters::getIntParam("shr-sleep", 500000);
 
-   while (true) {
-      // Sleep 
+   while (true)
+   {
+      // Sleep
       usleep(sleepTime);
-   
+
       if (globalEnding)
          break; // Need to stop
 
@@ -48,7 +49,6 @@ static void * mainThrSharing(void * arg)
       SharingStatistics stats = shr->sharingStrategy->getStatistics();
       log(2, "Sharer %d enter in round  %d, received cls %ld, shared cls %ld\n",
           shr->id, round, stats.receivedClauses, stats.sharedClauses);
-
 
       // Add new solvers
       // -------------------------
@@ -64,16 +64,15 @@ static void * mainThrSharing(void * arg)
 
       shr->addLock.unlock();
 
-
       // Sharing phase
       shr->sharingStrategy->doSharing(shr->id, shr->producers, shr->consumers);
 
-      
       // Remove solvers
       // -------------------------
       shr->removeLock.lock();
 
-      for (size_t i = 0; i < shr->removeProducers.size(); i++) {
+      for (size_t i = 0; i < shr->removeProducers.size(); i++)
+      {
          shr->producers.erase(remove(shr->producers.begin(),
                                      shr->producers.end(),
                                      shr->removeProducers[i]),
@@ -82,7 +81,8 @@ static void * mainThrSharing(void * arg)
       }
       shr->removeProducers.clear();
 
-      for (size_t i = 0; i < shr->removeConsumers.size(); i++) {
+      for (size_t i = 0; i < shr->removeConsumers.size(); i++)
+      {
          shr->consumers.erase(remove(shr->consumers.begin(),
                                      shr->consumers.end(),
                                      shr->removeConsumers[i]),
@@ -93,7 +93,6 @@ static void * mainThrSharing(void * arg)
 
       shr->removeLock.unlock();
 
-
       if (globalEnding)
          break; // Need to stop
    }
@@ -101,24 +100,26 @@ static void * mainThrSharing(void * arg)
    return NULL;
 }
 
-Sharer::Sharer(int id, SharingStrategy * sharingStrategy,
+Sharer::Sharer(int id, SharingStrategy *sharingStrategy,
                vector<SolverInterface *> producers,
                vector<SolverInterface *> consumers)
 {
-   this->id              = id;
+   this->id = id;
    this->sharingStrategy = sharingStrategy;
-   this->producers       = producers;
-   this->consumers       = consumers;
+   this->producers = producers;
+   this->consumers = consumers;
 
-   for (size_t i = 0; i < producers.size(); i++) {
+   for (size_t i = 0; i < producers.size(); i++)
+   {
       producers[i]->increase();
    }
 
-   for (size_t i = 0; i < consumers.size(); i++) {
+   for (size_t i = 0; i < consumers.size(); i++)
+   {
       consumers[i]->increase();
    }
 
-   sharer  = new Thread(mainThrSharing, this);
+   sharer = new Thread(mainThrSharing, this);
 }
 
 Sharer::~Sharer()
@@ -128,11 +129,13 @@ Sharer::~Sharer()
 
    removeLock.lock();
 
-   for (int i = 0; i < removeProducers.size(); i++) {
+   for (int i = 0; i < removeProducers.size(); i++)
+   {
       removeProducers[i]->release();
    }
 
-   for (size_t i = 0; i < removeConsumers.size(); i++) {
+   for (size_t i = 0; i < removeConsumers.size(); i++)
+   {
       removeConsumers[i]->release();
    }
 
@@ -141,8 +144,7 @@ Sharer::~Sharer()
    delete sharingStrategy;
 }
 
-void
-Sharer::addProducer(SolverInterface * solver)
+void Sharer::addProducer(SolverInterface *solver)
 {
    solver->increase();
 
@@ -151,8 +153,7 @@ Sharer::addProducer(SolverInterface * solver)
    addLock.unlock();
 }
 
-void
-Sharer::addConsumer(SolverInterface * solver)
+void Sharer::addConsumer(SolverInterface *solver)
 {
    solver->increase();
 
@@ -161,27 +162,24 @@ Sharer::addConsumer(SolverInterface * solver)
    addLock.unlock();
 }
 
-void
-Sharer::removeProducer(SolverInterface * solver)
+void Sharer::removeProducer(SolverInterface *solver)
 {
    removeLock.lock();
    removeProducers.push_back(solver);
    removeLock.unlock();
 }
 
-void
-Sharer::removeConsumer(SolverInterface * solver)
+void Sharer::removeConsumer(SolverInterface *solver)
 {
    removeLock.lock();
    removeConsumers.push_back(solver);
    removeLock.unlock();
 }
 
-void
-Sharer::printStats()
+void Sharer::printStats()
 {
    SharingStatistics stats = sharingStrategy->getStatistics();
 
-   cout << "c Sharer " << id << " received cls "<< stats.receivedClauses
+   cout << "c Sharer " << id << " received cls " << stats.receivedClauses
         << ", shared cls " << stats.sharedClauses << endl;
 }

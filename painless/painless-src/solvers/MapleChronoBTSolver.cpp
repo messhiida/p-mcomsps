@@ -36,41 +36,41 @@ using namespace MapleChronoBT;
 
 #define INT_LIT(lit) sign(lit) ? -(var(lit) + 1) : (var(lit) + 1)
 
-
-static void makeMiniVec(ClauseExchange * cls, vec<Lit> & mcls)
+static void makeMiniVec(ClauseExchange *cls, vec<Lit> &mcls)
 {
-   for (size_t i = 0; i < cls->size; i++) {
+   for (size_t i = 0; i < cls->size; i++)
+   {
       mcls.push(MINI_LIT(cls->lits[i]));
    }
 }
 
-
-void cbkMapleChronoBTExportClause(void * issuer, int lbd, vec<Lit> & cls)
+void cbkMapleChronoBTExportClause(void *issuer, int lbd, vec<Lit> &cls)
 {
-	MapleChronoBTSolver* mp = (MapleChronoBTSolver*)issuer;
+   MapleChronoBTSolver *mp = (MapleChronoBTSolver *)issuer;
 
-	if (lbd > mp->lbdLimit)
-		return;
+   if (lbd > mp->lbdLimit)
+      return;
 
-	ClauseExchange * ncls = ClauseManager::allocClause(cls.size());
+   ClauseExchange *ncls = ClauseManager::allocClause(cls.size());
 
-	for (int i = 0; i < cls.size(); i++) {
-		ncls->lits[i] = INT_LIT(cls[i]);
-	}
+   for (int i = 0; i < cls.size(); i++)
+   {
+      ncls->lits[i] = INT_LIT(cls[i]);
+   }
 
-   ncls->lbd  = lbd;
+   ncls->lbd = lbd;
    ncls->from = mp->id;
 
    mp->clausesToExport.addClause(ncls);
 }
 
-Lit cbkMapleChronoBTImportUnit(void * issuer)
+Lit cbkMapleChronoBTImportUnit(void *issuer)
 {
-   MapleChronoBTSolver * mp = (MapleChronoBTSolver*)issuer;
+   MapleChronoBTSolver *mp = (MapleChronoBTSolver *)issuer;
 
    Lit l = lit_Undef;
 
-   ClauseExchange * cls = NULL;
+   ClauseExchange *cls = NULL;
 
    if (mp->unitsToImport.getClause(&cls) == false)
       return l;
@@ -82,11 +82,11 @@ Lit cbkMapleChronoBTImportUnit(void * issuer)
    return l;
 }
 
-bool cbkMapleChronoBTImportClause(void * issuer, int * lbd, vec<Lit> & mcls)
+bool cbkMapleChronoBTImportClause(void *issuer, int *lbd, vec<Lit> &mcls)
 {
-   MapleChronoBTSolver* mp = (MapleChronoBTSolver*)issuer;
+   MapleChronoBTSolver *mp = (MapleChronoBTSolver *)issuer;
 
-   ClauseExchange * cls = NULL;
+   ClauseExchange *cls = NULL;
 
    if (mp->clausesToImport.getClause(&cls) == false)
       return false;
@@ -102,93 +102,92 @@ bool cbkMapleChronoBTImportClause(void * issuer, int * lbd, vec<Lit> & mcls)
 
 MapleChronoBTSolver::MapleChronoBTSolver(int id) : SolverInterface(id, MINISAT)
 {
-	lbdLimit = Parameters::getIntParam("lbd-limit", 2);
+   lbdLimit = Parameters::getIntParam("lbd-limit", 2);
 
-	solver = new SimpSolver();
+   solver = new SimpSolver();
 
-	solver->cbkExportClause = cbkMapleChronoBTExportClause;
-	solver->cbkImportClause = cbkMapleChronoBTImportClause;
-	solver->cbkImportUnit   = cbkMapleChronoBTImportUnit;
-	solver->issuer          = this;
+   solver->cbkExportClause = cbkMapleChronoBTExportClause;
+   solver->cbkImportClause = cbkMapleChronoBTImportClause;
+   solver->cbkImportUnit = cbkMapleChronoBTImportUnit;
+   solver->issuer = this;
 }
 
 MapleChronoBTSolver::~MapleChronoBTSolver()
 {
-	delete solver;
+   delete solver;
 }
 
-bool
-MapleChronoBTSolver::loadFormula(const char* filename)
+bool MapleChronoBTSolver::loadFormula(const char *filename)
 {
-    gzFile in = gzopen(filename, "rb");
+   gzFile in = gzopen(filename, "rb");
 
-    parse_DIMACS(in, *solver);
+   parse_DIMACS(in, *solver);
 
-    gzclose(in);
+   gzclose(in);
 
-    return true;
+   return true;
 }
 
 //Get the number of variables of the formula
-int
-MapleChronoBTSolver::getVariablesCount()
+int MapleChronoBTSolver::getVariablesCount()
 {
-	return solver->nVars();
+   return solver->nVars();
 }
 
 // Get a variable suitable for search splitting
-int
-MapleChronoBTSolver::getDivisionVariable()
+int MapleChronoBTSolver::getDivisionVariable()
 {
    return (rand() % getVariablesCount()) + 1;
 }
 
 // Set initial phase for a given variable
-void
-MapleChronoBTSolver::setPhase(const int var, const bool phase)
+void MapleChronoBTSolver::setPhase(const int var, const bool phase)
 {
-	solver->setPolarity(var - 1, phase ? true : false);
+   solver->setPolarity(var - 1, phase ? true : false);
 }
 
 // Bump activity for a given variable
-void
-MapleChronoBTSolver::bumpVariableActivity(const int var, const int times)
+void MapleChronoBTSolver::bumpVariableActivity(const int var, const int times)
 {
 }
 
 // Interrupt the SAT solving, so it can be started again with new assumptions
-void
-MapleChronoBTSolver::setSolverInterrupt()
+void MapleChronoBTSolver::setSolverInterrupt()
 {
    stopSolver = true;
 
    solver->interrupt();
 }
 
-void
-MapleChronoBTSolver::unsetSolverInterrupt()
+void MapleChronoBTSolver::unsetSolverInterrupt()
 {
    stopSolver = false;
 
-	solver->clearInterrupt();
+   solver->clearInterrupt();
 }
 
 // Diversify the solver
-void
-MapleChronoBTSolver::diversify(int id)
+void MapleChronoBTSolver::diversify(int id)
 {
-   if (id % 2) {
+   if (id % 2)
+   {
       solver->LRB = true;
-   } else {
+   }
+   else
+   {
       solver->LRB = false;
    }
-   if (id % 4 >= 2) {
+   if (id % 4 >= 2)
+   {
       solver->verso = false;
-   } else {
+   }
+   else
+   {
       solver->verso = true;
    }
    // Suppose at least 8 cores
-   if (id % 8 < 4) {
+   if (id % 8 < 4)
+   {
       solver->chrono = -1;
    }
 }
@@ -196,7 +195,7 @@ MapleChronoBTSolver::diversify(int id)
 // Solve the formula with a given set of assumptions
 // return 10 for SAT, 20 for UNSAT, 0 for UNKNOWN
 SatResult
-MapleChronoBTSolver::solve(const vector<int> & cube)
+MapleChronoBTSolver::solve(const vector<int> &cube)
 {
    unsetSolverInterrupt();
 
@@ -205,22 +204,27 @@ MapleChronoBTSolver::solve(const vector<int> & cube)
    tmp.clear();
    clausesToAdd.getClauses(tmp);
 
-   for (size_t ind = 0; ind < tmp.size(); ind++) {
+   for (size_t ind = 0; ind < tmp.size(); ind++)
+   {
       vec<Lit> mcls;
       makeMiniVec(tmp[ind], mcls);
 
       ClauseManager::releaseClause(tmp[ind]);
 
-      if (solver->addClause(mcls) == false) {
+      if (solver->addClause(mcls) == false)
+      {
          printf("c unsat when adding cls\n");
          return UNSAT;
       }
    }
 
    vec<Lit> miniAssumptions;
-   for (size_t ind = 0; ind < cube.size(); ind++) {
+   for (size_t ind = 0; ind < cube.size(); ind++)
+   {
       miniAssumptions.push(MINI_LIT(cube[ind]));
    }
+
+   printf("COMBTSSolver in solve(-probably repeat until a certain limit)\n");
 
    lbool res = solver->solveLimited(miniAssumptions);
 
@@ -233,79 +237,80 @@ MapleChronoBTSolver::solve(const vector<int> & cube)
    return UNKNOWN;
 }
 
-void
-MapleChronoBTSolver::addClause(ClauseExchange * clause)
+void MapleChronoBTSolver::addClause(ClauseExchange *clause)
 {
    clausesToAdd.addClause(clause);
 
    setSolverInterrupt();
 }
 
-void
-MapleChronoBTSolver::addLearnedClause(ClauseExchange * clause)
+void MapleChronoBTSolver::addLearnedClause(ClauseExchange *clause)
 {
-   if (clause->size == 1) {
+   if (clause->size == 1)
+   {
       unitsToImport.addClause(clause);
-   } else {
+   }
+   else
+   {
       clausesToImport.addClause(clause);
    }
 }
 
-void
-MapleChronoBTSolver::addClauses(const vector<ClauseExchange *> & clauses)
+void MapleChronoBTSolver::addClauses(const vector<ClauseExchange *> &clauses)
 {
    clausesToAdd.addClauses(clauses);
 
    setSolverInterrupt();
 }
 
-void
-MapleChronoBTSolver::addInitialClauses(const vector<ClauseExchange *> & clauses)
+void MapleChronoBTSolver::addInitialClauses(const vector<ClauseExchange *> &clauses)
 {
-   for (size_t ind = 0; ind < clauses.size(); ind++) {
+   for (size_t ind = 0; ind < clauses.size(); ind++)
+   {
       vec<Lit> mcls;
 
-      for (size_t i = 0; i < clauses[ind]->size; i++) {
+      for (size_t i = 0; i < clauses[ind]->size; i++)
+      {
          int lit = clauses[ind]->lits[i];
          int var = abs(lit);
 
-         while (solver->nVars() < var) {
+         while (solver->nVars() < var)
+         {
             solver->newVar();
          }
 
          mcls.push(MINI_LIT(lit));
       }
 
-      if (solver->addClause(mcls) == false) {
+      if (solver->addClause(mcls) == false)
+      {
          printf("c unsat when adding initial cls\n");
       }
    }
 }
 
-void
-MapleChronoBTSolver::addLearnedClauses(const vector<ClauseExchange *> & clauses)
+void MapleChronoBTSolver::addLearnedClauses(const vector<ClauseExchange *> &clauses)
 {
-   for (size_t i = 0; i < clauses.size(); i++) {
+   for (size_t i = 0; i < clauses.size(); i++)
+   {
       addLearnedClause(clauses[i]);
    }
 }
 
-void
-MapleChronoBTSolver::getLearnedClauses(vector<ClauseExchange *> & clauses)
+void MapleChronoBTSolver::getLearnedClauses(vector<ClauseExchange *> &clauses)
 {
    clausesToExport.getClauses(clauses);
 }
 
-void
-MapleChronoBTSolver::increaseClauseProduction()
+void MapleChronoBTSolver::increaseClauseProduction()
 {
    lbdLimit++;
 }
 
-void
-MapleChronoBTSolver::decreaseClauseProduction()
+void MapleChronoBTSolver::decreaseClauseProduction()
 {
-   if (lbdLimit > 2) {
+   if (lbdLimit > 2)
+   {
       lbdLimit--;
    }
 }
@@ -315,11 +320,11 @@ MapleChronoBTSolver::getStatistics()
 {
    SolvingStatistics stats;
 
-   stats.conflicts    = solver->conflicts;
+   stats.conflicts = solver->conflicts;
    stats.propagations = solver->propagations;
-   stats.restarts     = solver->starts;
-   stats.decisions    = solver->decisions;
-   stats.memPeak      = memUsedPeak();
+   stats.restarts = solver->starts;
+   stats.decisions = solver->decisions;
+   stats.memPeak = memUsedPeak();
 
    return stats;
 }
@@ -329,8 +334,10 @@ MapleChronoBTSolver::getModel()
 {
    std::vector<int> model;
 
-   for (int i = 0; i < solver->nVars(); i++) {
-      if (solver->model[i] != l_Undef) {
+   for (int i = 0; i < solver->nVars(); i++)
+   {
+      if (solver->model[i] != l_Undef)
+      {
          int lit = solver->model[i] == l_True ? i + 1 : -(i + 1);
          model.push_back(lit);
       }
@@ -339,13 +346,13 @@ MapleChronoBTSolver::getModel()
    return model;
 }
 
-
 vector<int>
 MapleChronoBTSolver::getFinalAnalysis()
 {
    vector<int> outCls;
 
-   for (int i = 0; i < solver->conflict.size(); i++) {
+   for (int i = 0; i < solver->conflict.size(); i++)
+   {
       outCls.push_back(INT_LIT(solver->conflict[i]));
    }
 

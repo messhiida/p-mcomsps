@@ -1521,8 +1521,6 @@ lbool Solver::solve_()
     int phase_allotment = 10000;
     int curr_restarts = 0;
 
-    printf("check - in MapleComps/core Solver.cpp %d\n", starts);
-
     for (;;)
     {
         int weighted = phase_allotment;

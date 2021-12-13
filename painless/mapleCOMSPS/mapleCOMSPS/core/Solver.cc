@@ -1229,7 +1229,7 @@ lbool Solver::search(int &nof_conflicts)
 
     //UPDATE:: check restart status
     Heap<VarOrderLt> &order_heap = VSIDS ? order_heap_VSIDS : order_heap_CHB;
-    printf("restart:%d, #ofHeap %d, #ofPolairty %d", starts, order_heap.size(), polarity.size());
+    printf("VSIDS: %d, restart:%d, #ofHeap %d, #ofPolairty %d", VSIDS, starts, order_heap.size(), polarity.size());
     if (order_heap.inHeap(100))
     {
         printf(", e.g. heap[100]=%d, polarity[100]=%d\n", order_heap[100], (int)polarity[100]);

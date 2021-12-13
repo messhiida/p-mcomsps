@@ -98,14 +98,15 @@ int main(int argc, char **argv)
 
    for (int id = 0; id < nSolvers; id++)
    {
-      if (id % 2)
-      {
-         solvers_LRB.push_back(solvers[id]);
-      }
-      else
-      {
-         solvers_VSIDS.push_back(solvers[id]);
-      }
+      //UPDATE:: NO LRB setting here
+      //if (id % 2)
+      //{
+      //   solvers_LRB.push_back(solvers[id]);
+      //}
+      //else
+      //{
+      solvers_VSIDS.push_back(solvers[id]);
+      //}
    }
 
    SolverFactory::sparseRandomDiversification(solvers_LRB);

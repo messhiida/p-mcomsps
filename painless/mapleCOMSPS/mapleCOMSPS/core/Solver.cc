@@ -1228,7 +1228,7 @@ lbool Solver::search(int &nof_conflicts)
     starts++;
 
     Heap<VarOrderLt> &order_heap = VSIDS ? order_heap_VSIDS : order_heap_CHB;
-    printf("restart:%d, #ofHeap %d, eg of Heap %d, #ofPolairty %d, eg of polarity %s\n", starts, order_heap.size(), order_heap[0], polarity.size(), polarity[0]);
+    printf("restart:%d, #ofHeap %d, #ofPolairty %d\n", starts, order_heap.size(), polarity.size());
 
     for (;;)
     {

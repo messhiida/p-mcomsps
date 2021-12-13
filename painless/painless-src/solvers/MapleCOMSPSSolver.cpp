@@ -189,14 +189,15 @@ void MapleCOMSPSSolver::diversify(int id)
       solver->GE = false;
    }
 
-   if (id % 2)
-   {
-      solver->VSIDS = false;
-   }
-   else
-   {
-      solver->VSIDS = true;
-   }
+   //UPDATE:: set all VSIDS setting
+   //if (id % 2)
+   //{
+   //solver->VSIDS = false;
+   //}
+   //else
+   //{
+   solver->VSIDS = true;
+   //}
 
    if (id % 4 >= 2)
    {

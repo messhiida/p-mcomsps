@@ -19,6 +19,8 @@
         "utility": "cpp",
         "*.tcc": "cpp",
         "mutex": "cpp",
-        "stop_token": "cpp"
+        "stop_token": "cpp",
+        "deque": "cpp",
+        "memory_resource": "cpp"
     }
 }

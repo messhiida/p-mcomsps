@@ -11,8 +11,3 @@ public:
     ~Similarity(){};
     void printStatusSim(int num);
 };
-
-void printTest()
-{
-    printf("printTest\n");
-}

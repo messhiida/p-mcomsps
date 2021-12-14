@@ -28,6 +28,8 @@
 #include "../clauses/ClauseManager.h"
 #include "../solvers/MapleCOMSPSSolver.h"
 
+#include "../similarity/similarity.h"
+
 using namespace MapleCOMSPS;
 
 // Macros for minisat literal representation conversion
@@ -242,6 +244,8 @@ MapleCOMSPSSolver::solve(const vector<int> &cube)
    }
 
    lbool res = solver->solveLimited(miniAssumptions);
+
+   printTest();
 
    if (res == l_True)
       return SAT;

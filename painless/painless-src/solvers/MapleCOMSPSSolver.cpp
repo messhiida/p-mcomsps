@@ -245,7 +245,8 @@ MapleCOMSPSSolver::solve(const vector<int> &cube)
 
    lbool res = solver->solveLimited(miniAssumptions);
 
-   printTest();
+   Similarity sim = Similarity();
+   sim.printStatusSim(cube.size());
 
    if (res == l_True)
       return SAT;

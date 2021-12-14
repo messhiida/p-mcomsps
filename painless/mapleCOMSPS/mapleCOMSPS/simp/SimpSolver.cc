@@ -25,6 +25,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 #include "../mtl/Sort.h"
 #include "../simp/SimpSolver.h"
 #include "../utils/System.h"
+#include "../../../painless-src/similarity/similarity.h"
 
 using namespace MapleCOMSPS;
 
@@ -138,6 +139,8 @@ lbool SimpSolver::solve_(bool do_simp, bool turn_off_simp)
 
         result = lbool(eliminate(turn_off_simp));
     }
+
+    Similarity::staticTestFunc();
 
     if (result == l_True)
         result = Solver::solve_();

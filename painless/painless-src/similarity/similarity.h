@@ -10,4 +10,5 @@ public:
     Similarity(){};
     ~Similarity(){};
     void printStatusSim(int num);
+    static void staticTestFunc();
 };

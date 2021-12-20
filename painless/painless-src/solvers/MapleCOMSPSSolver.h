@@ -110,10 +110,6 @@ public:
 
    vector<int> getSatAssumptions();
 
-   //UPDATE:: Buffer to share CSD
-   ClauseBuffer csdToImport;
-   ClauseBuffer csdToExport;
-
 protected:
    /// Pointer to a MapleCOMSPS solver.
    MapleCOMSPS::SimpSolver *solver;
@@ -127,6 +123,10 @@ protected:
 
    /// Buffer used to add permanent clauses.
    ClauseBuffer clausesToAdd;
+
+   //UPDATE:: Buffer to share CSD
+   ClauseBuffer csdToImport;
+   ClauseBuffer csdToExport;
 
    /// Size limit used to share clauses.
    atomic<int> lbdLimit;

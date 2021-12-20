@@ -42,6 +42,8 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 #include "../utils/Options.h"
 #include "../core/SolverTypes.h"
 
+#include "../../../painless-src/similarity/similarity.h"
+
 // Don't change the actual numbers.
 #define LOCAL 0
 #define TIER2 2

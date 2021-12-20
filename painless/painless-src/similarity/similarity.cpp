@@ -8,7 +8,7 @@ CsdBuffer::~CsdBuffer() {}
 void CsdBuffer::sendCSD(int id)
 {
     printf("Csd Buffer - send CSD function > from ID %d\n", id);
-    storedID = id;
+    //storedID = id;
 }
 void CsdBuffer::receiveCSD()
 {

@@ -1231,12 +1231,7 @@ lbool Solver::search(int &nof_conflicts)
 
     //UPDATE:: random change test
     if (starts % CHANGE_RESTART_FREQ == 0)
-    {
         changeSearchActivity();
-        CSD csd = getCSD();
-        printf("[100] %d, %d, %lf, ", csd.data[100].rank, csd.data[100].phase, csd.data[100].value);
-        printf("Size %d, nonZero %d\n", csd.data.size(), csd.nonZeroVars);
-    }
 
     for (;;)
     {
@@ -1555,6 +1550,10 @@ lbool Solver::solve_()
         if (!VSIDS)
             phase_allotment *= 2;
     }
+
+    CSD csd = getCSD();
+    printf("[100] %d, %d, %lf, ", csd.data[100].rank, csd.data[100].phase, csd.data[100].value);
+    printf("Size %d, nonZero %d\n", csd.data.size(), csd.nonZeroVars);
 
     if (verbosity >= 1)
         printf("c ===============================================================================\n");

@@ -25,7 +25,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 #include "../mtl/Sort.h"
 #include "../core/Solver.h"
 
-#include "../similarity/similarity.h"
+//#include "../similarity/similarity.h"
 
 using namespace MapleCOMSPS;
 

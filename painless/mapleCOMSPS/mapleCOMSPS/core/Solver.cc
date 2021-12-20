@@ -1240,8 +1240,9 @@ lbool Solver::search(int &nof_conflicts)
             if (i < 0)
                 break;
             Var v = order_heap_VSIDS[i];
+            printf("bef: var %d, activity %lf, rank[v] %d\n", v, activity_VSIDS[v], order_heap_VSIDS.rank(v));
             varBumpActivity(v, 1);
-            printf("var %d, activity %lf, rank[v] %d\n", v, activity_VSIDS[v], order_heap_VSIDS.rank(v));
+            printf("aft: var %d, activity %lf, rank[v] %d\n", v, activity_VSIDS[v], order_heap_VSIDS.rank(v));
         }
     }
     /*

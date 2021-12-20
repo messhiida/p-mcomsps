@@ -1230,10 +1230,12 @@ lbool Solver::search(int &nof_conflicts)
     starts++;
 
     //UPDATE:: random test
-    for (int i = 0; i < nVars(); i++)
+    for (int i = 0; i < 10; i++)
     {
-        if (order_heap_VSIDS.inHeap(i))
-            printf("[%d] %d, %lf\n", i, order_heap_VSIDS.rank(i), activity_VSIDS[i]);
+        Var v = order_heap_VSIDS[i];
+        printf("order %d: var %d, activity %lf, order[v] %d\n", i, v, activity_VSIDS[v], order_heap_VSIDS[v]);
+        //if (order_heap_VSIDS.inHeap(i))
+        //    printf("[%d] %d, %lf\n", i, order_heap_VSIDS.rank(i), activity_VSIDS[i]);
     }
 
     for (;;)

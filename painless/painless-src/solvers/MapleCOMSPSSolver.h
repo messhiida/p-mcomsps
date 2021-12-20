@@ -23,7 +23,7 @@
 #include "../solvers/SolverInterface.h"
 #include "../utils/Threading.h"
 
-#include "../similarity/similarity.h"
+#include "../similarity/"
 
 using namespace std;
 

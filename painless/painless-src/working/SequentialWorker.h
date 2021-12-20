@@ -25,7 +25,7 @@
 
 #include <vector>
 
-#include "../similarity/similarity.h"
+//#include "../similarity/similarity.h"
 
 using namespace std;
 

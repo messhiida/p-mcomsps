@@ -18,8 +18,7 @@ vector<csd_element> get_CSD()
 {
     vector<csd_element> csd;
 
-    csd[0].
-    return csd;
+    csd[0].return csd;
 }
 
 /*

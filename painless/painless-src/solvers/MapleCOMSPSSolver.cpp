@@ -28,7 +28,7 @@
 #include "../clauses/ClauseManager.h"
 #include "../solvers/MapleCOMSPSSolver.h"
 
-#include "../similarity/similarity.h"
+//#include "../similarity/similarity.h"
 
 using namespace MapleCOMSPS;
 

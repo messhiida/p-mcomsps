@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <vector>
 
 class Similarity
 {
@@ -11,4 +12,11 @@ public:
     ~Similarity(){};
     void printStatusSim(int num);
     static void staticTestFunc();
+};
+
+struct csd_element
+{
+    int rank;
+    bool polarity;
+    double varValue;
 };

@@ -25,6 +25,8 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 #include "../mtl/Sort.h"
 #include "../core/Solver.h"
 
+#include "../similarity/similarity.h"
+
 using namespace MapleCOMSPS;
 
 #ifdef BIN_DRUP
@@ -1227,20 +1229,6 @@ lbool Solver::search(int &nof_conflicts)
     bool cached = false;
     starts++;
 
-    /*
-    //UPDATE:: check restart status
-    Heap<VarOrderLt> &order_heap = VSIDS ? order_heap_VSIDS : order_heap_CHB;
-    printf("VSIDS: %d, restart:%d, #ofHeap %d, #ofPolairty %d", VSIDS, starts, order_heap.size(), polarity.size());
-    if (order_heap.inHeap(100))
-    {
-        printf(", e.g. heap[100]=%d, polarity[100]=%d\n", order_heap[100], (int)polarity[100]);
-    }
-    else
-    {
-        printf("\n");
-    }
-    */
-
     for (;;)
     {
         if (decisionLevel() == 0)
@@ -1534,6 +1522,14 @@ lbool Solver::solve_()
     // Search:
     int phase_allotment = 10000;
     int curr_restarts = 0;
+
+    //UPDATE:: random test
+    printf("# of Vars %d, heap_order %d, activity %d\n", nVars(), (int)order_heap_VSIDS.size(), (int)activity_VSIDS.size());
+    for (int i = 0; i < nVars(), i++)
+    {
+        if (order_heap_VSIDS.inHeap(i))
+            printf("[%d] order %d, activity %d\n", i, order_heap_VSIDS[i], activity_VSIDS[i]);
+    }
 
     for (;;)
     {

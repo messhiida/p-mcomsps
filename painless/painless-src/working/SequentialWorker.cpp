@@ -22,6 +22,8 @@
 
 #include <unistd.h>
 
+#include "../similarity/similarity.h"
+
 using namespace std;
 
 // Main executed by worker threads
@@ -46,7 +48,7 @@ void *mainWorker(void *arg)
 
       sq->waitInterruptLock.lock();
 
-      //UPDATE:: get ID
+      //UPDATE:: get ID of worker
       printf("ID: %d\n", sq->solver->id);
 
       do

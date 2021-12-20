@@ -21,6 +21,7 @@
         "mutex": "cpp",
         "stop_token": "cpp",
         "deque": "cpp",
-        "memory_resource": "cpp"
+        "memory_resource": "cpp",
+        "atomic": "cpp"
     }
 }

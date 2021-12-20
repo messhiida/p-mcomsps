@@ -138,4 +138,8 @@ protected:
    friend MapleCOMSPS::Lit cbkMapleCOMSPSImportUnit(void *);
    friend bool cbkMapleCOMSPSImportClause(void *, int *, MapleCOMSPS::vec<MapleCOMSPS::Lit> &);
    friend void cbkMapleCOMSPSExportClause(void *, int, MapleCOMSPS::vec<MapleCOMSPS::Lit> &);
+
+   //UPDATE::shared CSD cbk
+   friend void cbkMapleCOMSPSExportCSD(void *);
+   friend void cbkMapleCOMSPSImportCSD(void *);
 };

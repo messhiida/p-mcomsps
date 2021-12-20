@@ -1528,7 +1528,7 @@ lbool Solver::solve_()
     for (int i = 0; i < nVars(); i++)
     {
         if (order_heap_VSIDS.inHeap(i))
-            printf("[%d] order %d, activity %d\n", i, order_heap_VSIDS[i], activity_VSIDS[i]);
+            printf("[%d] order %d, activity %lf\n", i, order_heap_VSIDS[i], activity_VSIDS[i]);
     }
 
     for (;;)

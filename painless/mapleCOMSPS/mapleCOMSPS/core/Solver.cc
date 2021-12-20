@@ -1229,6 +1229,13 @@ lbool Solver::search(int &nof_conflicts)
     bool cached = false;
     starts++;
 
+    //UPDATE:: random test
+    for (int i = 0; i < nVars(); i++)
+    {
+        if (order_heap_VSIDS.inHeap(i))
+            printf("[%d] %d, %lf\n", i, order_heap_VSIDS[i], activity_VSIDS[i]);
+    }
+
     for (;;)
     {
         if (decisionLevel() == 0)
@@ -1522,14 +1529,6 @@ lbool Solver::solve_()
     // Search:
     int phase_allotment = 10000;
     int curr_restarts = 0;
-
-    //UPDATE:: random test
-    printf("# of Vars %d, heap_order %d, activity %d\n", nVars(), (int)order_heap_VSIDS.size(), (int)activity_VSIDS.size());
-    for (int i = 0; i < nVars(); i++)
-    {
-        if (order_heap_VSIDS.inHeap(i))
-            printf("[%d] %d, %lf\n", i, order_heap_VSIDS[i], activity_VSIDS[i]);
-    }
 
     for (;;)
     {

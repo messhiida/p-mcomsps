@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stdio.h>
 #include <vector>
 
@@ -20,4 +22,11 @@ struct CSD
 {
     int nonZeroVars;
     vector<csd_element> data;
+};
+
+struct SharedCSD
+{
+    //atomic<int> nbRefs; // Number of references on this CSD
+    int from; /// Id of the solver that has exported this clause.
+    CSD csd;
 };

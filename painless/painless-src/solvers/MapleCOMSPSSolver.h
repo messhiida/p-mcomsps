@@ -124,6 +124,10 @@ protected:
    /// Buffer used to add permanent clauses.
    ClauseBuffer clausesToAdd;
 
+   //UPDATE:: Buffer to share CSD
+   ClauseBuffer csdToImport;
+   ClauseBuffer csdToExport;
+
    /// Size limit used to share clauses.
    atomic<int> lbdLimit;
 

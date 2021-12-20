@@ -113,6 +113,12 @@ namespace MapleCOMSPS
         Solver(const Solver &s);
         virtual ~Solver();
 
+        //UPDATE:: Similarity Index Functions
+        void changeSearchActivity();
+        CSD getCSD();
+        void (*cbkImportCSD)(void *);
+        void (*cbkExportCSD)(void *);
+
         // Problem specification:
         //
         Var newVar(bool polarity = true, bool dvar = true); // Add a new variable with parameters specifying variable mode.
@@ -507,10 +513,6 @@ namespace MapleCOMSPS
         int stamp(Lit p, int stamp_time, bool use_bin_learnts);
         inline bool implExistsByBin(Lit p, bool use_bin_learnts) const;
         inline bool isRoot(Lit p, bool use_bin_learnts) const;
-
-        //UPDATE:: Similarity Index Functions
-        void changeSearchActivity();
-        CSD getCSD();
     };
 
     //=================================================================================================

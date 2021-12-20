@@ -28,7 +28,7 @@ using namespace std;
 //-------------------------------------------------
 ClauseBuffer::ClauseBuffer()
 {
-   ListElement * node = new ListElement(NULL);
+   ListElement *node = new ListElement(NULL);
    buffer.head = buffer.tail = node;
    buffer.size = 0;
 }
@@ -40,23 +40,28 @@ ClauseBuffer::~ClauseBuffer()
 //-------------------------------------------------
 //  Add clause(s)
 //-------------------------------------------------
-void
-ClauseBuffer::addClause(ClauseExchange * clause)
+void ClauseBuffer::addClause(ClauseExchange *clause)
 {
-   ListElement * tail, * next;
-   ListElement * node = new ListElement(clause);
+   ListElement *tail, *next;
+   ListElement *node = new ListElement(clause);
 
-   while (true) {
+   while (true)
+   {
       tail = buffer.tail;
       next = tail->next;
 
-      if (tail == buffer.tail) {
-         if (next == NULL) {
-            if (tail->next.compare_exchange_strong(next, node)) {
+      if (tail == buffer.tail)
+      {
+         if (next == NULL)
+         {
+            if (tail->next.compare_exchange_strong(next, node))
+            {
                buffer.size++;
                break;
-            } 
-         } else {
+            }
+         }
+         else
+         {
             buffer.tail.compare_exchange_strong(tail, next);
          }
       }
@@ -65,36 +70,51 @@ ClauseBuffer::addClause(ClauseExchange * clause)
    buffer.tail.compare_exchange_strong(tail, node);
 }
 
-void
-ClauseBuffer::addClauses(const vector<ClauseExchange *> & clauses) {
-   for (int i = 0; i < clauses.size(); i++) {
+void ClauseBuffer::addClauses(const vector<ClauseExchange *> &clauses)
+{
+   for (int i = 0; i < clauses.size(); i++)
+   {
       addClause(clauses[i]);
    }
 }
 
+//UPDATE::CSD share用
+void ClauseBuffer::sendCSD(int id)
+{
+   printf("Clause Buffer - send CSD function > from ID %d\n", id);
+}
+void ClauseBuffer::receveCSD()
+{
+}
 
 //-------------------------------------------------
 //  Get clause(s)
 //-------------------------------------------------
-bool
-ClauseBuffer::getClause(ClauseExchange ** clause) {
-   ListElement * head, * tail, * next;
+bool ClauseBuffer::getClause(ClauseExchange **clause)
+{
+   ListElement *head, *tail, *next;
 
-   while (true) {
+   while (true)
+   {
       head = buffer.head;
       tail = buffer.tail;
       next = head->next;
 
-      if (head == buffer.head) {
-         if (head == tail) {
+      if (head == buffer.head)
+      {
+         if (head == tail)
+         {
             if (next == NULL)
                return false;
 
             buffer.tail.compare_exchange_strong(tail, next);
-         } else {
+         }
+         else
+         {
             *clause = next->clause;
 
-            if (buffer.head.compare_exchange_strong(head, next)) {
+            if (buffer.head.compare_exchange_strong(head, next))
+            {
                break;
             }
          }
@@ -108,15 +128,15 @@ ClauseBuffer::getClause(ClauseExchange ** clause) {
    return true;
 }
 
-void
-ClauseBuffer::getClauses(vector<ClauseExchange *> & clauses)
+void ClauseBuffer::getClauses(vector<ClauseExchange *> &clauses)
 {
-   ClauseExchange * cls;
+   ClauseExchange *cls;
 
    int nClauses = size();
    int nClausesGet = 0;
 
-   while (getClause(&cls) && nClausesGet < nClauses) {
+   while (getClause(&cls) && nClausesGet < nClauses)
+   {
       clauses.push_back(cls);
       nClausesGet++;
    }
@@ -125,8 +145,7 @@ ClauseBuffer::getClauses(vector<ClauseExchange *> & clauses)
 //-------------------------------------------------
 //  Get size of the buffer.
 //-------------------------------------------------
-int
-ClauseBuffer::size()
+int ClauseBuffer::size()
 {
    return buffer.size;
 }

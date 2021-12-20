@@ -23,5 +23,6 @@
         "deque": "cpp",
         "memory_resource": "cpp",
         "atomic": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }

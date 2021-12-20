@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <vector>
 
+#include "../similarity/similarity.h"
 
 using namespace std;
 
@@ -40,16 +41,17 @@ public:
    ~ClauseBuffer();
 
    /// Enqueue a shared clause to the buffer.
-   void addClause (ClauseExchange * clause);
-
+   void addClause(ClauseExchange *clause);
    /// Enqueue shared clauses to the buffer.
-   void addClauses(const vector<ClauseExchange *> & clauses);
-
+   void addClauses(const vector<ClauseExchange *> &clauses);
    /// Dequeue a shared clause.
-   bool getClause (ClauseExchange ** clause);
-
+   bool getClause(ClauseExchange **clause);
    /// Dequeue shared clauses.
-   void getClauses(vector<ClauseExchange *> & clauses);
+   void getClauses(vector<ClauseExchange *> &clauses);
+
+   //UPDATE:: CSD share用
+   void sendCSD(int id);
+   void receveCSD();
 
    /// Return the current size of the buffer
    int size();
@@ -57,13 +59,13 @@ public:
 protected:
    typedef struct ListElement
    {
-      ClauseExchange * clause;
+      ClauseExchange *clause;
 
-      atomic<ListElement *> next;         
+      atomic<ListElement *> next;
 
-      ListElement(ClauseExchange * cls)
+      ListElement(ClauseExchange *cls)
       {
-         next   = NULL;
+         next = NULL;
          clause = cls;
       }
 

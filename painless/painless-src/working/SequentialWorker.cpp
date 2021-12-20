@@ -48,9 +48,6 @@ void *mainWorker(void *arg)
 
       sq->waitInterruptLock.lock();
 
-      //UPDATE:: get ID of worker
-      //printf("ID: %d\n", sq->solver->id);
-
       do
       {
          res = sq->solver->solve(sq->actualCube);

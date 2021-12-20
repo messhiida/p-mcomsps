@@ -1229,6 +1229,9 @@ lbool Solver::search(int &nof_conflicts)
     bool cached = false;
     starts++;
 
+    //UPDATE:: csd share
+    cbkExportCSD(issuer);
+
     //UPDATE:: random change test
     if (starts % CHANGE_RESTART_FREQ == 0)
         changeSearchActivity();

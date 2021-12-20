@@ -33,22 +33,24 @@ HordeSatSharing::HordeSatSharing()
 
 HordeSatSharing::~HordeSatSharing()
 {
-    for (auto pair : this->databases) {
-        delete pair.second;
-    }
+   for (auto pair : this->databases)
+   {
+      delete pair.second;
+   }
 }
 
-void
-HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> & from,
-                           const vector<SolverInterface *> & to)
+void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &from,
+                                const vector<SolverInterface *> &to)
 {
    static unsigned int round = 1;
-   for (size_t i = 0; i < from.size(); i++) {
+   for (size_t i = 0; i < from.size(); i++)
+   {
       int used, usedPercent, selectCount;
       int id = from[i]->id;
 
-      if (!this->databases.count(id)) {
-          this->databases[id] = new ClauseDatabase();
+      if (!this->databases.count(id))
+      {
+         this->databases[id] = new ClauseDatabase();
       }
 
       tmp.clear();
@@ -57,46 +59,56 @@ HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> & from,
 
       stats.receivedClauses += tmp.size();
 
-      for (size_t k = 0; k < tmp.size(); k++) {
+      for (size_t k = 0; k < tmp.size(); k++)
+      {
          this->databases[id]->addClause(tmp[k]);
       }
 
       tmp.clear();
 
-      used        = this->databases[id]->giveSelection(tmp, literalPerRound, &selectCount);
+      used = this->databases[id]->giveSelection(tmp, literalPerRound, &selectCount);
       usedPercent = (100 * used) / literalPerRound;
 
       stats.sharedClauses += tmp.size();
 
-      if (usedPercent < 75 && !this->initPhase) {
+      if (usedPercent < 75 && !this->initPhase)
+      {
          from[i]->increaseClauseProduction();
          log(1, "Sharer %d production increase for solver %d.\n", idSharer,
              from[i]->id);
-      } else if (usedPercent > 98) {
+      }
+      else if (usedPercent > 98)
+      {
          from[i]->decreaseClauseProduction();
          log(1, "Sharer %d production decrease for solver %d.\n", idSharer,
              from[i]->id);
       }
 
-      if (selectCount > 0) {
+      if (selectCount > 0)
+      {
          log(1, "Sharer %d filled %d%% of its buffer %.2f\n", idSharer,
-             usedPercent, used/(float)selectCount);
+             usedPercent, used / (float)selectCount);
          this->initPhase = false;
       }
-      if (round >= this->roundBeforeIncrease) {
+      if (round >= this->roundBeforeIncrease)
+      {
          this->initPhase = false;
       }
 
-      for (size_t j = 0; j < to.size(); j++) {
-         if (from[i]->id != to[j]->id) {
-            for (size_t k = 0; k < tmp.size(); k++) {
+      for (size_t j = 0; j < to.size(); j++)
+      {
+         if (from[i]->id != to[j]->id)
+         {
+            for (size_t k = 0; k < tmp.size(); k++)
+            {
                ClauseManager::increaseClause(tmp[k], 1);
             }
             to[j]->addLearnedClauses(tmp);
          }
       }
 
-      for (size_t k = 0; k < tmp.size(); k++) {
+      for (size_t k = 0; k < tmp.size(); k++)
+      {
          ClauseManager::releaseClause(tmp[k]);
       }
    }

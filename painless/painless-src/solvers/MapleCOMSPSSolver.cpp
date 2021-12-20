@@ -65,6 +65,23 @@ void cbkMapleCOMSPSExportClause(void *issuer, int lbd, vec<Lit> &cls)
    mp->clausesToExport.addClause(ncls);
 }
 
+//UPDATE:: Similarity Index Functions
+void cbkMapleCOMSPSExportCSD(void *issuer)
+{
+   MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
+   int from = mp->id;
+   mp->csdToExport.sendCSD(from);
+
+   //SharedCSD *sc =
+   //ClauseExchange *ncls = ClauseManager::allocClause(cls.size());
+   //ncls->from = mp->id;
+   //mp->clausesToExport.addClause(ncls);
+}
+void cbkMapleCOMSPSImportCSD(void *issuer)
+{
+   MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
+}
+
 Lit cbkMapleCOMSPSImportUnit(void *issuer)
 {
    MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
@@ -110,6 +127,11 @@ MapleCOMSPSSolver::MapleCOMSPSSolver(int id) : SolverInterface(id, MAPLE)
    solver->cbkExportClause = cbkMapleCOMSPSExportClause;
    solver->cbkImportClause = cbkMapleCOMSPSImportClause;
    solver->cbkImportUnit = cbkMapleCOMSPSImportUnit;
+
+   //UPDATE:: add cbk functions
+   solver->cbkExportCSD = cbkMapleCOMSPSExportCSD;
+   solver->cbkImportCSD = cbkMapleCOMSPSImportCSD;
+
    solver->issuer = this;
 }
 
@@ -122,6 +144,11 @@ MapleCOMSPSSolver::MapleCOMSPSSolver(const MapleCOMSPSSolver &other, int id) : S
    solver->cbkExportClause = cbkMapleCOMSPSExportClause;
    solver->cbkImportClause = cbkMapleCOMSPSImportClause;
    solver->cbkImportUnit = cbkMapleCOMSPSImportUnit;
+
+   //UPDATE:: add cbk functions
+   solver->cbkExportCSD = cbkMapleCOMSPSExportCSD;
+   solver->cbkImportCSD = cbkMapleCOMSPSImportCSD;
+
    solver->issuer = this;
 }
 

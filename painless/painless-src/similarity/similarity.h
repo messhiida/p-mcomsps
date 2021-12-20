@@ -3,7 +3,7 @@
 
 using namespace std;
 
-#define CONSTANT_FOR_RANK_CALC 10
+#define CONSTANT_FOR_RANK_CALC 10.0
 #define CSD_SET_CRITERIA 1
 #define CHANGE_RESTART_FREQ 100     //CHANGE_RESTART_FREQ回のrestartに1回実行
 #define CHANGE_RATIO 0.1            //CHANGE_RATIO x nVars()の変数分を変更

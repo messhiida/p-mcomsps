@@ -1958,7 +1958,7 @@ void Solver::changeSearchActivity()
 {
     int n = order_heap_VSIDS.size();
     int change_n = (double)n * CHANGE_RATIO;
-    printf("[%d restarts] OrderHeap %d, Change %d in Total nVar %d\n", starts, n, change_n, nVars());
+    //printf("[%d restarts] OrderHeap %d, Change %d in Total nVar %d\n", starts, n, change_n, nVars());
     for (int i = n; i >= change_n; i--) //orderHeapのrankが低い下から順にVarを取得していく
     {
         assert(i >= 0);
@@ -1984,7 +1984,7 @@ CSD Solver::getCSD()
         csd_element e;
         e.rank = order_heap_VSIDS.rank(i) + 1; //orderHeapの最上位は0始まりの為、+1で補正
         e.phase = polarity[i];
-        e.value = pow(0.5, e.rank * CONSTANT_FOR_RANK_CALC / var_size);
+        e.value = pow(0.5, (double)e.rank * CONSTANT_FOR_RANK_CALC / (double)var_size);
         csd.data[i] = e;
 
         if (score > 0)

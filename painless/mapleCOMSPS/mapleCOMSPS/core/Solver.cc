@@ -1231,7 +1231,11 @@ lbool Solver::search(int &nof_conflicts)
 
     //UPDATE:: random change test
     if (starts % CHANGE_RESTART_FREQ == 0)
+    {
         changeSearchActivity();
+        CSD csd = getCSD();
+        printf("Size %d, nonZero %d\n", csd.data.size(), csd.nonZeroVars);
+    }
 
     for (;;)
     {
@@ -1953,7 +1957,7 @@ void Solver::changeSearchActivity()
 {
     int n = order_heap_VSIDS.size();
     int change_n = (double)n * CHANGE_RATIO;
-    //printf("[%d restarts] OrderHeap %d, Change %d in Total nVar %d\n", starts, n, change_n, nVars());
+    printf("[%d restarts] OrderHeap %d, Change %d in Total nVar %d\n", starts, n, change_n, nVars());
     for (int i = n; i >= change_n; i--) //orderHeapのrankが低い下から順にVarを取得していく
     {
         assert(i >= 0);

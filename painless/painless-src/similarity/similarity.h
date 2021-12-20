@@ -38,5 +38,5 @@ public:
     void receveCSD();
 
 protected:
-    //CSD csd;
+    CSD csd;
 };

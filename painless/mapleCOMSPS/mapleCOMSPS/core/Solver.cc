@@ -1554,9 +1554,10 @@ lbool Solver::solve_()
             phase_allotment *= 2;
     }
 
-    CSD csd = getCSD();
-    printf("[100] %d, %d, %lf, ", csd.data[100].rank, csd.data[100].phase, csd.data[100].value);
-    printf("Size %d, nonZero %d\n", csd.data.size(), csd.nonZeroVars);
+    //UPDATE:: test to get CSD
+    //CSD csd = getCSD();
+    //printf("[100] %d, %d, %lf, ", csd.data[100].rank, csd.data[100].phase, csd.data[100].value);
+    //printf("Size %d, nonZero %d\n", csd.data.size(), csd.nonZeroVars);
 
     if (verbosity >= 1)
         printf("c ===============================================================================\n");

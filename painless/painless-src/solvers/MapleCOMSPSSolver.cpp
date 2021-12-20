@@ -71,12 +71,7 @@ void cbkMapleCOMSPSExportCSD(void *issuer)
    MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
    int from = mp->id;
    printf("cbk from:%d\n", from);
-   mp->csdToExport.sendCSD(from);
-
-   //SharedCSD *sc =
-   //ClauseExchange *ncls = ClauseManager::allocClause(cls.size());
-   //ncls->from = mp->id;
-   //mp->clausesToExport.addClause(ncls);
+   //mp->csdToExport.sendCSD(from);
 }
 void cbkMapleCOMSPSImportCSD(void *issuer)
 {

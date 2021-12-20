@@ -1233,7 +1233,7 @@ lbool Solver::search(int &nof_conflicts)
     for (int i = 0; i < nVars(); i++)
     {
         if (order_heap_VSIDS.inHeap(i))
-            printf("[%d] %d, %lf\n", i, order_heap_VSIDS[i], activity_VSIDS[i]);
+            printf("[%d] %d, %lf\n", i, order_heap_VSIDS.rank(i), activity_VSIDS[i]);
     }
 
     for (;;)

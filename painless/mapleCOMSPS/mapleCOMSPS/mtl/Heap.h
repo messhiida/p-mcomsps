@@ -84,6 +84,8 @@ namespace MapleCOMSPS
             assert(index < heap.size());
             return heap[index];
         }
+        //UPDATE:: rankを返すために追加
+        int rank(int var) const { return indices[var]; }
 
         void decrease(int n)
         {

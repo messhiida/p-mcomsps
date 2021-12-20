@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <vector>
 
+#define RESTART_FREQ 100
+#define CHANGE_RATIO 0.1
+
 class Similarity
 {
 private:

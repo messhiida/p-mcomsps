@@ -25,7 +25,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 #include "../mtl/Sort.h"
 #include "../core/Solver.h"
 
-//#include "../similarity/similarity.h"
+#include "../../../painless-src/similarity/similarity.h"
 
 using namespace MapleCOMSPS;
 
@@ -1229,13 +1229,25 @@ lbool Solver::search(int &nof_conflicts)
     bool cached = false;
     starts++;
 
+    if (starts % RESTART_FREQ)
+    {
+        int n = order_heap_VSIDS.size();
+        int change_num = (double)n * CHANGE_RATIO;
+        printf("[%d] %d, %d in %d\n", starts, n, change_num, nVars());
+        for (int i = n; i >= change_num; i--)
+        {
+            if (i < 0)
+                break;
+            Var v = order_heap_VSIDS[i];
+            varBumpActivity(v, 1);
+        }
+    }
+
     //UPDATE:: random test
     for (int i = 0; i < 10; i++)
     {
         Var v = order_heap_VSIDS[i];
         printf("order %d: var %d, activity %lf, order[v] %d, rank[v] %d\n", i, v, activity_VSIDS[v], order_heap_VSIDS[v], order_heap_VSIDS.rank(v));
-        //if (order_heap_VSIDS.inHeap(i))
-        //    printf("[%d] %d, %lf\n", i, order_heap_VSIDS.rank(i), activity_VSIDS[i]);
     }
 
     for (;;)

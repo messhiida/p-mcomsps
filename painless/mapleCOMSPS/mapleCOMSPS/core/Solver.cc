@@ -1234,6 +1234,7 @@ lbool Solver::search(int &nof_conflicts)
     {
         changeSearchActivity();
         CSD csd = getCSD();
+        printf("[100] %d, %d, %lf, ", csd.data[100].rank, csd.data[100].phase, csd.data[100].value);
         printf("Size %d, nonZero %d\n", csd.data.size(), csd.nonZeroVars);
     }
 

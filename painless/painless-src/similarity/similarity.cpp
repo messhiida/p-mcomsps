@@ -1,6 +1,10 @@
 #include "./similarity.h"
 
 using namespace std;
+
+CsdBuffer::CsdBuffer() {}
+CsdBuffer::~CsdBuffer() {}
+
 //UPDATE::CSD share用
 void CsdBuffer::sendCSD(int id)
 {

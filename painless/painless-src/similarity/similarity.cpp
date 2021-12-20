@@ -3,7 +3,7 @@
 #include "../mapleCOMSPS/mapleCOMSPS/core/Solver.h"
 
 using namespace std;
-
+/*
 void Similarity::printStatusSim(int num)
 {
     printf("test %d\n", num);
@@ -20,7 +20,7 @@ vector<csd_element> get_CSD()
 
     csd[0].return csd;
 }
-
+*/
 /*
     //UPDATE:: check restart status
     Heap<VarOrderLt> &order_heap = VSIDS ? order_heap_VSIDS : order_heap_CHB;
@@ -34,7 +34,7 @@ vector<csd_element> get_CSD()
         printf("\n");
     }
     */
-
+/*
 vector<array<double, 3>> get_CSD(vector<double> scoreTable, vector<signed char> phases, CaDiCaL::ScoreSchedule scores)
 {
     int var_size = (int)scoreTable.size();
@@ -60,3 +60,4 @@ vector<array<double, 3>> get_CSD(vector<double> scoreTable, vector<signed char> 
 
     return csd;
 }
+*/

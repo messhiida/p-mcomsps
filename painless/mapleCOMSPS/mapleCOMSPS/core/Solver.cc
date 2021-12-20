@@ -1230,7 +1230,7 @@ lbool Solver::search(int &nof_conflicts)
     starts++;
 
     //UPDATE:: csd share
-    cbkExportCSD(issuer);
+    //cbkExportCSD(issuer);
 
     //UPDATE:: random change test
     if (starts % CHANGE_RESTART_FREQ == 0)

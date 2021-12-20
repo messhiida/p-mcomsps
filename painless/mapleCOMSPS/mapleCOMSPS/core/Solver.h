@@ -527,8 +527,10 @@ namespace MapleCOMSPS
 
     inline void Solver::varBumpActivity(Var v, double mult)
     {
+        //UPDATE::
         if (order_heap_VSIDS.inHeap(v))
-            printf("[%d] %lf, %d\n", v, activity_VSIDS[v], order_heap_VSIDS[v]);
+            printf("b [%d] %lf, %d\n", v, activity_VSIDS[v], order_heap_VSIDS[v]);
+
         if ((activity_VSIDS[v] += var_inc * mult) > 1e100)
         {
             // Rescale:
@@ -540,8 +542,10 @@ namespace MapleCOMSPS
         // Update order_heap with respect to new activity:
         if (order_heap_VSIDS.inHeap(v))
             order_heap_VSIDS.decrease(v);
+
+        //UPDATE::
         if (order_heap_VSIDS.inHeap(v))
-            printf("[%d] %lf, %d\n", v, activity_VSIDS[v], order_heap_VSIDS[v]);
+            printf("a [%d] %lf, %d\n", v, activity_VSIDS[v], order_heap_VSIDS[v]);
     }
 
     inline void Solver::claDecayActivity() { cla_inc *= (1 / clause_decay); }

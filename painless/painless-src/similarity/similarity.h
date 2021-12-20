@@ -2,6 +2,9 @@
 
 #include <stdio.h>
 #include <vector>
+#include <atomic>
+#include <memory>
+#include <stdio.h>
 
 using namespace std;
 
@@ -24,9 +27,17 @@ struct CSD
     vector<csd_element> data;
 };
 
-struct SharedCSD
+class CsdBuffer
 {
-    //atomic<int> nbRefs; // Number of references on this CSD
-    int from; /// Id of the solver that has exported this clause.
+public:
+    /// Constructor.
+    CsdBuffer();
+    /// Destructor.
+    ~CsdBuffer();
+
+    void sendCSD(int id);
+    void receveCSD();
+
+protected:
     CSD csd;
 };

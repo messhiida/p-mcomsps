@@ -49,10 +49,6 @@ public:
    /// Dequeue shared clauses.
    void getClauses(vector<ClauseExchange *> &clauses);
 
-   //UPDATE:: CSD share用
-   void sendCSD(int id);
-   void receveCSD();
-
    /// Return the current size of the buffer
    int size();
 

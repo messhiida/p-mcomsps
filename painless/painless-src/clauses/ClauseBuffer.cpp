@@ -81,7 +81,7 @@ void ClauseBuffer::addClauses(const vector<ClauseExchange *> &clauses)
 //UPDATE::CSD share用
 void ClauseBuffer::sendCSD(int id)
 {
-   //printf("Clause Buffer - send CSD function > from ID %d\n", id);
+   printf("Clause Buffer - send CSD function > from ID %d\n", id);
 }
 void ClauseBuffer::receveCSD()
 {

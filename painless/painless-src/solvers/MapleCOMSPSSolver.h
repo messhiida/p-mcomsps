@@ -22,6 +22,7 @@
 #include "../clauses/ClauseBuffer.h"
 #include "../solvers/SolverInterface.h"
 #include "../utils/Threading.h"
+#include "../similarity/similarity.h"
 
 //#include "../similarity/similarity.h"
 
@@ -125,8 +126,8 @@ protected:
    ClauseBuffer clausesToAdd;
 
    //UPDATE:: Buffer to share CSD
-   ClauseBuffer csdToImport;
-   ClauseBuffer csdToExport;
+   CsdBuffer csdToImport;
+   CsdBuffer csdToExport;
 
    /// Size limit used to share clauses.
    atomic<int> lbdLimit;

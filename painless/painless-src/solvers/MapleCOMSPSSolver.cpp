@@ -191,7 +191,7 @@ void MapleCOMSPSSolver::diversify(int id)
       solver->GE = false;
    }
 
-   //UPDATE:: set all VSIDS setting
+   //UPDATE:: no LBD, VSIDS only
    //if (id % 2)
    //{
    //solver->VSIDS = false;

@@ -98,7 +98,7 @@ int main(int argc, char **argv)
 
    for (int id = 0; id < nSolvers; id++)
    {
-      //UPDATE:: NO LRB setting here
+      //UPDATE:: NO LRB, VSIDS only
       //if (id % 2)
       //{
       //   solvers_LRB.push_back(solvers[id]);

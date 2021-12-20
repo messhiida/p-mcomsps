@@ -111,6 +111,7 @@ MapleCOMSPSSolver::MapleCOMSPSSolver(int id) : SolverInterface(id, MAPLE)
    solver->cbkImportClause = cbkMapleCOMSPSImportClause;
    solver->cbkImportUnit = cbkMapleCOMSPSImportUnit;
    solver->issuer = this;
+   printf("in Simple\n");
 }
 
 MapleCOMSPSSolver::MapleCOMSPSSolver(const MapleCOMSPSSolver &other, int id) : SolverInterface(id, MAPLE)
@@ -123,6 +124,8 @@ MapleCOMSPSSolver::MapleCOMSPSSolver(const MapleCOMSPSSolver &other, int id) : S
    solver->cbkImportClause = cbkMapleCOMSPSImportClause;
    solver->cbkImportUnit = cbkMapleCOMSPSImportUnit;
    solver->issuer = this;
+
+   printf("in Difficult\n");
 }
 
 MapleCOMSPSSolver::~MapleCOMSPSSolver()

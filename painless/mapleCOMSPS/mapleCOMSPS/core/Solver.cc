@@ -1946,7 +1946,9 @@ bool Solver::implExistsByBin(Lit p, bool use_bin_learnts) const
 
 bool Solver::isRoot(Lit p, bool use_bin_learnts) const { return !implExistsByBin(~p, use_bin_learnts); }
 
-//UPDATE:: Similarity Index Functions
+/***************************************/
+/**UPDATE:: Similarity Index Functions**/
+/***************************************/
 void Solver::changeSearchActivity()
 {
     int n = order_heap_VSIDS.size();

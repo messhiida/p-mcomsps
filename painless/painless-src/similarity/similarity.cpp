@@ -2,62 +2,46 @@
 #include "../mapleCOMSPS/mapleCOMSPS/mtl/Heap.h"
 #include "../mapleCOMSPS/mapleCOMSPS/core/Solver.h"
 
-using namespace std;
-/*
-void Similarity::printStatusSim(int num)
+//using namespace std;
+namespace MapleCOMSPS
 {
-    printf("test %d\n", num);
-}
 
-void Similarity::staticTestFunc()
-{
-    printf("static\n");
-}
-
-vector<csd_element> get_CSD()
-{
-    vector<csd_element> csd;
-
-    csd[0].return csd;
-}
-*/
-/*
-    //UPDATE:: check restart status
-    Heap<VarOrderLt> &order_heap = VSIDS ? order_heap_VSIDS : order_heap_CHB;
-    printf("VSIDS: %d, restart:%d, #ofHeap %d, #ofPolairty %d", VSIDS, starts, order_heap.size(), polarity.size());
-    if (order_heap.inHeap(100))
+    void Solver::changeSearchActivity()
     {
-        printf(", e.g. heap[100]=%d, polarity[100]=%d\n", order_heap[100], (int)polarity[100]);
-    }
-    else
-    {
-        printf("\n");
-    }
-    */
-/*
-vector<array<double, 3>> get_CSD(vector<double> scoreTable, vector<signed char> phases, CaDiCaL::ScoreSchedule scores)
-{
-    int var_size = (int)scoreTable.size();
-    vector<array<double, 3>> csd(var_size); //csd[var] = {rank, phase, value},　不足分=下で定義されない分はzeroで埋められる
-    double rank = 0.0;
-
-    for (auto it = scores.begin(); it != scores.end(); ++it)
-    {
-        rank++;
-
-        unsigned var_index = *it;
-        double score = scoreTable[*it];
-        if (score <= (double)CSD_SCORE_CRITERIA)
-            break;
-
-        assert(var_size);
-        double varValue = pow(0.5, rank * CONSTANT_FOR_RANK_CALC / var_size); //この式はSSIの定義次第で変更すること
-        double polarity = phases[var_index];
-
-        array<double, 3> element = {rank, polarity, varValue};
-        csd[var_index] = element;
+        int n = order_heap_VSIDS.size();
+        int change_n = (double)n * CHANGE_RATIO;
+        //printf("[%d restarts] OrderHeap %d, Change %d in Total nVar %d\n", starts, n, change_n, nVars());
+        for (int i = n; i >= change_n; i--) //orderHeapのrankが低い下から順にVarを取得していく
+        {
+            assert(i >= 0);
+            Var v = order_heap_VSIDS[i];
+            varBumpActivity(v, CHANGE_VAR_BUMP_TIMES);
+            //printf("order %d: var %d, activity %lf, order[v] %d, rank[v] %d\n", i, v, activity_VSIDS[v], order_heap_VSIDS[v], order_heap_VSIDS.rank(v));
+        }
     }
 
-    return csd;
+    CSD Solver::getCSD()
+    {
+        CSD csd;
+        int var_size = nVars();
+        csd.nonZeroVars = 0;
+        csd.data.resize(var_size);
+
+        for (int i = 0; i < var_size; i++)
+        {
+            double score = activity_VSIDS[i];
+            if (!order_heap_VSIDS.inHeap(i) || score < CSD_SET_CRITERIA)
+                continue;
+
+            csd_element e;
+            e.rank = order_heap_VSIDS.rank(i) + 1; //orderHeapの最上位は0始まりの為、+1で補正
+            e.phase = polarity[i];
+            e.value = pow(0.5, e.rank * CONSTANT_FOR_RANK_CALC / var_size);
+            csd.data[i] = e;
+
+            if (score > 0)
+                csd.nonZeroVars++;
+        }
+        return csd;
+    }
 }
-*/

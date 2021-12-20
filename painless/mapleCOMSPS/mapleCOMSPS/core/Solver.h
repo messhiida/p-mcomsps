@@ -505,6 +505,10 @@ namespace MapleCOMSPS
         int stamp(Lit p, int stamp_time, bool use_bin_learnts);
         inline bool implExistsByBin(Lit p, bool use_bin_learnts) const;
         inline bool isRoot(Lit p, bool use_bin_learnts) const;
+
+        //UPDATE:: Similarity Index Functions
+        void changeSearchActivity();
+        CSD getCSD();
     };
 
     //=================================================================================================

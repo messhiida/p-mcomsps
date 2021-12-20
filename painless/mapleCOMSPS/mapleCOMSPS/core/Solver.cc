@@ -1231,18 +1231,7 @@ lbool Solver::search(int &nof_conflicts)
 
     //UPDATE:: random change test
     if (starts % CHANGE_RESTART_FREQ == 0)
-    {
-        int n = order_heap_VSIDS.size();
-        int change_n = (double)n * CHANGE_RATIO;
-        printf("[%d restarts] OrderHeap %d, Change %d in Total nVar %d\n", starts, n, change_n, nVars());
-        for (int i = n; i >= change_n; i--) //orderHeapの下から順にVarを取得していく
-        {
-            assert(i >= 0);
-            Var v = order_heap_VSIDS[i];
-            varBumpActivity(v, CHANGE_VAR_BUMP_TIMES);
-            //printf("order %d: var %d, activity %lf, order[v] %d, rank[v] %d\n", i, v, activity_VSIDS[v], order_heap_VSIDS[v], order_heap_VSIDS.rank(v));
-        }
-    }
+        changeSearchActivity();
 
     for (;;)
     {

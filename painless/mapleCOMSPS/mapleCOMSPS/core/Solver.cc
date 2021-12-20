@@ -1229,28 +1229,20 @@ lbool Solver::search(int &nof_conflicts)
     bool cached = false;
     starts++;
 
-    //UPDATE:: random test
-    if (starts % RESTART_FREQ)
+    //UPDATE:: random change test
+    if (starts % CHANGE_RESTART_FREQ == 0)
     {
         int n = order_heap_VSIDS.size();
-        int change_num = (double)n * CHANGE_RATIO;
-        printf("[%d] %d, %d in %d\n", starts, n, change_num, nVars());
-        for (int i = n; i >= change_num; i--)
+        int change_n = (double)n * CHANGE_RATIO;
+        printf("[%d restarts] OrderHeap %d, Change %d in Total nVar %d\n", starts, n, change_n, nVars());
+        for (int i = n; i >= change_n; i--) //orderHeapの下から順にVarを取得していく
         {
-            if (i < 0)
-                break;
+            assert(i >= 0);
             Var v = order_heap_VSIDS[i];
-            printf("bef: var %d, activity %lf, rank[v] %d\n", v, activity_VSIDS[v], order_heap_VSIDS.rank(v));
-            varBumpActivity(v, 1);
-            printf("aft: var %d, activity %lf, rank[v] %d\n", v, activity_VSIDS[v], order_heap_VSIDS.rank(v));
+            varBumpActivity(v, CHANGE_VAR_BUMP_TIMES);
+            //printf("order %d: var %d, activity %lf, order[v] %d, rank[v] %d\n", i, v, activity_VSIDS[v], order_heap_VSIDS[v], order_heap_VSIDS.rank(v));
         }
     }
-    /*
-    for (int i = 0; i < 10; i++)
-    {
-        Var v = order_heap_VSIDS[i];
-        printf("order %d: var %d, activity %lf, order[v] %d, rank[v] %d\n", i, v, activity_VSIDS[v], order_heap_VSIDS[v], order_heap_VSIDS.rank(v));
-    }*/
 
     for (;;)
     {

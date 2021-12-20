@@ -1241,6 +1241,7 @@ lbool Solver::search(int &nof_conflicts)
                 break;
             Var v = order_heap_VSIDS[i];
             varBumpActivity(v, 1);
+            printf("var %d, activity %lf, rank[v] %d\n", v, activity_VSIDS[v], order_heap_VSIDS.rank(v));
         }
     }
     /*

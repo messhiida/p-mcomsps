@@ -1229,6 +1229,7 @@ lbool Solver::search(int &nof_conflicts)
     bool cached = false;
     starts++;
 
+    //UPDATE:: random test
     if (starts % RESTART_FREQ)
     {
         int n = order_heap_VSIDS.size();
@@ -1242,13 +1243,12 @@ lbool Solver::search(int &nof_conflicts)
             varBumpActivity(v, 1);
         }
     }
-
-    //UPDATE:: random test
+    /*
     for (int i = 0; i < 10; i++)
     {
         Var v = order_heap_VSIDS[i];
         printf("order %d: var %d, activity %lf, order[v] %d, rank[v] %d\n", i, v, activity_VSIDS[v], order_heap_VSIDS[v], order_heap_VSIDS.rank(v));
-    }
+    }*/
 
     for (;;)
     {

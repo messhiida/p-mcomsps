@@ -1231,6 +1231,7 @@ lbool Solver::search(int &nof_conflicts)
 
     //UPDATE:: csd share
     cbkExportCSD(issuer);
+    cbkImportCSD(issuer);
 
     //UPDATE:: random change test
     if (starts % CHANGE_RESTART_FREQ == 0)

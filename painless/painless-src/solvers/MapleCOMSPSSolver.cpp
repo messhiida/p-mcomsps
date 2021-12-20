@@ -76,6 +76,7 @@ void cbkMapleCOMSPSExportCSD(void *issuer)
 void cbkMapleCOMSPSImportCSD(void *issuer)
 {
    MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
+   mp->csdToImport.receiveCSD();
 }
 
 Lit cbkMapleCOMSPSImportUnit(void *issuer)

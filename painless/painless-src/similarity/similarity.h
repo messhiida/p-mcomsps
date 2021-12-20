@@ -2,8 +2,7 @@
 
 #include <stdio.h>
 #include <vector>
-//#include <atomic>
-//#include <memory>
+#include <atomic>
 
 using namespace std;
 
@@ -35,8 +34,9 @@ public:
     ~CsdBuffer();
 
     void sendCSD(int id);
-    void receveCSD();
+    void receiveCSD();
 
 protected:
     CSD csd;
+    atomic<int> storedID;
 };

@@ -71,7 +71,7 @@ void cbkMapleCOMSPSExportCSD(void *issuer)
    MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
    int from = mp->id;
    printf("cbk from:%d\n", from);
-   //mp->csdToExport.sendCSD(from);
+   mp->csdToExport.sendCSD(from);
 }
 void cbkMapleCOMSPSImportCSD(void *issuer)
 {

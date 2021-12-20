@@ -1524,12 +1524,12 @@ lbool Solver::solve_()
     int curr_restarts = 0;
 
     //UPDATE:: random test
-    printf("# of Vars %d, heap_order %d, activity %d\n", nVars(), (int)order_heap_VSIDS.size(), (int)activity_VSIDS.size());
+    /*printf("# of Vars %d, heap_order %d, activity %d\n", nVars(), (int)order_heap_VSIDS.size(), (int)activity_VSIDS.size());
     for (int i = 0; i < nVars(); i++)
     {
         if (order_heap_VSIDS.inHeap(i))
             printf("[%d] order %d, activity %lf\n", i, order_heap_VSIDS[i], activity_VSIDS[i]);
-    }
+    }*/
 
     for (;;)
     {

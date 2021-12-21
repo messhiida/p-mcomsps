@@ -1233,6 +1233,9 @@ lbool Solver::search(int &nof_conflicts)
     cbkExportCSD(issuer);
     cbkImportCSD(issuer);
 
+    int id = issuer->id;
+    printf("ID: %d\n", id);
+
     //UPDATE:: random change test
     if (starts % CHANGE_RESTART_FREQ == 0)
         changeSearchActivity();

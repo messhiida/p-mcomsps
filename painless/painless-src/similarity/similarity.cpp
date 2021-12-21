@@ -5,8 +5,12 @@ using namespace std;
 CsdBuffer::CsdBuffer()
 {
     test.store(120);
+    printf("constructed\n");
 }
-CsdBuffer::~CsdBuffer() {}
+CsdBuffer::~CsdBuffer()
+{
+    printf("deconstructed\n");
+}
 
 void CsdBuffer::setCSD(int tmp)
 {
@@ -15,6 +19,6 @@ void CsdBuffer::setCSD(int tmp)
 int CsdBuffer::getCSD()
 {
     int tmp = test.load();
-    printf("getCSD : %d\n", tmp);
+    //printf("getCSD : %d\n", tmp);
     return tmp;
 }

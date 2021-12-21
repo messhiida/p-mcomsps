@@ -36,6 +36,19 @@ using namespace MapleChronoBT;
 
 #define INT_LIT(lit) sign(lit) ? -(var(lit) + 1) : (var(lit) + 1)
 
+//UPDATE:: BT用caller
+void MapleChronoBTSolver::loadSharedCSD()
+{
+   printf("loadSharedCSD in MapleBT\n");
+   csdToExport.receiveCSD();
+}
+
+void MapleChronoBTSolver::registerSharedCSD()
+{
+   printf("registerSharedCSD in MapleBT\n");
+   csdToExport.sendCSD(0);
+}
+
 static void makeMiniVec(ClauseExchange *cls, vec<Lit> &mcls)
 {
    for (size_t i = 0; i < cls->size; i++)

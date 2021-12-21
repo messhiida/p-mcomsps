@@ -28,9 +28,10 @@ using namespace std;
 // Some forward declatarations for MapleChronoBT
 namespace MapleChronoBT
 {
-	class SimpSolver;
-	class Lit;
-	template<class T> class vec;
+   class SimpSolver;
+   class Lit;
+   template <class T>
+   class vec;
 }
 
 /// Instance of a MapleChronoBT solver
@@ -38,7 +39,7 @@ class MapleChronoBTSolver : public SolverInterface
 {
 public:
    /// Load formula from a given dimacs file, return false if failed.
-   bool loadFormula(const char* filename);
+   bool loadFormula(const char *filename);
 
    /// Get the number of variables of the current resolution.
    int getVariablesCount();
@@ -54,49 +55,49 @@ public:
 
    /// Interrupt resolution, solving cannot continue until interrupt is unset.
    void setSolverInterrupt();
-   
+
    /// Remove the SAT solving interrupt request.
    void unsetSolverInterrupt();
 
    /// Solve the formula with a given cube.
-   SatResult solve(const vector<int> & cube);
+   SatResult solve(const vector<int> &cube);
 
    /// Add a permanent clause to the formula.
-   void addClause(ClauseExchange * clause);
-   
+   void addClause(ClauseExchange *clause);
+
    /// Add a list of permanent clauses to the formula.
-   void addClauses(const vector<ClauseExchange *> & clauses);
-   
+   void addClauses(const vector<ClauseExchange *> &clauses);
+
    /// Add a list of initial clauses to the formula.
-   void addInitialClauses(const vector<ClauseExchange *> & clauses);
+   void addInitialClauses(const vector<ClauseExchange *> &clauses);
 
    /// Add a learned clause to the formula.
-   void addLearnedClause(ClauseExchange * clause);
-   
+   void addLearnedClause(ClauseExchange *clause);
+
    /// Add a list of learned clauses to the formula.
-   void addLearnedClauses(const vector<ClauseExchange *> & clauses);
+   void addLearnedClauses(const vector<ClauseExchange *> &clauses);
 
    /// Get a list of learned clauses.
-   void getLearnedClauses(vector<ClauseExchange *> & clauses);
+   void getLearnedClauses(vector<ClauseExchange *> &clauses);
 
    /// Request the solver to produce more clauses.
    void increaseClauseProduction();
-   
+
    /// Request the solver to produce less clauses.
    void decreaseClauseProduction();
 
    /// Get solver statistics.
    SolvingStatistics getStatistics();
-   
+
    /// Return the model in case of SAT result.
    vector<int> getModel();
-   
+
    /// Native diversification.
    void diversify(int id);
 
    /// Constructor.
    MapleChronoBTSolver(int id);
-   
+
    /// Destructor.
    virtual ~MapleChronoBTSolver();
 
@@ -104,9 +105,13 @@ public:
 
    vector<int> getSatAssumptions();
 
+   //UPDATE::CSD, used by sharer
+   void loadSharedCSD();
+   void registerSharedCSD();
+
 protected:
    /// Pointer to a MapleChronoBT solver.
-   MapleChronoBT::SimpSolver * solver;
+   MapleChronoBT::SimpSolver *solver;
 
    /// Buffer used to import clauses (units included).
    ClauseBuffer clausesToImport;
@@ -117,16 +122,16 @@ protected:
 
    /// Buffer used to add permanent clauses.
    ClauseBuffer clausesToAdd;
-   
+
    /// Size limit used to share clauses.
    atomic<int> lbdLimit;
-   
+
    /// Used to stop or continue the resolution.
    atomic<bool> stopSolver;
-   
+
    /// Callback to export/import clauses.
    friend MapleChronoBT::Lit cbkMapleChronoBTImportUnit(void *);
    friend bool cbkMapleChronoBTImportClause(void *, int *, MapleChronoBT::vec<MapleChronoBT::Lit> &);
    friend void cbkMapleChronoBTExportClause(void *, int, MapleChronoBT::vec<MapleChronoBT::Lit> &);
-   friend void cbkMapleChronoBTLogOrder(void*);
+   friend void cbkMapleChronoBTLogOrder(void *);
 };

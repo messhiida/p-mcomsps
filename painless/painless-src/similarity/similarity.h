@@ -34,7 +34,7 @@ public:
     ~CsdBuffer();
 
     void sendCSD(int id);
-    void receiveCSD();
+    int receiveCSD();
 
 protected:
     CSD csd;

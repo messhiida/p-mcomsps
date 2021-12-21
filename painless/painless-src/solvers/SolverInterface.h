@@ -133,7 +133,7 @@ public:
 
    virtual vector<int> getSatAssumptions() = 0;
 
-   //UPDATE:: shared CSD用
+   //UPDATE:: shared CSD用 wrapper
    virtual void loadSharedCSD() = 0;
    virtual void registerSharedCSD() = 0;
 

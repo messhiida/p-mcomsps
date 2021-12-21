@@ -54,14 +54,14 @@ void cbkMapleCOMSPSImportCSD(void *issuer)
 
 void MapleCOMSPSSolver::loadSharedCSD()
 {
-   printf("loadSharedCSD\n");
+   printf("loadSharedCSD in MapleCOMSPS\n");
    csdToExport.receiveCSD();
 }
 
 void MapleCOMSPSSolver::registerSharedCSD()
 {
-   printf("registerSharedCSD\n");
-   csdToExport.sendCSD(2);
+   printf("registerSharedCSD in MapleCOMSPS\n");
+   csdToExport.sendCSD(0);
 }
 
 static void makeMiniVec(ClauseExchange *cls, vec<Lit> &mcls)

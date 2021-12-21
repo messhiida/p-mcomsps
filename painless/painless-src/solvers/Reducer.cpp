@@ -35,16 +35,28 @@ using namespace MapleCOMSPS;
 
 #define INT_LIT(lit) sign(lit) ? -(var(lit) + 1) : (var(lit) + 1)
 
-
-static void makeMiniVec(ClauseExchange * cls, vec<Lit> & mcls)
+//UPDATE:: Reducer用caller
+void Reducer::loadSharedCSD()
 {
-   for (size_t i = 0; i < cls->size; i++) {
+   printf("loadSharedCSD in MapleBT\n");
+   csdToExport.receiveCSD();
+}
+
+void Reducer::registerSharedCSD()
+{
+   printf("registerSharedCSD in MapleBT\n");
+   csdToExport.sendCSD(0);
+}
+
+static void makeMiniVec(ClauseExchange *cls, vec<Lit> &mcls)
+{
+   for (size_t i = 0; i < cls->size; i++)
+   {
       mcls.push(MINI_LIT(cls->lits[i]));
    }
 }
 
-Reducer::Reducer(int id, SolverInterface *_solver) :
-   SolverInterface(id, MAPLE)
+Reducer::Reducer(int id, SolverInterface *_solver) : SolverInterface(id, MAPLE)
 {
    solver = _solver;
 }
@@ -54,54 +66,47 @@ Reducer::~Reducer()
    delete solver;
 }
 
-bool
-Reducer::loadFormula(const char* filename)
-{}
+bool Reducer::loadFormula(const char *filename)
+{
+}
 
 //Get the number of variables of the formula
-int
-Reducer::getVariablesCount()
+int Reducer::getVariablesCount()
 {
    return solver->getVariablesCount();
 }
 
 // Get a variable suitable for search splitting
-int
-Reducer::getDivisionVariable()
+int Reducer::getDivisionVariable()
 {
    return solver->getDivisionVariable();
 }
 
 // Set initial phase for a given variable
-void
-Reducer::setPhase(const int var, const bool phase)
+void Reducer::setPhase(const int var, const bool phase)
 {
    solver->setPhase(var, phase);
 }
 
 // Bump activity for a given variable
-void
-Reducer::bumpVariableActivity(const int var, const int times)
+void Reducer::bumpVariableActivity(const int var, const int times)
 {
    solver->bumpVariableActivity(var, times);
 }
 
 // Interrupt the SAT solving, so it can be started again with new assumptions
-void
-Reducer::setSolverInterrupt()
+void Reducer::setSolverInterrupt()
 {
    solver->setSolverInterrupt();
 }
 
-void
-Reducer::unsetSolverInterrupt()
+void Reducer::unsetSolverInterrupt()
 {
    solver->unsetSolverInterrupt();
 }
 
 // Diversify the solver
-void
-Reducer::diversify(int id)
+void Reducer::diversify(int id)
 {
    solver->diversify(id);
 }
@@ -109,19 +114,22 @@ Reducer::diversify(int id)
 // Solve the formula with a given set of assumptions
 // return 10 for SAT, 20 for UNSAT, 0 for UNKNOWN
 SatResult
-Reducer::solve(const vector<int> & cube)
+Reducer::solve(const vector<int> &cube)
 {
    unsetSolverInterrupt();
 
-   while (true) {
+   while (true)
+   {
       ClauseExchange *cls;
       ClauseExchange *strengthenedCls;
-      if (clausesToImport.getClause(&cls) == false) {
+      if (clausesToImport.getClause(&cls) == false)
+      {
          continue;
       }
       if (strengthed(cls, &strengthenedCls))
       {
-         if (strengthenedCls->size == 0) {
+         if (strengthenedCls->size == 0)
+         {
             return UNSAT;
          }
          ClauseManager::increaseClause(strengthenedCls);
@@ -131,90 +139,92 @@ Reducer::solve(const vector<int> & cube)
    return UNKNOWN;
 }
 
-
-bool
-Reducer::strengthed(ClauseExchange * cls,
-                               ClauseExchange ** outCls)
+bool Reducer::strengthed(ClauseExchange *cls,
+                         ClauseExchange **outCls)
 {
    vector<int> assumps;
    vector<int> tmpNewClause;
-   for (size_t ind = 0; ind < cls->size; ind++) {
+   for (size_t ind = 0; ind < cls->size; ind++)
+   {
       assumps.push_back(-cls->lits[ind]);
    }
    SatResult res = solver->solve(assumps);
-   if (res == UNSAT) {
+   if (res == UNSAT)
+   {
       tmpNewClause = solver->getFinalAnalysis();
-   } else if (res == SAT) {
+   }
+   else if (res == SAT)
+   {
       tmpNewClause = solver->getSatAssumptions();
    }
 
-   if (tmpNewClause.size() < cls->size || res == SAT) {
+   if (tmpNewClause.size() < cls->size || res == SAT)
+   {
       *outCls = ClauseManager::allocClause(tmpNewClause.size());
-      for (int idLit = 0; idLit < tmpNewClause.size(); idLit++) {
+      for (int idLit = 0; idLit < tmpNewClause.size(); idLit++)
+      {
          (*outCls)->lits[idLit] = tmpNewClause[idLit];
       }
       (*outCls)->from = this->id;
-      (*outCls)->lbd  = cls->lbd;
-      if ((*outCls)->size < (*outCls)->lbd) {
+      (*outCls)->lbd = cls->lbd;
+      if ((*outCls)->size < (*outCls)->lbd)
+      {
          (*outCls)->lbd = (*outCls)->size;
       }
-      if (res == SAT) {
+      if (res == SAT)
+      {
          solver->addClause(*outCls);
       }
    }
    return tmpNewClause.size() < cls->size;
 }
 
-void
-Reducer::addClause(ClauseExchange * clause)
+void Reducer::addClause(ClauseExchange *clause)
 {
    solver->addClause(clause);
 }
 
-void
-Reducer::addLearnedClause(ClauseExchange * clause)
+void Reducer::addLearnedClause(ClauseExchange *clause)
 {
-   if (clause->size == 1) {
+   if (clause->size == 1)
+   {
       solver->addLearnedClause(clause);
-   } else {
+   }
+   else
+   {
       clausesToImport.addClause(clause);
    }
 }
 
-void
-Reducer::addClauses(const vector<ClauseExchange *> & clauses)
+void Reducer::addClauses(const vector<ClauseExchange *> &clauses)
 {
    solver->addClauses(clauses);
 }
 
-void
-Reducer::addInitialClauses(const vector<ClauseExchange *> & clauses)
+void Reducer::addInitialClauses(const vector<ClauseExchange *> &clauses)
 {
    solver->addInitialClauses(clauses);
 }
 
-void
-Reducer::addLearnedClauses(const vector<ClauseExchange *> & clauses)
+void Reducer::addLearnedClauses(const vector<ClauseExchange *> &clauses)
 {
-   for (size_t i = 0; i < clauses.size(); i++) {
+   for (size_t i = 0; i < clauses.size(); i++)
+   {
       addLearnedClause(clauses[i]);
    }
 }
 
-void
-Reducer::getLearnedClauses(vector<ClauseExchange *> & clauses)
+void Reducer::getLearnedClauses(vector<ClauseExchange *> &clauses)
 {
    clausesToExport.getClauses(clauses);
 }
 
-void
-Reducer::increaseClauseProduction()
+void Reducer::increaseClauseProduction()
 {
    solver->increaseClauseProduction();
 }
 
-void
-Reducer::decreaseClauseProduction()
+void Reducer::decreaseClauseProduction()
 {
    solver->decreaseClauseProduction();
 }
@@ -225,8 +235,7 @@ Reducer::getStatistics()
    return solver->getStatistics();
 }
 
-void
-Reducer::printStatsStrengthening()
+void Reducer::printStatsStrengthening()
 {
    // log(0, "count,min,max,average,stdDeviation,sum\n");
    // log(0, "cls_in,%s\n", cls_in.valueString().c_str());

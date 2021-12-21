@@ -30,7 +30,8 @@ namespace MapleCOMSPS
 {
    class SimpSolver;
    class Lit;
-   template<class T> class vec;
+   template <class T>
+   class vec;
 }
 
 /// Instance of a MapleCOMSPS solver
@@ -38,7 +39,7 @@ class Reducer : public SolverInterface
 {
 public:
    /// Load formula from a given dimacs file, return false if failed.
-   bool loadFormula(const char* filename);
+   bool loadFormula(const char *filename);
 
    /// Get the number of variables of the current resolution.
    int getVariablesCount();
@@ -54,71 +55,74 @@ public:
 
    /// Interrupt resolution, solving cannot continue until interrupt is unset.
    void setSolverInterrupt();
-   
+
    /// Remove the SAT solving interrupt request.
    void unsetSolverInterrupt();
 
    /// Solve the formula with a given cube.
-   SatResult solve_(const vector<int> & cube);
+   SatResult solve_(const vector<int> &cube);
 
-   SatResult solve(const vector<int> & cube);
+   SatResult solve(const vector<int> &cube);
 
    /// Add a permanent clause to the formula.
-   void addClause(ClauseExchange * clause);
-   
+   void addClause(ClauseExchange *clause);
+
    /// Add a list of permanent clauses to the formula.
-   void addClauses(const vector<ClauseExchange *> & clauses);
-   
+   void addClauses(const vector<ClauseExchange *> &clauses);
+
    /// Add a list of initial clauses to the formula.
-   void addInitialClauses(const vector<ClauseExchange *> & clauses);
+   void addInitialClauses(const vector<ClauseExchange *> &clauses);
 
    /// Add a learned clause to the formula.
-   void addLearnedClause(ClauseExchange * clause);
-   
+   void addLearnedClause(ClauseExchange *clause);
+
    /// Add a list of learned clauses to the formula.
-   void addLearnedClauses(const vector<ClauseExchange *> & clauses);
+   void addLearnedClauses(const vector<ClauseExchange *> &clauses);
 
    /// Get a list of learned clauses.
-   void getLearnedClauses(vector<ClauseExchange *> & clauses);
+   void getLearnedClauses(vector<ClauseExchange *> &clauses);
 
    /// Request the solver to produce more clauses.
    void increaseClauseProduction();
-   
+
    /// Request the solver to produce less clauses.
    void decreaseClauseProduction();
 
    /// Get solver statistics.
    SolvingStatistics getStatistics();
-   
+
    /// Return the model in case of SAT result.
    vector<int> getModel();
-   
+
    /// Return the final analysis in case of UNSAT.
    vector<int> getFinalAnalysis();
-   
+
    /// Native diversification.
    void diversify(int id);
 
-   bool strengthed(ClauseExchange * cls, ClauseExchange ** outCls);
+   bool strengthed(ClauseExchange *cls, ClauseExchange **outCls);
 
    void printStatsStrengthening();
 
    vector<int> getSatAssumptions();
 
    /// Constructor.
-   Reducer(int id, SolverInterface* solver);
-   
+   Reducer(int id, SolverInterface *solver);
+
    /// Destructor.
    virtual ~Reducer();
 
+   //UPDATE::CSD, used by sharer
+   void loadSharedCSD();
+   void registerSharedCSD();
+
 protected:
    /// Pointer to a MapleCOMSPS solver.
-   SolverInterface * solver;
+   SolverInterface *solver;
 
    /// Buffer used to import clauses (units included).
    ClauseBuffer clausesToImport;
 
    /// Buffer used to export clauses (units included).
    ClauseBuffer clausesToExport;
-
 };

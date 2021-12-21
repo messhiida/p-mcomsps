@@ -139,8 +139,8 @@ MapleCOMSPSSolver::MapleCOMSPSSolver(int id) : SolverInterface(id, MAPLE)
    solver->cbkImportUnit = cbkMapleCOMSPSImportUnit;
 
    //UPDATE:: add cbk functions
-   solver->cbkExportCSD = cbkCOMSPSExportCSD;
-   solver->cbkImportCSD = cbkCOMSPSImportCSD;
+   solver->cbkExportCSD = cbkMapleCOMSPSExportCSD;
+   solver->cbkImportCSD = cbkMapleCOMSPSImportCSD;
    //printf("ID:%d in simple\n", id);
 
    solver->issuer = this;

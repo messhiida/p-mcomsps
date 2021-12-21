@@ -8,7 +8,7 @@ CsdBuffer::~CsdBuffer() {}
 void CsdBuffer::setCSD(int tmp)
 {
     test = tmp;
-    printf("Csd Buffer - set CSD function > restarts %d\n", tmp);
+    printf("Csd Buffer - set CSD function > restarts %d / %d\n", tmp, test.load());
 }
 int CsdBuffer::getCSD()
 {

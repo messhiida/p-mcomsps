@@ -22,7 +22,9 @@
         "stop_token": "cpp",
         "deque": "cpp",
         "memory_resource": "cpp",
-        "atomic": "cpp"
+        "atomic": "cpp",
+        "iterator": "cpp",
+        "random": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

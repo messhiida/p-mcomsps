@@ -15,6 +15,7 @@ CsdBuffer::~CsdBuffer()
 void CsdBuffer::setCSD(int tmp)
 {
     test = tmp;
+    test.store(tmp);
 }
 int CsdBuffer::getCSD()
 {

@@ -115,7 +115,7 @@ public:
    virtual ~Reducer();
 
    //UPDATE::CSD, used by sharer
-   void loadSharedCSD();
+   int loadSharedCSD();
    void registerSharedCSD();
 
 protected:

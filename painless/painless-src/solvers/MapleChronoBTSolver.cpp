@@ -37,10 +37,11 @@ using namespace MapleChronoBT;
 #define INT_LIT(lit) sign(lit) ? -(var(lit) + 1) : (var(lit) + 1)
 
 //UPDATE:: BT用caller
-void MapleChronoBTSolver::loadSharedCSD()
+int MapleChronoBTSolver::loadSharedCSD()
 {
    printf("loadSharedCSD in MapleBT\n");
-   csdToExport.receiveCSD();
+   int tmp = csdToExport.receiveCSD();
+   return tmp;
 }
 
 void MapleChronoBTSolver::registerSharedCSD()

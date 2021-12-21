@@ -108,7 +108,7 @@ public:
    vector<int> getSatAssumptions();
 
    //UPDATE::CSD, used by sharer
-   void loadSharedCSD();
+   int loadSharedCSD();
    void registerSharedCSD();
 
 protected:

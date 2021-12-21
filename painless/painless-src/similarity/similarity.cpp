@@ -5,9 +5,9 @@ using namespace std;
 CsdBuffer::CsdBuffer() {}
 CsdBuffer::~CsdBuffer() {}
 
-void CsdBuffer::setCSD(int id)
+void CsdBuffer::setCSD(int tmp)
 {
-    //printf("Csd Buffer - send CSD function > from ID %d\n", id);
+    printf("Csd Buffer - set CSD function > restarts %d\n", tmp);
     //storedID = id;
 }
 int CsdBuffer::getCSD()

@@ -1231,9 +1231,7 @@ lbool Solver::search(int &nof_conflicts)
 
     //UPDATE:: csd share
     cbkExportCSD(issuer, (int)starts);
-    printf("btwn cbk Export and Import\n");
     int cbkRes = cbkImportCSD(issuer);
-    printf("after cbk Import\n");
 
     //UPDATE:: random change test
     if (starts % CHANGE_RESTART_FREQ == 0)

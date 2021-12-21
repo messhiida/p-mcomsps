@@ -135,7 +135,7 @@ public:
 
    //UPDATE:: shared CSD用 wrapper
    virtual int loadSharedCSD() = 0;
-   virtual void registerSharedCSD() = 0;
+   virtual void registerSharedCSD(int) = 0;
 
    /// Constructor.
    SolverInterface(int solverId, SolverType solverType)

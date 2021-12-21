@@ -113,7 +113,7 @@ public:
 
    //UPDATE:: for Shared CSD, used by sharer
    int loadSharedCSD();
-   void registerSharedCSD();
+   void registerSharedCSD(int);
 
 protected:
    /// Pointer to a MapleCOMSPS solver.
@@ -145,6 +145,6 @@ protected:
    friend void cbkMapleCOMSPSExportClause(void *, int, MapleCOMSPS::vec<MapleCOMSPS::Lit> &);
 
    //UPDATE::shared CSD cbk
-   friend void cbkMapleCOMSPSExportCSD(void *);
-   friend void cbkMapleCOMSPSImportCSD(void *);
+   friend void cbkMapleCOMSPSExportCSD(void *, int);
+   friend int cbkMapleCOMSPSImportCSD(void *);
 };

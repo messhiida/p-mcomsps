@@ -116,8 +116,8 @@ namespace MapleCOMSPS
         //UPDATE:: Similarity Index Functions
         void changeSearchActivity();
         CSD getCSD();
-        void (*cbkImportCSD)(void *);
-        void (*cbkExportCSD)(void *);
+        void (*cbkExportCSD)(void *, int);
+        int (*cbkImportCSD)(void *);
 
         // Problem specification:
         //

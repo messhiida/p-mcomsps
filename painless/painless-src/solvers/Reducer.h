@@ -116,7 +116,7 @@ public:
 
    //UPDATE::CSD, used by sharer
    int loadSharedCSD();
-   void registerSharedCSD();
+   void registerSharedCSD(int);
 
 protected:
    /// Pointer to a MapleCOMSPS solver.

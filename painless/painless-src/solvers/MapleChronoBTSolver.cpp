@@ -41,26 +41,26 @@ void cbkBTExportCSD(void *issuer)
 {
    MapleChronoBTSolver *mp = (MapleChronoBTSolver *)issuer;
    int from = mp->id;
-   //mp->csdToExport.sendCSD(from);
+   //mp->csdToExport.setCSD(from);
 }
 
 void cbkBTImportCSD(void *issuer)
 {
    MapleChronoBTSolver *mp = (MapleChronoBTSolver *)issuer;
-   //mp->csdToImport.receiveCSD();
+   //mp->csdToImport.getCSD();
 }
 */
 int MapleChronoBTSolver::loadSharedCSD()
 {
    printf("loadSharedCSD in MapleBT\n");
-   int tmp = csdToExport.receiveCSD();
+   int tmp = csdToExport.getCSD();
    return tmp;
 }
 
-void MapleChronoBTSolver::registerSharedCSD()
+void MapleChronoBTSolver::registerSharedCSD(int tmp)
 {
    printf("registerSharedCSD in MapleBT\n");
-   csdToExport.sendCSD(0);
+   csdToExport.setCSD(tmp);
 }
 
 static void makeMiniVec(ClauseExchange *cls, vec<Lit> &mcls)

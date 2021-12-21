@@ -38,30 +38,30 @@ using namespace MapleCOMSPS;
 #define INT_LIT(lit) sign(lit) ? -(var(lit) + 1) : (var(lit) + 1)
 
 //UPDATE:: Similarity Index Functions
-void cbkMapleCOMSPSExportCSD(void *issuer)
+void cbkMapleCOMSPSExportCSD(void *issuer, int tmp)
 {
    MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
    int from = mp->id;
-   mp->csdToExport.sendCSD(from);
+   mp->csdToExport.setCSD(from);
 }
 
-void cbkMapleCOMSPSImportCSD(void *issuer)
+int cbkMapleCOMSPSImportCSD(void *issuer)
 {
    MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
-   mp->csdToImport.receiveCSD();
+   mp->csdToImport.getCSD();
 }
 
 int MapleCOMSPSSolver::loadSharedCSD()
 {
    //printf("loadSharedCSD in MapleCOMSPS\n");
-   int tmp = csdToExport.receiveCSD();
+   int tmp = csdToExport.getCSD();
    return tmp;
 }
 
-void MapleCOMSPSSolver::registerSharedCSD()
+void MapleCOMSPSSolver::registerSharedCSD(int tmp)
 {
    //printf("registerSharedCSD in MapleCOMSPS\n");
-   csdToExport.sendCSD(0);
+   csdToExport.setCSD(tmp);
 }
 
 static void makeMiniVec(ClauseExchange *cls, vec<Lit> &mcls)

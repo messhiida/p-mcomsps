@@ -38,15 +38,15 @@ using namespace MapleCOMSPS;
 //UPDATE:: Reducer用caller
 int Reducer::loadSharedCSD()
 {
-   printf("loadSharedCSD in Reducer\n");
+   //printf("loadSharedCSD in Reducer\n");
    int tmp = csdToExport.receiveCSD();
    return tmp;
 }
 
-void Reducer::registerSharedCSD()
+void Reducer::registerSharedCSD(int tmp)
 {
-   printf("registerSharedCSD in Reducer\n");
-   csdToExport.sendCSD(0);
+   //printf("registerSharedCSD in Reducer\n");
+   csdToExport.setCSD(tmp);
 }
 
 static void makeMiniVec(ClauseExchange *cls, vec<Lit> &mcls)

@@ -101,6 +101,21 @@ bool cbkMapleCOMSPSImportClause(void *issuer, int *lbd, vec<Lit> &mcls)
    return true;
 }
 
+//UPDATE:: Similarity Index Functions
+void cbkMapleCOMSPSExportCSD(void *issuer)
+{
+   MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
+   int from = mp->id;
+   //printf("cbk from:%d\n", from);
+   mp->csdToExport.sendCSD(from);
+}
+
+void cbkMapleCOMSPSImportCSD(void *issuer)
+{
+   MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
+   mp->csdToImport.receiveCSD();
+}
+
 MapleCOMSPSSolver::MapleCOMSPSSolver(int id) : SolverInterface(id, MAPLE)
 {
    lbdLimit = Parameters::getIntParam("lbd-limit", 2);
@@ -398,21 +413,6 @@ MapleCOMSPSSolver::getSatAssumptions()
    }
    return outCls;
 };
-
-//UPDATE:: Similarity Index Functions
-void cbkMapleCOMSPSExportCSD(void *issuer)
-{
-   MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
-   int from = mp->id;
-   //printf("cbk from:%d\n", from);
-   mp->csdToExport.sendCSD(from);
-}
-
-void cbkMapleCOMSPSImportCSD(void *issuer)
-{
-   MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
-   mp->csdToImport.receiveCSD();
-}
 
 void MapleCOMSPSSolver::loadSharedCSD()
 {

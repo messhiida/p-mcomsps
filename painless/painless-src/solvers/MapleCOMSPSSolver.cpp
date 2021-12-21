@@ -53,14 +53,14 @@ void cbkMapleCOMSPSImportCSD(void *issuer)
 
 int MapleCOMSPSSolver::loadSharedCSD()
 {
-   printf("loadSharedCSD in MapleCOMSPS\n");
+   //printf("loadSharedCSD in MapleCOMSPS\n");
    int tmp = csdToExport.receiveCSD();
    return tmp;
 }
 
 void MapleCOMSPSSolver::registerSharedCSD()
 {
-   printf("registerSharedCSD in MapleCOMSPS\n");
+   //printf("registerSharedCSD in MapleCOMSPS\n");
    csdToExport.sendCSD(0);
 }
 

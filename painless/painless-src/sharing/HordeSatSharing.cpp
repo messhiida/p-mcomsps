@@ -60,7 +60,7 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
 
       //UPDATE:: load shared CSD from a worker
       int tmp_id = from[i]->loadSharedCSD();
-      printf("tmp_id : %d\n", tmp_id);
+      //printf("tmp_id : %d\n", tmp_id);
 
       stats.receivedClauses += tmp.size();
 

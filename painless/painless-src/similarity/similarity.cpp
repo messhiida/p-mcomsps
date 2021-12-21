@@ -15,11 +15,10 @@ CsdBuffer::~CsdBuffer()
 void CsdBuffer::setCSD(int tmp)
 {
     test = tmp;
-    test.store(tmp);
 }
 int CsdBuffer::getCSD()
 {
-    int tmp = test.load();
+    int tmp = test;
     printf("getCSD : %d\n", tmp);
     return tmp;
 }

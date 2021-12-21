@@ -7,8 +7,8 @@ CsdBuffer::~CsdBuffer() {}
 
 void CsdBuffer::setCSD(int tmp)
 {
-    printf("Csd Buffer - set CSD function > restarts %d\n", tmp);
-    //storedID = id;
+    test = tmp;
+    printf("Csd Buffer - set CSD function > restarts %d\n", test);
 }
 int CsdBuffer::getCSD()
 {

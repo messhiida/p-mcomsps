@@ -33,10 +33,10 @@ public:
     /// Destructor.
     ~CsdBuffer();
 
-    void setCSD(int id);
+    void setCSD(int);
     int getCSD();
 
 protected:
     CSD csd;
-    atomic<int> storedID;
+    atomic<int> test;
 };

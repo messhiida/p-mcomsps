@@ -33,8 +33,8 @@ public:
     /// Destructor.
     ~CsdBuffer();
 
-    void sendCSD(int id);
-    int receiveCSD();
+    void setCSD(int id);
+    int getCSD();
 
 protected:
     CSD csd;

@@ -36,7 +36,20 @@ using namespace MapleChronoBT;
 
 #define INT_LIT(lit) sign(lit) ? -(var(lit) + 1) : (var(lit) + 1)
 
-//UPDATE:: BT用caller
+//UPDATE:: Similarity Index Functions
+void cbkBTExportCSD(void *issuer)
+{
+   MapleChronoBTSolver *mp = (MapleChronoBTSolver *)issuer;
+   int from = mp->id;
+   mp->csdToExport.sendCSD(from);
+}
+
+void cbkBTImportCSD(void *issuer)
+{
+   MapleChronoBTSolver *mp = (MapleChronoBTSolver *)issuer;
+   mp->csdToImport.receiveCSD();
+}
+
 int MapleChronoBTSolver::loadSharedCSD()
 {
    printf("loadSharedCSD in MapleBT\n");
@@ -124,6 +137,10 @@ MapleChronoBTSolver::MapleChronoBTSolver(int id) : SolverInterface(id, MINISAT)
    solver->cbkImportClause = cbkMapleChronoBTImportClause;
    solver->cbkImportUnit = cbkMapleChronoBTImportUnit;
    solver->issuer = this;
+
+   //UPDATE:: add cbk functions
+   solver->cbkExportCSD = cbkBTExportCSD;
+   solver->cbkImportCSD = cbkBTImportCSD;
 }
 
 MapleChronoBTSolver::~MapleChronoBTSolver()

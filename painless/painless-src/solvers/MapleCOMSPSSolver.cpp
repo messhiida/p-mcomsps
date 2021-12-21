@@ -38,15 +38,14 @@ using namespace MapleCOMSPS;
 #define INT_LIT(lit) sign(lit) ? -(var(lit) + 1) : (var(lit) + 1)
 
 //UPDATE:: Similarity Index Functions
-void cbkMapleCOMSPSExportCSD(void *issuer)
+void cbkCOMSPSExportCSD(void *issuer)
 {
    MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
    int from = mp->id;
-   //printf("cbk from:%d\n", from);
    mp->csdToExport.sendCSD(from);
 }
 
-void cbkMapleCOMSPSImportCSD(void *issuer)
+void cbkCOMSPSImportCSD(void *issuer)
 {
    MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
    mp->csdToImport.receiveCSD();
@@ -140,8 +139,8 @@ MapleCOMSPSSolver::MapleCOMSPSSolver(int id) : SolverInterface(id, MAPLE)
    solver->cbkImportUnit = cbkMapleCOMSPSImportUnit;
 
    //UPDATE:: add cbk functions
-   solver->cbkExportCSD = cbkMapleCOMSPSExportCSD;
-   solver->cbkImportCSD = cbkMapleCOMSPSImportCSD;
+   solver->cbkExportCSD = cbkCOMSPSExportCSD;
+   solver->cbkImportCSD = cbkCOMSPSImportCSD;
    //printf("ID:%d in simple\n", id);
 
    solver->issuer = this;
@@ -158,8 +157,8 @@ MapleCOMSPSSolver::MapleCOMSPSSolver(const MapleCOMSPSSolver &other, int id) : S
    solver->cbkImportUnit = cbkMapleCOMSPSImportUnit;
 
    //UPDATE:: add cbk functions
-   solver->cbkExportCSD = cbkMapleCOMSPSExportCSD;
-   solver->cbkImportCSD = cbkMapleCOMSPSImportCSD;
+   solver->cbkExportCSD = cbkCOMSPSExportCSD;
+   solver->cbkImportCSD = cbkCOMSPSImportCSD;
    //printf("ID:%d in difficult\n", id);
 
    solver->issuer = this;

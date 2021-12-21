@@ -139,8 +139,8 @@ MapleChronoBTSolver::MapleChronoBTSolver(int id) : SolverInterface(id, MINISAT)
    solver->issuer = this;
 
    //UPDATE:: add cbk functions
-   solver->cbkExportCSD = cbkBTExportCSD;
-   solver->cbkImportCSD = cbkBTImportCSD;
+   //solver->cbkExportCSD = cbkBTExportCSD;
+   //solver->cbkImportCSD = cbkBTImportCSD;
 }
 
 MapleChronoBTSolver::~MapleChronoBTSolver()

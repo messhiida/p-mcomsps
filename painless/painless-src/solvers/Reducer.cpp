@@ -38,14 +38,14 @@ using namespace MapleCOMSPS;
 //UPDATE:: Reducer用caller
 int Reducer::loadSharedCSD()
 {
-   printf("loadSharedCSD in MapleBT\n");
+   printf("loadSharedCSD in Reducer\n");
    int tmp = csdToExport.receiveCSD();
    return tmp;
 }
 
 void Reducer::registerSharedCSD()
 {
-   printf("registerSharedCSD in MapleBT\n");
+   printf("registerSharedCSD in Reducer\n");
    csdToExport.sendCSD(0);
 }
 

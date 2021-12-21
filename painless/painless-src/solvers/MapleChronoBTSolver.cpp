@@ -52,14 +52,14 @@ void cbkBTImportCSD(void *issuer)
 */
 int MapleChronoBTSolver::loadSharedCSD()
 {
-   //printf("loadSharedCSD in MapleBT\n");
+   printf("loadSharedCSD in MapleBT\n");
    int tmp = csdToExport.receiveCSD();
    return tmp;
 }
 
 void MapleChronoBTSolver::registerSharedCSD()
 {
-   //printf("registerSharedCSD in MapleBT\n");
+   printf("registerSharedCSD in MapleBT\n");
    csdToExport.sendCSD(0);
 }
 

@@ -43,6 +43,9 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
                                 const vector<SolverInterface *> &to)
 {
    static unsigned int round = 1;
+
+   printf("from %d, to %d\n", from.size(), to.size());
+
    for (size_t i = 0; i < from.size(); i++)
    {
       int used, usedPercent, selectCount;
@@ -56,9 +59,6 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
       tmp.clear();
 
       from[i]->getLearnedClauses(tmp);
-
-      //UPDATE::
-      printf("from%d\n", i);
 
       stats.receivedClauses += tmp.size();
 

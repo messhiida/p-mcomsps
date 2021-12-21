@@ -43,6 +43,7 @@ void cbkMapleCOMSPSExportCSD(void *issuer, int tmp)
    MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
    int from = mp->id;
    mp->csdToExport.setCSD(tmp);
+   printf("cbkMaple : %d\n", tmp);
 }
 
 int cbkMapleCOMSPSImportCSD(void *issuer)
@@ -61,6 +62,7 @@ int MapleCOMSPSSolver::loadSharedCSD()
 void MapleCOMSPSSolver::registerSharedCSD(int tmp)
 {
    csdToExport.setCSD(tmp);
+   printf("register : %d\n", tmp);
 }
 
 static void makeMiniVec(ClauseExchange *cls, vec<Lit> &mcls)

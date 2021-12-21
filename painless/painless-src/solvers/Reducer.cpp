@@ -45,6 +45,7 @@ int Reducer::loadSharedCSD()
 void Reducer::registerSharedCSD(int tmp)
 {
    csdToExport.setCSD(tmp);
+   printf("Reducer: %d\n", tmp);
 }
 
 static void makeMiniVec(ClauseExchange *cls, vec<Lit> &mcls)

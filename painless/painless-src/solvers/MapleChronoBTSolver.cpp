@@ -41,13 +41,13 @@ void cbkBTExportCSD(void *issuer)
 {
    MapleChronoBTSolver *mp = (MapleChronoBTSolver *)issuer;
    int from = mp->id;
-   mp->csdToExport.sendCSD(from);
+   //mp->csdToExport.sendCSD(from);
 }
 
 void cbkBTImportCSD(void *issuer)
 {
    MapleChronoBTSolver *mp = (MapleChronoBTSolver *)issuer;
-   mp->csdToImport.receiveCSD();
+   //mp->csdToImport.receiveCSD();
 }
 
 int MapleChronoBTSolver::loadSharedCSD()

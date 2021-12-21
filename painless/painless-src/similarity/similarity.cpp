@@ -19,6 +19,6 @@ void CsdBuffer::setCSD(int tmp)
 int CsdBuffer::getCSD()
 {
     int tmp = test.load();
-    //printf("getCSD : %d\n", tmp);
+    printf("getCSD : %d\n", tmp);
     return tmp;
 }

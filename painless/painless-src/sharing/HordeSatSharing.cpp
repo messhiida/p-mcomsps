@@ -60,6 +60,9 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
 
       from[i]->getLearnedClauses(tmp);
 
+      //UPDATE test
+      from[i]->loadSharedCSD();
+
       stats.receivedClauses += tmp.size();
 
       for (size_t k = 0; k < tmp.size(); k++)

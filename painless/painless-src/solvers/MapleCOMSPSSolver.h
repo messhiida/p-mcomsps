@@ -111,6 +111,10 @@ public:
 
    vector<int> getSatAssumptions();
 
+   //UPDATE:: for Shared CSD, used by sharer
+   void loadSharedCSD();
+   void registerSharedCSD();
+
 protected:
    /// Pointer to a MapleCOMSPS solver.
    MapleCOMSPS::SimpSolver *solver;

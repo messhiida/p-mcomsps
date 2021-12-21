@@ -65,20 +65,6 @@ void cbkMapleCOMSPSExportClause(void *issuer, int lbd, vec<Lit> &cls)
    mp->clausesToExport.addClause(ncls);
 }
 
-//UPDATE:: Similarity Index Functions
-void cbkMapleCOMSPSExportCSD(void *issuer)
-{
-   MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
-   int from = mp->id;
-   //printf("cbk from:%d\n", from);
-   mp->csdToExport.sendCSD(from);
-}
-void cbkMapleCOMSPSImportCSD(void *issuer)
-{
-   MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
-   mp->csdToImport.receiveCSD();
-}
-
 Lit cbkMapleCOMSPSImportUnit(void *issuer)
 {
    MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
@@ -412,3 +398,28 @@ MapleCOMSPSSolver::getSatAssumptions()
    }
    return outCls;
 };
+
+//UPDATE:: Similarity Index Functions
+void cbkMapleCOMSPSExportCSD(void *issuer)
+{
+   MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
+   int from = mp->id;
+   //printf("cbk from:%d\n", from);
+   mp->csdToExport.sendCSD(from);
+}
+void cbkMapleCOMSPSImportCSD(void *issuer)
+{
+   MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
+   mp->csdToImport.receiveCSD();
+}
+
+void MapleCOMSPSSolver::loadSharedCSD()
+{
+   printf("loadSharedCSD\n");
+   csdToExport.receiveCSD();
+}
+void MapleCOMSPSSolver::registerSharedCSD()
+{
+   printf("registerSharedCSD\n");
+   csdToExport.sendCSD(2);
+}

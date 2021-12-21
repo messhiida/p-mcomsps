@@ -25,60 +25,54 @@
 #include <stdio.h>
 #include <vector>
 
-
 #define ID_SYM 0
 #define ID_XOR 1
 
-
 using namespace std;
-
 
 /// Code for SAT result
 enum SatResult
 {
-	SAT     = 10,
-	UNSAT   = 20,
-	UNKNOWN = 0
+   SAT = 10,
+   UNSAT = 20,
+   UNKNOWN = 0
 };
-
 
 /// Code  for the type of solvers
 enum SolverType
 {
-	GLUCOSE   = 0,
-	LINGELING = 1,
-	MAPLE     = 2,
-	MINISAT   = 3
+   GLUCOSE = 0,
+   LINGELING = 1,
+   MAPLE = 2,
+   MINISAT = 3
 };
-
 
 /// Structure for solver statistics
 struct SolvingStatistics
-{ 
+{
    /// Constructor
-	SolvingStatistics()
+   SolvingStatistics()
    {
       propagations = 0;
-      decisions    = 0;
-      conflicts    = 0;
-      restarts     = 0;
-      memPeak      = 0;
+      decisions = 0;
+      conflicts = 0;
+      restarts = 0;
+      memPeak = 0;
    }
 
-	unsigned long propagations; ///< Number of propagations.
-	unsigned long decisions;    ///< Number of decisions taken.
-	unsigned long conflicts;    ///< Number of reached conflicts.
-	unsigned long restarts;     ///< Number of restarts.
-	double        memPeak;      ///< Maximum memory used in Ko.
+   unsigned long propagations; ///< Number of propagations.
+   unsigned long decisions;    ///< Number of decisions taken.
+   unsigned long conflicts;    ///< Number of reached conflicts.
+   unsigned long restarts;     ///< Number of restarts.
+   double memPeak;             ///< Maximum memory used in Ko.
 };
-
 
 /// Interface of a solver that provides standard features.
 class SolverInterface
 {
 public:
    /// Load formula from a given dimacs file, return false if failed.
-   virtual bool loadFormula(const char* filename) = 0;
+   virtual bool loadFormula(const char *filename) = 0;
 
    /// Get the number of variables of the current resolution.
    virtual int getVariablesCount() = 0;
@@ -99,29 +93,29 @@ public:
    virtual void unsetSolverInterrupt() = 0;
 
    /// Solve the formula with a given cube.
-   virtual SatResult solve(const vector<int> & cube) = 0;
+   virtual SatResult solve(const vector<int> &cube) = 0;
 
    /// Add a permanent clause to the formula.
-   virtual void addClause(ClauseExchange * clause) = 0;
+   virtual void addClause(ClauseExchange *clause) = 0;
 
    /// Add a list of permanent clauses to the formula.
-   virtual void addClauses(const vector<ClauseExchange *> & clauses) = 0;
+   virtual void addClauses(const vector<ClauseExchange *> &clauses) = 0;
 
    /// Add a list of initial clauses to the formula.
-   virtual void addInitialClauses(const vector<ClauseExchange *> & clauses) = 0;
+   virtual void addInitialClauses(const vector<ClauseExchange *> &clauses) = 0;
 
    /// Add a learned clause to the formula.
-   virtual void addLearnedClause(ClauseExchange * clauses) = 0;
-   
+   virtual void addLearnedClause(ClauseExchange *clauses) = 0;
+
    /// Add a list of learned clauses to the formula.
-   virtual void addLearnedClauses(const vector<ClauseExchange *> & clauses) = 0;
+   virtual void addLearnedClauses(const vector<ClauseExchange *> &clauses) = 0;
 
    /// Get a list of learned clauses.
-   virtual void getLearnedClauses(vector<ClauseExchange *> & clauses) = 0;
+   virtual void getLearnedClauses(vector<ClauseExchange *> &clauses) = 0;
 
    /// Request the solver to produce more clauses.
    virtual void increaseClauseProduction() = 0;
-   
+
    /// Request the solver to produce less clauses.
    virtual void decreaseClauseProduction() = 0;
 
@@ -139,12 +133,15 @@ public:
 
    virtual vector<int> getSatAssumptions() = 0;
 
+   //UPDATE:: shared CSD用
+   virtual void loadSharedCSD() = 0;
+   virtual void registerSharedCSD() = 0;
 
    /// Constructor.
    SolverInterface(int solverId, SolverType solverType)
    {
-      id    = solverId;
-      type  = solverType;
+      id = solverId;
+      type = solverType;
       nRefs = 1;
    }
 
@@ -164,7 +161,8 @@ public:
    {
       int oldValue = nRefs.fetch_sub(1);
 
-      if (oldValue - 1 == 0) {
+      if (oldValue - 1 == 0)
+      {
          delete this;
       }
    }

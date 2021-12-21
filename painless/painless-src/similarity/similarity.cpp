@@ -13,6 +13,6 @@ void CsdBuffer::sendCSD(int id)
 int CsdBuffer::receiveCSD()
 {
     //printf("Csd Buffer - receive CSD function > To ID %d\n", id);
-    int id = 120;
+    int id = 0;
     return id;
 }

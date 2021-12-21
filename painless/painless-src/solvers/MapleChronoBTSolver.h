@@ -23,6 +23,8 @@
 #include "../solvers/SolverInterface.h"
 #include "../utils/Threading.h"
 
+#include "../similarity/similarity.h"
+
 using namespace std;
 
 // Some forward declatarations for MapleChronoBT
@@ -122,6 +124,10 @@ protected:
 
    /// Buffer used to add permanent clauses.
    ClauseBuffer clausesToAdd;
+
+   //UPDATE:: Buffer to share CSD
+   CsdBuffer csdToImport;
+   CsdBuffer csdToExport;
 
    /// Size limit used to share clauses.
    atomic<int> lbdLimit;

@@ -23,6 +23,8 @@
 #include "../solvers/SolverInterface.h"
 #include "../utils/Threading.h"
 
+#include "../similarity/similarity.h"
+
 using namespace std;
 
 // Some forward declatarations for MapleCOMSPS
@@ -125,4 +127,8 @@ protected:
 
    /// Buffer used to export clauses (units included).
    ClauseBuffer clausesToExport;
+
+   //UPDATE:: Buffer to share CSD
+   CsdBuffer csdToImport;
+   CsdBuffer csdToExport;
 };

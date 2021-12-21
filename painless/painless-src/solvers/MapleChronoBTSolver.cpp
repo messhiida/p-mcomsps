@@ -35,7 +35,7 @@ using namespace MapleChronoBT;
 #define MINI_LIT(lit) lit > 0 ? mkLit(lit - 1, false) : mkLit((-lit) - 1, true)
 
 #define INT_LIT(lit) sign(lit) ? -(var(lit) + 1) : (var(lit) + 1)
-
+/*
 //UPDATE:: Similarity Index Functions
 void cbkBTExportCSD(void *issuer)
 {
@@ -49,7 +49,7 @@ void cbkBTImportCSD(void *issuer)
    MapleChronoBTSolver *mp = (MapleChronoBTSolver *)issuer;
    //mp->csdToImport.receiveCSD();
 }
-
+*/
 int MapleChronoBTSolver::loadSharedCSD()
 {
    printf("loadSharedCSD in MapleBT\n");

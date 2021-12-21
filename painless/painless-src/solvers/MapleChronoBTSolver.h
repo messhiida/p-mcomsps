@@ -142,6 +142,6 @@ protected:
    friend void cbkMapleChronoBTLogOrder(void *);
 
    //UPDATE::shared CSD cbk
-   friend void cbkExportCSD(void *);
-   friend void cbkImportCSD(void *);
+   //friend void cbkExportCSD(void *);
+   //friend void cbkImportCSD(void *);
 };

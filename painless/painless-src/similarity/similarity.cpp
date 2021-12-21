@@ -2,7 +2,10 @@
 
 using namespace std;
 
-CsdBuffer::CsdBuffer() {}
+CsdBuffer::CsdBuffer()
+{
+    test.store(120);
+}
 CsdBuffer::~CsdBuffer() {}
 
 void CsdBuffer::setCSD(int tmp)

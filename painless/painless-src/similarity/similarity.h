@@ -38,5 +38,5 @@ public:
 
 protected:
     CSD csd;
-    atomic<int> test(120);
+    atomic<int> test;
 };

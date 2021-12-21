@@ -39,7 +39,7 @@ using namespace MapleCOMSPS;
 int Reducer::loadSharedCSD()
 {
    //printf("loadSharedCSD in Reducer\n");
-   int tmp = csdToExport.receiveCSD();
+   int tmp = csdToExport.getCSD();
    return tmp;
 }
 

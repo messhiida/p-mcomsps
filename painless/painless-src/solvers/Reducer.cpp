@@ -40,12 +40,13 @@ int Reducer::loadSharedCSD()
 {
    //printf("loadSharedCSD in Reducer\n");
    int tmp = csdToExport.getCSD();
+   printf("loadSharedCSD in Reducer: %d\n", tmp);
    return tmp;
 }
 
 void Reducer::registerSharedCSD(int tmp)
 {
-   //printf("registerSharedCSD in Reducer\n");
+   printf("registerSharedCSD in Reducer: %d\n", tmp);
    csdToExport.setCSD(tmp);
 }
 

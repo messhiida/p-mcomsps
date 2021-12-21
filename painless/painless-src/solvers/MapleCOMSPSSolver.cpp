@@ -141,7 +141,7 @@ MapleCOMSPSSolver::MapleCOMSPSSolver(int id) : SolverInterface(id, MAPLE)
    //UPDATE:: add cbk functions
    solver->cbkExportCSD = cbkMapleCOMSPSExportCSD;
    solver->cbkImportCSD = cbkMapleCOMSPSImportCSD;
-   printf("ID:%d in simple\n", id);
+   //printf("ID:%d in simple\n", id);
 
    solver->issuer = this;
 }
@@ -159,7 +159,7 @@ MapleCOMSPSSolver::MapleCOMSPSSolver(const MapleCOMSPSSolver &other, int id) : S
    //UPDATE:: add cbk functions
    solver->cbkExportCSD = cbkMapleCOMSPSExportCSD;
    solver->cbkImportCSD = cbkMapleCOMSPSImportCSD;
-   printf("ID:%d in difficult\n", id);
+   //printf("ID:%d in difficult\n", id);
 
    solver->issuer = this;
 }

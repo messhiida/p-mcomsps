@@ -108,6 +108,8 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
                ClauseManager::increaseClause(tmp[k], 1);
             }
             to[j]->addLearnedClauses(tmp);
+
+            to[j]->registerSharedCSD();
          }
       }
 

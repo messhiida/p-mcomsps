@@ -37,6 +37,33 @@ using namespace MapleCOMSPS;
 
 #define INT_LIT(lit) sign(lit) ? -(var(lit) + 1) : (var(lit) + 1)
 
+//UPDATE:: Similarity Index Functions
+void cbkMapleCOMSPSExportCSD(void *issuer)
+{
+   MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
+   int from = mp->id;
+   //printf("cbk from:%d\n", from);
+   mp->csdToExport.sendCSD(from);
+}
+
+void cbkMapleCOMSPSImportCSD(void *issuer)
+{
+   MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
+   mp->csdToImport.receiveCSD();
+}
+
+void MapleCOMSPSSolver::loadSharedCSD()
+{
+   printf("loadSharedCSD\n");
+   csdToExport.receiveCSD();
+}
+
+void MapleCOMSPSSolver::registerSharedCSD()
+{
+   printf("registerSharedCSD\n");
+   csdToExport.sendCSD(2);
+}
+
 static void makeMiniVec(ClauseExchange *cls, vec<Lit> &mcls)
 {
    for (size_t i = 0; i < cls->size; i++)
@@ -99,21 +126,6 @@ bool cbkMapleCOMSPSImportClause(void *issuer, int *lbd, vec<Lit> &mcls)
    ClauseManager::releaseClause(cls);
 
    return true;
-}
-
-//UPDATE:: Similarity Index Functions
-void cbkMapleCOMSPSExportCSD(void *issuer)
-{
-   MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
-   int from = mp->id;
-   //printf("cbk from:%d\n", from);
-   mp->csdToExport.sendCSD(from);
-}
-
-void cbkMapleCOMSPSImportCSD(void *issuer)
-{
-   MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
-   mp->csdToImport.receiveCSD();
 }
 
 MapleCOMSPSSolver::MapleCOMSPSSolver(int id) : SolverInterface(id, MAPLE)
@@ -413,15 +425,3 @@ MapleCOMSPSSolver::getSatAssumptions()
    }
    return outCls;
 };
-
-void MapleCOMSPSSolver::loadSharedCSD()
-{
-   printf("loadSharedCSD\n");
-   csdToExport.receiveCSD();
-}
-
-void MapleCOMSPSSolver::registerSharedCSD()
-{
-   printf("registerSharedCSD\n");
-   csdToExport.sendCSD(2);
-}

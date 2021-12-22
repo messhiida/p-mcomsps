@@ -146,5 +146,5 @@ protected:
 
    //UPDATE::shared CSD cbk
    friend void cbkMapleCOMSPSExportCSD(void *, CSD);
-   friend CSD cbkMapleCOMSPSImportCSD(void *);
+   friend vector<CSD> cbkMapleCOMSPSImportCSD(void *);
 };

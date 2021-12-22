@@ -45,12 +45,12 @@ void cbkMapleCOMSPSExportCSD(void *issuer, CSD myCSD)
    //printf("[%d] cbkMaple export : %d\n", from, tmp);
 }
 
-CSD cbkMapleCOMSPSImportCSD(void *issuer)
+vector<CSD> cbkMapleCOMSPSImportCSD(void *issuer)
 {
    MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
-   CSD tmp = mp->csdToImport.catchCSD();
+   vector<CSD> result = mp->csdToImport.readRecordedCSD();
    //printf("[%d]cbkMaple import : %d\n", mp->id, tmp);
-   return tmp;
+   return result;
 }
 
 CSD MapleCOMSPSSolver::loadSharedCSD()

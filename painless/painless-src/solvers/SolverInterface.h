@@ -20,6 +20,7 @@
 #pragma once
 
 #include "../clauses/ClauseExchange.h"
+#include "../similarity/similarity.h"
 
 #include <stdlib.h>
 #include <stdio.h>

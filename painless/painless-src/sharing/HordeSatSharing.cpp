@@ -58,9 +58,6 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
 
       from[i]->getLearnedClauses(tmp);
 
-      //UPDATE:: load shared CSD from a worker
-      int tmp_id = from[i]->loadSharedCSD();
-
       stats.receivedClauses += tmp.size();
 
       for (size_t k = 0; k < tmp.size(); k++)
@@ -98,6 +95,10 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
       {
          this->initPhase = false;
       }
+
+      //UPDATE:: load shared CSD from a worker
+      int tmp_id = from[i]->loadSharedCSD();
+      printf("doSharing tmp_id %d\n", tmp_id);
 
       for (size_t j = 0; j < to.size(); j++)
       {

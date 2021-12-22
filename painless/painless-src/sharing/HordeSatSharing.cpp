@@ -111,7 +111,8 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
             to[j]->addLearnedClauses(tmp);
 
             //UPDATE:: registerSharedCSD to each workers
-            to[j]->registerSharedCSD(j);
+            to[j]->registerSharedCSD((int)j);
+            printf("ID: %d\n", to[j]->id);
          }
       }
 

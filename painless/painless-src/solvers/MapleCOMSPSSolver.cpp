@@ -50,14 +50,14 @@ int cbkMapleCOMSPSImportCSD(void *issuer)
 {
    MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
    int tmp = mp->csdToImport.catchCSD();
-   //printf("cbkMaple import : %d\n", tmp);
+   printf("cbkMaple import : %d\n", tmp);
    return tmp;
 }
 
 int MapleCOMSPSSolver::loadSharedCSD()
 {
    int tmp = csdToExport.catchCSD();
-   //printf("Maple load : %d\n", tmp);
+   printf("Maple load : %d\n", tmp);
    return tmp;
 }
 

@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <vector>
 #include <atomic>
+#include <array>
 
 using namespace std;
 

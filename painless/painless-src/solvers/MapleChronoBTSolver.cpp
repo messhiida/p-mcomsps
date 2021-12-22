@@ -47,13 +47,13 @@ void cbkBTExportCSD(void *issuer)
 void cbkBTImportCSD(void *issuer)
 {
    MapleChronoBTSolver *mp = (MapleChronoBTSolver *)issuer;
-   //mp->csdToImport.getCSD();
+   //mp->csdToImport.catchCSD();
 }
 */
 int MapleChronoBTSolver::loadSharedCSD()
 {
    printf("loadSharedCSD in MapleBT\n");
-   int tmp = csdToExport.getCSD();
+   int tmp = csdToExport.catchCSD();
    return tmp;
 }
 

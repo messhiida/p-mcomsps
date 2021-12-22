@@ -12,7 +12,7 @@ void CsdBuffer::setCSD(int tmp)
 {
     test = tmp;
 }
-int CsdBuffer::getCSD()
+int CsdBuffer::catchCSD()
 {
     int tmp = test;
     return tmp;

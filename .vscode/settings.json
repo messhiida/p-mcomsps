@@ -24,7 +24,10 @@
         "memory_resource": "cpp",
         "atomic": "cpp",
         "iterator": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "new": "cpp",
+        "numeric": "cpp",
+        "system_error": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

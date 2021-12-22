@@ -4,16 +4,16 @@ using namespace std;
 
 CsdBuffer::CsdBuffer()
 {
-    test.store(100);
+    storage.store(100);
 }
 CsdBuffer::~CsdBuffer() {}
 
 void CsdBuffer::setCSD(int tmp)
 {
-    test = tmp;
+    storage = tmp;
 }
 int CsdBuffer::catchCSD()
 {
-    int tmp = test;
+    int tmp = storage;
     return tmp;
 }

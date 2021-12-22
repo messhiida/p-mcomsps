@@ -38,32 +38,31 @@ using namespace MapleCOMSPS;
 #define INT_LIT(lit) sign(lit) ? -(var(lit) + 1) : (var(lit) + 1)
 
 //UPDATE:: Similarity Index Functions
-void cbkMapleCOMSPSExportCSD(void *issuer, int tmp)
+void cbkMapleCOMSPSExportCSD(void *issuer, CSD myCSD)
 {
    MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
-   int from = mp->id;
-   mp->csdToExport.setCSD(tmp);
+   mp->csdToExport.setCSD(myCSD);
    //printf("[%d] cbkMaple export : %d\n", from, tmp);
 }
 
-int cbkMapleCOMSPSImportCSD(void *issuer)
+CSD cbkMapleCOMSPSImportCSD(void *issuer)
 {
    MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
-   int tmp = mp->csdToImport.catchCSD();
+   CSD tmp = mp->csdToImport.catchCSD();
    //printf("[%d]cbkMaple import : %d\n", mp->id, tmp);
    return tmp;
 }
 
-int MapleCOMSPSSolver::loadSharedCSD()
+CSD MapleCOMSPSSolver::loadSharedCSD()
 {
-   int tmp = csdToExport.catchCSD();
+   CSD tmp = csdToExport.catchCSD();
    //printf("Maple load : %d\n", tmp);
    return tmp;
 }
 
-void MapleCOMSPSSolver::registerSharedCSD(int tmp, int id)
+void MapleCOMSPSSolver::registerSharedCSD(CSD input, int id)
 {
-   csdToImport.setCSD(tmp);
+   csdToImport.setCSD(input);
    //printf("Maple register : %d from %d\n", tmp, id);
 }
 

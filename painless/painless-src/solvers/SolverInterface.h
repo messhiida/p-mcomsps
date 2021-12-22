@@ -134,8 +134,8 @@ public:
    virtual vector<int> getSatAssumptions() = 0;
 
    //UPDATE:: shared CSD用 wrapper
-   virtual int loadSharedCSD() = 0;
-   virtual void registerSharedCSD(int, int) = 0;
+   virtual CSD loadSharedCSD() = 0;
+   virtual void registerSharedCSD(CSD, int) = 0;
 
    /// Constructor.
    SolverInterface(int solverId, SolverType solverType)

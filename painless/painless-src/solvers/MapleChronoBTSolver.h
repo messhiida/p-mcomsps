@@ -108,8 +108,8 @@ public:
    vector<int> getSatAssumptions();
 
    //UPDATE::CSD, used by sharer
-   int loadSharedCSD();
-   void registerSharedCSD(int, int);
+   CSD loadSharedCSD();
+   void registerSharedCSD(CSD, int);
 
 protected:
    /// Pointer to a MapleChronoBT solver.
@@ -140,8 +140,4 @@ protected:
    friend bool cbkMapleChronoBTImportClause(void *, int *, MapleChronoBT::vec<MapleChronoBT::Lit> &);
    friend void cbkMapleChronoBTExportClause(void *, int, MapleChronoBT::vec<MapleChronoBT::Lit> &);
    friend void cbkMapleChronoBTLogOrder(void *);
-
-   //UPDATE::shared CSD cbk
-   //friend void cbkExportCSD(void *);
-   //friend void cbkImportCSD(void *);
 };

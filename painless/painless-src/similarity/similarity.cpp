@@ -8,12 +8,11 @@ CsdBuffer::CsdBuffer()
 }
 CsdBuffer::~CsdBuffer() {}
 
-void CsdBuffer::setCSD(int tmp)
+void CsdBuffer::setCSD(CSD input)
 {
-    storage = tmp;
+    my_csd = input;
 }
-int CsdBuffer::catchCSD()
+CSD CsdBuffer::catchCSD()
 {
-    int tmp = storage;
-    return tmp;
+    return my_csd;
 }

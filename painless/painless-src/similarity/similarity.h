@@ -31,11 +31,12 @@ class CsdBuffer
 public:
     CsdBuffer();  /// Constructor.
     ~CsdBuffer(); /// Destructor.
-    void setCSD(int);
-    int catchCSD();
+    void setCSD(CSD);
+    CSD catchCSD();
     void recordCSD(CSD, int);
 
 protected:
     CSD csd;
+    CSD my_csd;
     atomic<int> storage;
 };

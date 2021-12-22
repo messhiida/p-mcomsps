@@ -23,6 +23,8 @@
 #include "../utils/Logger.h"
 #include "../utils/Parameters.h"
 
+#include "../similarity/similarity.h"
+
 HordeSatSharing::HordeSatSharing()
 {
    this->literalPerRound = Parameters::getIntParam("shr-lit", 1500);
@@ -48,14 +50,14 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
    vector<int> tmp_sharedCSD;
    for (size_t i = 0; i < from.size(); i++)
    {
-      int tmp_id = from[i]->loadSharedCSD();
+      CSD tmp_csd = from[i]->loadSharedCSD();
 
       for (size_t j = 0; j < to.size(); j++)
       {
-         if (from[i]->id == to[j]->id || tmp_id == NULL)
+         if (from[i]->id == to[j]->id || tmp_csd == NULL)
             continue;
 
-         to[j]->registerSharedCSD(tmp_id, from[i]->id);
+         to[j]->registerSharedCSD(tmp_csd, from[i]->id);
       }
    }
 

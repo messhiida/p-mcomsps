@@ -1230,11 +1230,13 @@ lbool Solver::search(int &nof_conflicts)
     starts++;
 
     CSD current_CSD = getCSD();
-    printf("currentCSD : %d\n", current_CSD.nonZeroVars);
-    //UPDATE:: csd share at every restart
-    cbkExportCSD(issuer, (int)starts);
-    int cbkRes = cbkImportCSD(issuer);
-    //printf("cbkRes: %d\n", cbkRes);
+    if (current_CSD.nonZeroVars != 0)
+    {
+        //UPDATE:: csd share at every restart
+        cbkExportCSD(issuer, current_CSD);
+        CSD cbkRes = cbkImportCSD(issuer);
+        //printf("cbkRes: %d\n", cbkRes);
+    }
 
     //UPDATE:: random change test
     if (starts % CHANGE_RESTART_FREQ == 0)

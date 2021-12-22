@@ -112,8 +112,8 @@ public:
    vector<int> getSatAssumptions();
 
    //UPDATE:: for Shared CSD, used by sharer
-   int loadSharedCSD();
-   void registerSharedCSD(int, int);
+   CSD loadSharedCSD();
+   void registerSharedCSD(CSD, int);
 
 protected:
    /// Pointer to a MapleCOMSPS solver.
@@ -145,6 +145,6 @@ protected:
    friend void cbkMapleCOMSPSExportClause(void *, int, MapleCOMSPS::vec<MapleCOMSPS::Lit> &);
 
    //UPDATE::shared CSD cbk
-   friend void cbkMapleCOMSPSExportCSD(void *, int);
-   friend int cbkMapleCOMSPSImportCSD(void *);
+   friend void cbkMapleCOMSPSExportCSD(void *, CSD);
+   friend CSD cbkMapleCOMSPSImportCSD(void *);
 };

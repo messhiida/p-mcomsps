@@ -36,16 +36,16 @@ using namespace MapleCOMSPS;
 #define INT_LIT(lit) sign(lit) ? -(var(lit) + 1) : (var(lit) + 1)
 
 //UPDATE:: Reducer用caller
-int Reducer::loadSharedCSD()
+CSD Reducer::loadSharedCSD()
 {
-   int tmp = csdToExport.catchCSD();
+   CSD tmp = csdToExport.catchCSD();
    //printf("Reducer load: %d\n", tmp);
    return tmp;
 }
 
-void Reducer::registerSharedCSD(int tmp, int id)
+void Reducer::registerSharedCSD(CSD input, int id)
 {
-   csdToImport.setCSD(tmp);
+   csdToImport.setCSD(input);
    //printf("Reducer register: %d from %d\n", tmp, id);
 }
 

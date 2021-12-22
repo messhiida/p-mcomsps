@@ -115,8 +115,8 @@ public:
    virtual ~Reducer();
 
    //UPDATE::CSD, used by sharer
-   int loadSharedCSD();
-   void registerSharedCSD(int, int);
+   CSD loadSharedCSD();
+   void registerSharedCSD(CSD, int);
 
 protected:
    /// Pointer to a MapleCOMSPS solver.

@@ -10,9 +10,7 @@ CsdBuffer::~CsdBuffer() {}
 
 void CsdBuffer::setCSD(int tmp)
 {
-    printf("b: %d -> ", tmp);
     test = tmp;
-    printf("%d\n", tmp);
 }
 int CsdBuffer::getCSD()
 {

@@ -4,7 +4,7 @@ using namespace std;
 
 CsdBuffer::CsdBuffer()
 {
-    //storage.store(100);
+    storage.store(NULL);
 }
 CsdBuffer::~CsdBuffer() {}
 

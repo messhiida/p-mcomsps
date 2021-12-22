@@ -36,7 +36,5 @@ public:
     void recordCSD(CSD, int);
 
 protected:
-    CSD csd;
     CSD my_csd;
-    atomic<int> storage;
 };

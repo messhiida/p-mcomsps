@@ -38,5 +38,5 @@ public:
 
 protected:
     CSD my_csd;
-    array<CSD, MAX_PARALLEL> csdStorage;
+    //array<CSD, MAX_PARALLEL> csdStorage;
 };

@@ -111,10 +111,11 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
                ClauseManager::increaseClause(tmp[k], 1);
             }
             to[j]->addLearnedClauses(tmp);
+
+            //UPDATE:: registerSharedCSD to each workers
+            to[j]->registerSharedCSD((int)j);
+            printf("%d/%d,", to[j]->id, j);
          }
-         //UPDATE:: registerSharedCSD to each workers
-         to[j]->registerSharedCSD((int)j);
-         printf("%d/%d,", to[j]->id, j);
       }
 
       for (size_t k = 0; k < tmp.size(); k++)

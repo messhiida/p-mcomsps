@@ -7,6 +7,7 @@ CsdBuffer::CsdBuffer()
     my_csd = CSD();
     my_csd.nonZeroVars = 0;
     my_csd.data.clear();
+    csdStorage.resize(MAX_PARALLEL);
 }
 CsdBuffer::~CsdBuffer() {}
 

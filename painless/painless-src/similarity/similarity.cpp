@@ -5,7 +5,8 @@ using namespace std;
 CsdBuffer::CsdBuffer()
 {
     my_csd = CSD();
-    //my_csd.nonZeroVars = 0;
+    my_csd.nonZeroVars = 0;
+    my_csd.data.clear();
 }
 CsdBuffer::~CsdBuffer() {}
 

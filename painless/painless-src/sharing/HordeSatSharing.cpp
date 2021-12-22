@@ -51,6 +51,8 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
       int tmp_id = from[i]->loadSharedCSD();
       if (tmp_id == NULL)
          printf("Null in return @ %d\n", from[i]->id);
+      else
+         printf("Not Null in return @ %d w/ %d\n", from[i]->id, tmp_id);
 
       for (size_t j = 0; j < to.size(); j++)
       {
@@ -131,7 +133,6 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
       }
    }
    round++;
-   printf("]\n");
 }
 
 SharingStatistics

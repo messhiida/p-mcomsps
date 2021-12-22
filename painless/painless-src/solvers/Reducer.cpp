@@ -45,7 +45,7 @@ CSD Reducer::loadSharedCSD()
 
 void Reducer::registerSharedCSD(CSD input, int id)
 {
-   csdToImport.setCSD(input);
+   csdToImport.recordCSD(input, id);
    //printf("Reducer register: %d from %d\n", tmp, id);
 }
 

@@ -46,7 +46,7 @@ CSD MapleChronoBTSolver::loadSharedCSD()
 void MapleChronoBTSolver::registerSharedCSD(CSD input, int id)
 {
    printf("registerSharedCSD in MapleBT\n");
-   csdToImport.setCSD(input);
+   csdToImport.recordCSD(input, id);
 }
 
 static void makeMiniVec(ClauseExchange *cls, vec<Lit> &mcls)

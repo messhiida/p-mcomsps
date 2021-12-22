@@ -62,7 +62,7 @@ CSD MapleCOMSPSSolver::loadSharedCSD()
 
 void MapleCOMSPSSolver::registerSharedCSD(CSD input, int id)
 {
-   csdToImport.setCSD(input);
+   csdToImport.recordCSD(input, id);
    //printf("Maple register : %d from %d\n", tmp, id);
 }
 

@@ -1235,7 +1235,7 @@ lbool Solver::search(int &nof_conflicts)
         //UPDATE:: csd share at every restart
         cbkExportCSD(issuer, current_CSD);
         CSD cbkRes = cbkImportCSD(issuer);
-        printf("cbkRes: %d\n", cbkRes.data.size());
+        //printf("cbkRes: %d\n", cbkRes.data.size());
     }
 
     //UPDATE:: random change test

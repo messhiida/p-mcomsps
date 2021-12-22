@@ -6,11 +6,12 @@
 
 using namespace std;
 
-#define CONSTANT_FOR_RANK_CALC 10.0
-#define CSD_SET_CRITERIA 1
+#define CONSTANT_FOR_RANK_CALC 10.0 //Rank計算用定数
+#define CSD_SET_CRITERIA 1          //これ未満のactivityの値はSkipする
 #define CHANGE_RESTART_FREQ 100     //CHANGE_RESTART_FREQ回のrestartに1回実行
 #define CHANGE_RATIO 0.1            //CHANGE_RATIO x nVars()の変数分を変更
 #define CHANGE_VAR_BUMP_TIMES 10000 //varBumpActivity CHANGE_VAR_BUMP_TIMES回分実行
+#define MAX_PARALLEL 136            //仮置きでMax128とし、Sharer予備用に8個追加しておく
 
 struct csd_element
 {
@@ -28,13 +29,11 @@ struct CSD
 class CsdBuffer
 {
 public:
-    /// Constructor.
-    CsdBuffer();
-    /// Destructor.
-    ~CsdBuffer();
-
+    CsdBuffer();  /// Constructor.
+    ~CsdBuffer(); /// Destructor.
     void setCSD(int);
     int catchCSD();
+    void recordCSD(CSD, int);
 
 protected:
     CSD csd;

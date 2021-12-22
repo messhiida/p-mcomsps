@@ -1229,7 +1229,9 @@ lbool Solver::search(int &nof_conflicts)
     bool cached = false;
     starts++;
 
-    //UPDATE:: csd share
+    CSD current_CSD = getCSD();
+    printf("currentCSD : %d\n", current_CSD.nonZeroVars);
+    //UPDATE:: csd share at every restart
     cbkExportCSD(issuer, (int)starts);
     int cbkRes = cbkImportCSD(issuer);
     //printf("cbkRes: %d\n", cbkRes);
@@ -1555,11 +1557,6 @@ lbool Solver::solve_()
         if (!VSIDS)
             phase_allotment *= 2;
     }
-
-    //UPDATE:: test to get CSD
-    //CSD csd = getCSD();
-    //printf("[100] %d, %d, %lf, ", csd.data[100].rank, csd.data[100].phase, csd.data[100].value);
-    //printf("Size %d, nonZero %d\n", csd.data.size(), csd.nonZeroVars);
 
     if (verbosity >= 1)
         printf("c ===============================================================================\n");

@@ -46,7 +46,7 @@ int Reducer::loadSharedCSD()
 void Reducer::registerSharedCSD(int tmp, int id)
 {
    csdToImport.setCSD(tmp);
-   printf("Reducer register: %d from %d\n", tmp, id);
+   //printf("Reducer register: %d from %d\n", tmp, id);
 }
 
 static void makeMiniVec(ClauseExchange *cls, vec<Lit> &mcls)

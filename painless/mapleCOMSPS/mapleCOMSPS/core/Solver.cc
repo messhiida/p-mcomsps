@@ -1229,11 +1229,12 @@ lbool Solver::search(int &nof_conflicts)
     bool cached = false;
     starts++;
 
+    //UPDATE:: csd share at every restart
     CSD current_CSD = getCSD();
     if (current_CSD.nonZeroVars != 0)
     {
-        //UPDATE:: csd share at every restart
         cbkExportCSD(issuer, current_CSD);
+
         CSD cbkRes = cbkImportCSD(issuer);
         //printf("cbkRes: %d\n", cbkRes.data.size());
     }

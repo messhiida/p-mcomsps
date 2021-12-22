@@ -11,7 +11,7 @@ using namespace std;
 #define CHANGE_RESTART_FREQ 100     //CHANGE_RESTART_FREQ回のrestartに1回実行
 #define CHANGE_RATIO 0.1            //CHANGE_RATIO x nVars()の変数分を変更
 #define CHANGE_VAR_BUMP_TIMES 10000 //varBumpActivity CHANGE_VAR_BUMP_TIMES回分実行
-#define MAX_PARALLEL 136            //仮置きでMax128とし、Sharer予備用に8個追加しておく
+#define MAX_PARALLEL 8              //仮置きでMax128とし、Sharer予備用に8個追加しておく
 
 struct csd_element
 {

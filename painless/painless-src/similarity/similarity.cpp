@@ -20,6 +20,6 @@ CSD CsdBuffer::catchCSD()
 }
 void CsdBuffer::recordCSD(CSD input, int id)
 {
-    //csdStorage[id] = input;
+    csdStorage[id] = input;
     printf("recordCSD: [%d]%d\n", id, csdStorage.size());
 }

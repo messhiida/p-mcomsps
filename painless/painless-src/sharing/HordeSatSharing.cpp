@@ -44,6 +44,8 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
 {
    static unsigned int round = 1;
 
+   printf("DoSharing :");
+
    for (size_t i = 0; i < from.size(); i++)
    {
       int used, usedPercent, selectCount;
@@ -98,7 +100,7 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
 
       //UPDATE:: load shared CSD from a worker
       int tmp_id = from[i]->loadSharedCSD();
-      printf("doSharing tmp_id %d\n", tmp_id);
+      printf("[%d]%d(%d),", i, tmp_id, (int)to.size());
 
       for (size_t j = 0; j < to.size(); j++)
       {
@@ -122,6 +124,7 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
       }
    }
    round++;
+   printf("\n");
 }
 
 SharingStatistics

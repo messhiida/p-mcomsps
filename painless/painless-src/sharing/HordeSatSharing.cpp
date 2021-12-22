@@ -112,7 +112,7 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
 
             //UPDATE:: registerSharedCSD to each workers
             to[j]->registerSharedCSD((int)j);
-            printf("ID: %d\n", to[j]->id);
+            //printf("ID: %d\n", to[j]->id);
          }
       }
 

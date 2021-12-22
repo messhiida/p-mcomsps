@@ -61,10 +61,10 @@ int MapleCOMSPSSolver::loadSharedCSD()
    return tmp;
 }
 
-void MapleCOMSPSSolver::registerSharedCSD(int tmp)
+void MapleCOMSPSSolver::registerSharedCSD(int tmp, int id)
 {
    csdToImport.setCSD(tmp);
-   //printf("Maple register : %d\n", tmp);
+   printf("Maple register : %d from %d\n", tmp, id);
 }
 
 static void makeMiniVec(ClauseExchange *cls, vec<Lit> &mcls)

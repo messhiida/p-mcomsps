@@ -57,7 +57,7 @@ int MapleChronoBTSolver::loadSharedCSD()
    return tmp;
 }
 
-void MapleChronoBTSolver::registerSharedCSD(int tmp)
+void MapleChronoBTSolver::registerSharedCSD(int tmp, int id)
 {
    printf("registerSharedCSD in MapleBT\n");
    csdToImport.setCSD(tmp);

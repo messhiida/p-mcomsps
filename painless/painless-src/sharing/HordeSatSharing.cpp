@@ -56,10 +56,10 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
 
       for (size_t j = 0; j < to.size(); j++)
       {
-         if (from[i]->id == to[j]->id)
+         if (from[i]->id == to[j]->id || tmp_id == NULL)
             continue;
 
-         to[j]->registerSharedCSD(tmp_id);
+         to[j]->registerSharedCSD(tmp_id, from[i]->id);
       }
    }
 

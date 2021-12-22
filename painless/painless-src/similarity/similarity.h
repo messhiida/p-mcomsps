@@ -34,6 +34,7 @@ public:
     void setCSD(CSD);
     CSD catchCSD();
     void recordCSD(CSD, int);
+    vector<CSD> readRecordedCSD();
 
 protected:
     CSD my_csd;

@@ -117,8 +117,7 @@ namespace MapleCOMSPS
         void changeSearchActivity();
         CSD getCSD();
         void (*cbkExportCSD)(void *, CSD);
-        CSD(*cbkImportCSD)
-        (void *);
+        vector<CSD> (*cbkImportCSD)(void *);
 
         // Problem specification:
         //

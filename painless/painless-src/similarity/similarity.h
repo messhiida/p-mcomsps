@@ -38,6 +38,5 @@ public:
 
 protected:
     CSD csd;
-    //atomic<int> storage;
-    int storage;
+    atomic<int> storage;
 };

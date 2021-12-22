@@ -129,6 +129,6 @@ protected:
    ClauseBuffer clausesToExport;
 
    //UPDATE:: Buffer to share CSD
-   CsdBuffer csdToImport;
-   CsdBuffer csdToExport;
+   //CsdBuffer csdToImport;
+   //CsdBuffer csdToExport;
 };

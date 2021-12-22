@@ -44,7 +44,22 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
 {
    static unsigned int round = 1;
 
-   printf("DoSharing :");
+   //UPDATE:: shared CSD loop
+   vector<int> tmp_sharedCSD;
+   for (size_t i = 0; i < from.size(); i++)
+   {
+      int tmp_id = from[i]->loadSharedCSD();
+      if (tmp_id == NULL)
+         printf("Null in return @ %d\n", from[i]->id);
+
+      for (size_t j = 0; j < to.size(); j++)
+      {
+         if (from[i]->id == to[j]->id)
+            continue;
+
+         to[j]->registerSharedCSD(tmp_id);
+      }
+   }
 
    for (size_t i = 0; i < from.size(); i++)
    {
@@ -98,10 +113,6 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
          this->initPhase = false;
       }
 
-      //UPDATE:: load shared CSD from a worker
-      int tmp_id = from[i]->loadSharedCSD();
-      printf("],[%d]%d(%d)[", from[i]->id, tmp_id, (int)to.size());
-
       for (size_t j = 0; j < to.size(); j++)
       {
          if (from[i]->id != to[j]->id)
@@ -111,10 +122,6 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
                ClauseManager::increaseClause(tmp[k], 1);
             }
             to[j]->addLearnedClauses(tmp);
-
-            //UPDATE:: registerSharedCSD to each workers
-            to[j]->registerSharedCSD((int)j);
-            printf("%d/%d,", to[j]->id, j);
          }
       }
 

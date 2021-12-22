@@ -45,7 +45,7 @@ int Reducer::loadSharedCSD()
 
 void Reducer::registerSharedCSD(int tmp)
 {
-   csdToExport.setCSD(tmp);
+   csdToImport.setCSD(tmp);
    //printf("Reducer register: %d\n", tmp);
 }
 

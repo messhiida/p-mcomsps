@@ -16,6 +16,8 @@ using namespace std;
 #define ALPHA_TO_JUDGE_SSI 1        //標準偏差の閾値
 #define LIMIT_SAVING_SSI 1000       //SSI databaseの保存上限
 
+extern double testExternVar;
+
 struct csd_element
 {
     int rank;

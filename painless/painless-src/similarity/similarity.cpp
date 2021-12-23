@@ -2,6 +2,8 @@
 
 using namespace std;
 
+double testExternVar = 100;
+
 CsdBuffer::CsdBuffer()
 {
     my_csd = CSD();

@@ -117,11 +117,11 @@ namespace MapleCOMSPS
         void changeSearchActivity();
         CSD getCSD();
         double calculate_SSI(CSD, CSD);
-        similarityLevel judge_SSI_score(double, vector<double> &);
+        similarityLevel judge_SSI_score(double);
         vector<double> ssi_database;
         double _average(vector<double>);
         double _standardDeviation(vector<double>);
-        void _save_SSI(double, vector<double> &);
+        void _save_SSI(double);
 
         void (*cbkExportCSD)(void *, CSD);
         vector<CSD> (*cbkImportCSD)(void *);

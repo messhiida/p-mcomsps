@@ -1990,7 +1990,7 @@ CSD Solver::getCSD()
     for (int i = 0; i < var_size; i++)
     {
         double score = activity_VSIDS[i];
-        if (!order_heap_VSIDS.inHeap(i) || score < CSD_SET_CRITERIA)
+        if (!order_heap_VSIDS.inHeap(i) || score < CSD_SET_CRITERIA || score == 0.0)
             continue;
 
         csd_element e;
@@ -1999,8 +1999,8 @@ CSD Solver::getCSD()
         e.value = pow(0.5, (double)e.rank * CONSTANT_FOR_RANK_CALC / (double)var_size);
         csd.data[i] = e;
 
-        if (score > 0)
-            csd.nonZeroVars++;
+        //if (score > 0)
+        csd.nonZeroVars++;
     }
     return csd;
 }
@@ -2022,9 +2022,10 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
 
         if (val1.rank == 0 || val2.rank == 0)
             continue;
-        counter++;
         double similarity = (1 - abs(val1.rank / size1 - val2.rank / size2)) * (val1.phase == val2.phase);
         double importance = (val1.value + val2.value) / 2.0;
+        counter++;
+        //counter += importance;
         //double importance = 1 - abs(val1.value - val2.value);
         if (i == 100)
             printf("[Val1] %d, %d, %lf, [Val2] %d, %d, %lf, = %lf, %lf\n", val1.rank, val1.phase, val1.value, val2.rank, val2.phase, val2.value, similarity, importance);

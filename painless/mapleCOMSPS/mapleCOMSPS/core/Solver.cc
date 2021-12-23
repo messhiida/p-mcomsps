@@ -2022,11 +2022,15 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
         if (val1.rank == 0 && val2.rank == 0)
             continue; //ともにCSD外ならカウント対象外
 
-        double similarity = (1 - abs(val1.rank / size1 - val2.rank / size2)) * (val1.phase == val2.phase);
+        double similarity = 0.0;
+        if (val1.rank != 0 || val2.rank != 0)
+            similarity = (1 - abs(val1.rank / size1 - val2.rank / size2)) * (val1.phase == val2.phase);
+
         double importance = (val1.value + val2.value) / 2.0;
-        counter++;
+        //counter++;
+        counter += importance;
         //double importance = 1 - abs(val1.value - val2.value);
-        if (i % 100 == 0)
+        if (i % 1000 == 0)
             printf("[i] Val1: %d, %d, %lf, Val2:%d, %d, %lf, = %lf, %lf\n", val1.rank, val1.phase, val1.value, val2.rank, val2.phase, val2.value, similarity, importance);
 
         ssi += similarity * importance;

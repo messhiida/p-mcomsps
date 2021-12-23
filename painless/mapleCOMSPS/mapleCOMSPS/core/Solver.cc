@@ -1244,8 +1244,8 @@ lbool Solver::search(int &nof_conflicts)
             double ssi = calculate_SSI(current_CSD, sharedCSD[i]);
             if (ssi != 0)
             {
-                similarityLevel lv = judge_SSI_score(ssi, ssi_database);
-                printf("debug %lf, %d %s\n", ssi, ssi_database.size(), lv);
+                //similarityLevel lv = judge_SSI_score(ssi, ssi_database);
+                //printf("debug %lf, %d %s\n", ssi, ssi_database.size(), lv);
             }
         }
     }

@@ -2035,6 +2035,8 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
     if (counter == 0)
         return 0;
 
+    printf("Counter %lf, nonZero %lf\n", counter, min_NonZeroSize);
+
     ssi /= counter;
     return ssi;
 }

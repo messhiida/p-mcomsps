@@ -2025,7 +2025,6 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
         ssi += similarity * importance;
     }
 
-    else ssi /= min_size;
-
+    ssi /= min_size;
     return ssi;
 }

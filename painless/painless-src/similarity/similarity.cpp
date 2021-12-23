@@ -2,7 +2,7 @@
 
 using namespace std;
 
-double testExternVar = 100;
+//double testExternVar = 100;
 
 CsdBuffer::CsdBuffer()
 {

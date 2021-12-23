@@ -1252,10 +1252,10 @@ lbool Solver::search(int &nof_conflicts)
             double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
             if (ssi != 0)
             {
-                //printf("[%d] ssi: %lf in %lf (%lf)\n", starts, ssi, spent, ssi_database.size());
-                similarityLevel lv = judge_SSI_score(ssi, ssi_database);
+                printf("[%d] ssi: %lf in %lf (%d)\n", starts, ssi, spent, ssi_database.size());
+                //similarityLevel lv = judge_SSI_score(ssi, ssi_database);
                 //printf("[%d] ssi: %lf in %s\n", starts, ssi, spent, lv);
-                printf("[%d] ssi: %lf in %lf (db size %d - %s)\n", starts, ssi, spent, ssi_database.size(), lv);
+                //printf("[%d] ssi: %lf in %lf (db size %d - %s)\n", starts, ssi, spent, ssi_database.size(), lv);
             }
         }
     }

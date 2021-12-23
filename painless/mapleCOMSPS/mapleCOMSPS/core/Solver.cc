@@ -2023,11 +2023,10 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
             continue; //ともにCSD外ならカウント対象外
 
         double similarity = 0.0;
-        if (val1.rank != 0 || val2.rank != 0)
+        if (val1.rank != 0 && val2.rank != 0)
             similarity = (1 - abs(val1.rank / size1 - val2.rank / size2)) * (val1.phase == val2.phase);
 
         double importance = (val1.value + val2.value) / 2.0;
-        //counter++;
         counter += importance;
         //double importance = 1 - abs(val1.value - val2.value);
         if (i % 1000 == 0)

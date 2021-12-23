@@ -1231,9 +1231,6 @@ lbool Solver::search(int &nof_conflicts)
 
     //UPDATE:: csd share at every restart
     CSD current_CSD = getCSD();
-
-    testExternVar++;
-
     if (current_CSD.nonZeroVars != 0)
     {
         cbkExportCSD(issuer, current_CSD);
@@ -1248,9 +1245,9 @@ lbool Solver::search(int &nof_conflicts)
             double ssi = calculate_SSI(current_CSD, sharedCSD[i]);
             clock_t t2 = clock();
             double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
-            if (starts % 500 == 0 && ssi != 0)
+            if (ssi != 0)
             {
-                printf("[%d] ssi: %lf in %lf (%lf)\n", starts, ssi, spent, testExternVar);
+                printf("[%d] ssi: %lf in %lf (%lf)\n", starts, ssi, spent);
                 //similarityLevel lv = judge_SSI_score(ssi, ssi_database);
                 //printf("[%d] ssi: %lf in %s\n", starts, ssi, spent, lv);
                 //printf("[%d] ssi: %lf in %d - %s\n", starts, ssi, spent, ssi_database.size(), lv);
@@ -1555,6 +1552,8 @@ lbool Solver::solve_()
     // Search:
     int phase_allotment = 10000;
     int curr_restarts = 0;
+
+    printf("solve_ %d\n", starts);
 
     for (;;)
     {

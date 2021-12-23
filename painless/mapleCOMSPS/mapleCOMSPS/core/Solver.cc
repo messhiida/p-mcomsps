@@ -1253,7 +1253,7 @@ lbool Solver::search(int &nof_conflicts)
             if (ssi != 0)
             {
                 printf("[%d] ssi: %lf in %lf (%d)\n", starts, ssi, spent, ssi_database.size());
-                similarityLevel lv = judge_SSI_score(ssi, ssi_database);
+                similarityLevel lv = judge_SSI_score(ssi);
                 //printf("[%d] ssi: %lf in %s\n", starts, ssi, spent, lv);
                 //printf("[%d] ssi: %lf in %lf (db size %d - %s)\n", starts, ssi, spent, ssi_database.size(), lv);
             }

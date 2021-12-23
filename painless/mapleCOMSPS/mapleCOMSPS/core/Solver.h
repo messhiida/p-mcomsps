@@ -117,6 +117,8 @@ namespace MapleCOMSPS
         void changeSearchActivity();
         CSD getCSD();
         double calculate_SSI(CSD, CSD);
+        similarityLevel judge_SSI_score(double, vector<double>);
+        vector<double> ssi_database;
 
         void (*cbkExportCSD)(void *, CSD);
         vector<CSD> (*cbkImportCSD)(void *);
@@ -241,9 +243,6 @@ namespace MapleCOMSPS
         vec<uint32_t> picked;
         vec<uint32_t> conflicted;
         vec<uint32_t> almost_conflicted;
-
-        //UPDATE :: 保存用に追加
-        vector<double> ssi_database;
 
     protected:
         // Helper structures:

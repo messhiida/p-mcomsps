@@ -52,7 +52,7 @@ void _save_SSI(double ssi, vector<double> &history)
         history.erase(history.begin());
 }
 
-similarityLevel judge_SSI_score(double ssi, vector<double> &history)
+similarityLevel Solver::judge_SSI_score(double ssi, vector<double> &history)
 {
     if (ssi == 0)
         return normal;

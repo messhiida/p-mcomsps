@@ -1241,8 +1241,12 @@ lbool Solver::search(int &nof_conflicts)
             if (sharedCSD[i].nonZeroVars == 0)
                 continue; //自分やSharer, Reducer, 自分よりIDが小さいものとは比較しない
 
+            clock_t t1 = clock();
             double ssi = calculate_SSI(current_CSD, sharedCSD[i]);
-            printf("[%d] SSI: %lf\n", starts, ssi);
+            clock_t t2 = clock();
+            double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
+            if (starts % 500 == 0)
+                printf("[%d] SSI: %lf, %lf\n", starts, ssi, spent);
             if (ssi != 0)
             {
                 //similarityLevel lv = judge_SSI_score(ssi, ssi_database);

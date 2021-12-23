@@ -59,6 +59,9 @@ static DoubleOption opt_garbage_frac(_cat, "gc-frac", "The fraction of wasted me
 
 Solver::Solver() :
 
+                   //UPDATE:: ssi_databaseの宣言
+                   ssi_database(0),
+
                    // Parameters (user settable):
                    //
 
@@ -95,7 +98,9 @@ Solver::Solver() :
 {
 }
 
-Solver::Solver(const Solver &s) : // Parameters (user settable):
+Solver::Solver(const Solver &s) : //UPDATE:: ssi_databaseの宣言
+                                  ssi_database(0),
+                                  // Parameters (user settable):
                                   //
                                   drup_file(s.drup_file), verbosity(s.verbosity), step_size(s.step_size), step_size_dec(s.step_size_dec), min_step_size(s.min_step_size), timer(s.timer), var_decay(s.var_decay), clause_decay(s.clause_decay), random_var_freq(s.random_var_freq), random_seed(s.random_seed), VSIDS(s.VSIDS), verso(s.verso), ccmin_mode(s.ccmin_mode), phase_saving(s.phase_saving), rnd_pol(s.rnd_pol), rnd_init_act(s.rnd_init_act), garbage_frac(s.garbage_frac), restart_first(s.restart_first), restart_inc(s.restart_inc), learntsize_factor(s.learntsize_factor)
 
@@ -1552,8 +1557,6 @@ lbool Solver::solve_()
     // Search:
     int phase_allotment = 10000;
     int curr_restarts = 0;
-
-    printf("solve_ %d\n", starts);
 
     for (;;)
     {

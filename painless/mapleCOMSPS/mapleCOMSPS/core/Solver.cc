@@ -1248,7 +1248,7 @@ lbool Solver::search(int &nof_conflicts)
             if (starts % 500 == 0 && ssi != 0)
             {
                 similarityLevel lv = judge_SSI_score(ssi, ssi_database);
-                printf("[%d] ssi: %lf, %lf in %d - %s\n", starts, ssi, spent, ssi_database.size(), lv);
+                printf("[%d] ssi: %lf in %d - %s\n", starts, ssi, spent, lv);
             }
         }
     }

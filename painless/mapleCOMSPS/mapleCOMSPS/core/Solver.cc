@@ -2031,6 +2031,9 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
         ssi += similarity * importance;
     }
 
+    if (counter == 0)
+        return 0;
+
     ssi /= counter;
     return ssi;
 }

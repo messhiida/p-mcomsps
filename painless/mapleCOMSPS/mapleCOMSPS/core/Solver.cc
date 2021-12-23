@@ -2007,14 +2007,14 @@ CSD Solver::getCSD()
 
 double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
 {
-    double size1 = my_csd.nonZeroVars;
-    double size2 = comp_csd.nonZeroVars;
-    double min_size = min(size1, size2);
-    if (my_csd.data.size() != comp_csd.data.size() || my_csd.data.size() == 0 || comp_csd.data.size() == 0 || min_size == 0)
+    double size1 = (double)my_csd.data.size();
+    double size2 = (double)comp_csd.data.size();
+    double min_NonZeroSize = min(my_csd.nonZeroVars, my_csd.nonZeroVars);
+    if (size1 != size2 || size1 == 0 || size2 == 0 || min_NonZeroSize == 0)
         return 0;
 
     double ssi = 0;
-
+    double counter = 0;
     for (size_t i = 0; i < my_csd.data.size(); i++)
     {
         csd_element val1 = my_csd.data[i];
@@ -2022,7 +2022,7 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
 
         if (val1.rank == 0 || val2.rank == 0)
             continue;
-
+        counter++;
         double similarity = (1 - abs(val1.rank / size1 - val2.rank / size2)) * (val1.phase == val2.phase);
         double importance = 1 - abs(val1.value - val2.value);
         if (i == 100)
@@ -2031,6 +2031,6 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
         ssi += similarity * importance;
     }
 
-    ssi /= min_size;
+    ssi /= counter;
     return ssi;
 }

@@ -1241,7 +1241,8 @@ lbool Solver::search(int &nof_conflicts)
             if (sharedCSD[i].nonZeroVars == 0)
                 continue; //自分やSharer, Reducer, 自分よりIDが小さいものとは比較しない
 
-            printf("debug %d\n", sharedCSD[i].nonZeroVars);
+            double ssi = calculate_SSI(current_CSD, sharedCSD[i]);
+            printf("debug %d, %lf\n", sharedCSD[i].nonZeroVars, ssi);
         }
     }
 
@@ -2002,4 +2003,29 @@ CSD Solver::getCSD()
             csd.nonZeroVars++;
     }
     return csd;
+}
+
+double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
+{
+    double size1 = my_csd.nonZeroVars;
+    double size2 = comp_csd.nonZeroVars;
+    double min_size = min(size1, size2);
+    if (my_csd.data.size() != comp_csd.data.size() || my_csd.data.size() == 0 || comp_csd.data.size() == 0 || min_size == 0)
+        return 0;
+
+    double ssi = 0;
+
+    for (size_t i = 0; i < my_csd.data.size(); i++)
+    {
+        csd_element val1 = my_csd.data[i];
+        csd_element val2 = comp_csd.data[i];
+
+        double similarity = (1 - abs(val1.rank / size1 - val2.rank / size2)) * (val1.phase == val2.phase);
+        double importance = 1 - abs(val1.value - val2.value);
+        ssi += similarity * importance;
+    }
+
+    else ssi /= min_size;
+
+    return ssi;
 }

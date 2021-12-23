@@ -1999,7 +1999,6 @@ CSD Solver::getCSD()
         e.value = pow(0.5, (double)e.rank * CONSTANT_FOR_RANK_CALC / (double)var_size);
         csd.data[i] = e;
 
-        //if (score > 0)
         csd.nonZeroVars++;
     }
     return csd;
@@ -2010,7 +2009,7 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
     double size1 = (double)my_csd.data.size();
     double size2 = (double)comp_csd.data.size();
     double min_NonZeroSize = min(my_csd.nonZeroVars, my_csd.nonZeroVars);
-    if (size1 != size2 || size1 == 0 || size2 == 0 || min_NonZeroSize == 0)
+    if (size1 != size2 || size1 == 0 || size2 == 0)
         return 0;
 
     double ssi = 0;
@@ -2020,23 +2019,21 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
         csd_element val1 = my_csd.data[i];
         csd_element val2 = comp_csd.data[i];
 
-        if (val1.rank == 0 || val2.rank == 0)
-            continue;
+        if (val1.rank == 0 && val2.rank == 0)
+            continue; //ともにCSD外ならカウント対象外
+
         double similarity = (1 - abs(val1.rank / size1 - val2.rank / size2)) * (val1.phase == val2.phase);
         double importance = (val1.value + val2.value) / 2.0;
         counter++;
-        //counter += importance;
         //double importance = 1 - abs(val1.value - val2.value);
-        if (i == 100)
-            printf("[Val1] %d, %d, %lf, [Val2] %d, %d, %lf, = %lf, %lf\n", val1.rank, val1.phase, val1.value, val2.rank, val2.phase, val2.value, similarity, importance);
+        if (i % 100 == 0)
+            printf("[i] Val1: %d, %d, %lf, Val2:%d, %d, %lf, = %lf, %lf\n", val1.rank, val1.phase, val1.value, val2.rank, val2.phase, val2.value, similarity, importance);
 
         ssi += similarity * importance;
     }
 
     if (counter == 0)
         return 0;
-
-    printf("Counter %lf, nonZero %lf, size1 %lf, size2 %lf\n", counter, min_NonZeroSize, size1, size2);
 
     ssi /= counter;
     return ssi;

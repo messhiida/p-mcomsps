@@ -2061,7 +2061,7 @@ similarityLevel Solver::judge_SSI_score(double ssi)
 
     double ave = _average(ssi_database);
     double std = _standardDeviation(ssi_database);
-    //_save_SSI(ssi, history); //次回以降の為に、今回のssiの値を保存
+    _save_SSI(ssi); //次回以降の為に、今回のssiの値を保存
 
     if (ave == 0 || std == 0)
         return normal;

@@ -242,6 +242,9 @@ namespace MapleCOMSPS
         vec<uint32_t> conflicted;
         vec<uint32_t> almost_conflicted;
 
+        //UPDATE :: 保存用に追加
+        vector<double> ssi_database;
+
     protected:
         // Helper structures:
         //

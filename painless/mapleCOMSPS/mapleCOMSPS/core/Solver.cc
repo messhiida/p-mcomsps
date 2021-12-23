@@ -1242,7 +1242,9 @@ lbool Solver::search(int &nof_conflicts)
                 continue; //自分やSharer, Reducer, 自分よりIDが小さいものとは比較しない
 
             double ssi = calculate_SSI(current_CSD, sharedCSD[i]);
-            printf("debug %d, %lf\n", sharedCSD[i].nonZeroVars, ssi);
+            similarityLevel lv = judge_SSI_score(ssi, ssi_database);
+
+            printf("debug %lf, %d %s\n", ssi, ssi_database.size(), lv);
         }
     }
 
@@ -2027,10 +2029,8 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
             similarity = (1 - abs(val1.rank / size1 - val2.rank / size2)) * (val1.phase == val2.phase);
 
         double importance = (val1.value + val2.value) / 2.0;
-        counter += importance;
         //double importance = 1 - abs(val1.value - val2.value);
-        if (i % 1000 == 0)
-            printf("[i] Val1: %d, %d, %lf, Val2:%d, %d, %lf, = %lf, %lf\n", val1.rank, val1.phase, val1.value, val2.rank, val2.phase, val2.value, similarity, importance);
+        counter += importance;
 
         ssi += similarity * importance;
     }

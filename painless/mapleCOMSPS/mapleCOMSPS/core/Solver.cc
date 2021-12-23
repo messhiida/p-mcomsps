@@ -1245,7 +1245,7 @@ lbool Solver::search(int &nof_conflicts)
             double ssi = calculate_SSI(current_CSD, sharedCSD[i]);
             clock_t t2 = clock();
             double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
-            if (starts % 500 == 0 || ssi != 0)
+            if (starts % 500 == 0 && ssi != 0)
             {
                 similarityLevel lv = judge_SSI_score(ssi, ssi_database);
                 printf("[%d] ssi: %lf, %lf in %d - %s\n", starts, ssi, spent, ssi_database.size(), lv);
@@ -2054,7 +2054,7 @@ similarityLevel Solver::judge_SSI_score(double ssi, vector<double> &history)
 
     double ave = _average(history);
     double std = _standardDeviation(history);
-    _save_SSI(ssi, history); //次回以降の為に、今回のssiの値を保存
+    //_save_SSI(ssi, history); //次回以降の為に、今回のssiの値を保存
 
     if (ave == 0 || std == 0)
         return normal;
@@ -2068,17 +2068,25 @@ similarityLevel Solver::judge_SSI_score(double ssi, vector<double> &history)
 
 double Solver::_average(vector<double> v)
 {
+    if (v.size() == 0)
+        return 0;
+
     double sum = 0;
     for (double s : v)
         sum += s;
+
     return sum / (double)v.size();
 }
 
 double Solver::_standardDeviation(vector<double> v)
 {
+    if (v.size() == 0)
+        return 0;
+
     double sum2 = 0;
     for (double s : v)
         sum2 += s * s;
+
     double ave = _average(v);
     return sqrt(sum2 / (double)v.size() - ave * ave);
 }

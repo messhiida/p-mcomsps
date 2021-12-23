@@ -2065,7 +2065,7 @@ similarityLevel Solver::judge_SSI_score(double ssi, vector<double> &history)
     else
         return normal;
 }
-/*
+
 double Solver::_average(vector<double> v)
 {
     if (v.size() == 0)
@@ -2096,4 +2096,4 @@ void Solver::_save_SSI(double ssi, vector<double> &history)
     history.push_back(ssi);
     if ((int)history.size() > LIMIT_SAVING_SSI)
         history.erase(history.begin());
-}*/
+}

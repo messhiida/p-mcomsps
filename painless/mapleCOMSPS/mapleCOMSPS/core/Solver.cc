@@ -1253,7 +1253,7 @@ lbool Solver::search(int &nof_conflicts)
             if (ssi != 0)
             {
                 printf("[%d] ssi: %lf in %lf (%d)\n", starts, ssi, spent, ssi_database.size());
-                //similarityLevel lv = judge_SSI_score(ssi, ssi_database);
+                similarityLevel lv = judge_SSI_score(ssi, ssi_database);
                 //printf("[%d] ssi: %lf in %s\n", starts, ssi, spent, lv);
                 //printf("[%d] ssi: %lf in %lf (db size %d - %s)\n", starts, ssi, spent, ssi_database.size(), lv);
             }
@@ -2054,13 +2054,13 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
     return ssi;
 }
 
-similarityLevel Solver::judge_SSI_score(double ssi, vector<double> &history)
+similarityLevel Solver::judge_SSI_score(double ssi)
 {
     if (ssi == 0)
         return normal;
 
-    double ave = _average(history);
-    double std = _standardDeviation(history);
+    double ave = _average(ssi_database);
+    double std = _standardDeviation(ssi_database);
     //_save_SSI(ssi, history); //次回以降の為に、今回のssiの値を保存
 
     if (ave == 0 || std == 0)
@@ -2098,9 +2098,9 @@ double Solver::_standardDeviation(vector<double> v)
     return sqrt(sum2 / (double)v.size() - ave * ave);
 }
 
-void Solver::_save_SSI(double ssi, vector<double> &history)
+void Solver::_save_SSI(double ssi)
 {
-    history.push_back(ssi);
-    if ((int)history.size() > LIMIT_SAVING_SSI)
-        history.erase(history.begin());
+    ssi_database.push_back(ssi);
+    if ((int)ssi_database.size() > LIMIT_SAVING_SSI)
+        ssi_database.erase(ssi_database.begin());
 }

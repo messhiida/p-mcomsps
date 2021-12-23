@@ -2026,7 +2026,7 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
         double similarity = (1 - abs(val1.rank / size1 - val2.rank / size2)) * (val1.phase == val2.phase);
         double importance = 1 - abs(val1.value - val2.value);
         if (i == 100)
-            printf("[Val1] %d, %d, %lf, [Val2] %d, %d, %lf, = %lf, %lf\n", val1.rank, val1.phase, val1.value, val2.rank, val2.phase, val2.value, importance);
+            printf("[Val1] %d, %d, %lf, [Val2] %d, %d, %lf, = %lf, %lf\n", val1.rank, val1.phase, val1.value, val2.rank, val2.phase, val2.value, similarity, importance);
 
         ssi += similarity * importance;
     }

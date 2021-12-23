@@ -1245,12 +1245,10 @@ lbool Solver::search(int &nof_conflicts)
             double ssi = calculate_SSI(current_CSD, sharedCSD[i]);
             clock_t t2 = clock();
             double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
-            if (starts % 500 == 0)
-                printf("[%d] SSI: %lf, %lf\n", starts, ssi, spent);
-            if (ssi != 0)
+            if (starts % 500 == 0 || ssi != 0)
             {
-                //similarityLevel lv = judge_SSI_score(ssi, ssi_database);
-                //printf("debug %lf, %d %s\n", ssi, ssi_database.size(), lv);
+                similarityLevel lv = judge_SSI_score(ssi, ssi_database);
+                printf("[%d] ssi: %lf, %lf in %d - %s\n", starts, ssi, spent, ssi_database.size(), lv);
             }
         }
     }

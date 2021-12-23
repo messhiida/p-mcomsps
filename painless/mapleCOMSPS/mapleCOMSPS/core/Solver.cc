@@ -1260,7 +1260,7 @@ lbool Solver::search(int &nof_conflicts)
                 if (lv == high && starts >= (prevChange + CHANGE_INTERVAL))
                 {
                     changeSearchActivity();
-                    printf("[%d] SSI %lf (%d s) previously changed at %d \n", starts, spent, prevChange);
+                    printf("[%d] SSI %lf (%lf s) previously changed at %d \n", starts, ssi, spent, prevChange);
                     prevChange = starts;
                 }
             }

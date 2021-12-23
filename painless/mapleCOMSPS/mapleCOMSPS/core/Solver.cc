@@ -1235,8 +1235,13 @@ lbool Solver::search(int &nof_conflicts)
     {
         cbkExportCSD(issuer, current_CSD);
 
-        vector<CSD> cbkRes = cbkImportCSD(issuer);
-        printf("size of res %d\n", cbkRes.size());
+        vector<CSD> sharedCSD = cbkImportCSD(issuer);
+        for (size_t i = 0; i < sharedCSD.size(); i++)
+        {
+            if (sharedCSD[i].nonZeroVars == 0)
+                continue;
+            printf("debug %d\n", sharedCSD[i].nonZeroVars);
+        }
         //printf("cbkRes: %d\n", cbkRes.data.size());
     }
 

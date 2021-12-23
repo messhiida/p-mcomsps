@@ -2020,10 +2020,14 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
         csd_element val1 = my_csd.data[i];
         csd_element val2 = comp_csd.data[i];
 
+        if (val1.rank == 0 || val2.rank == 0)
+            continue;
+
         double similarity = (1 - abs(val1.rank / size1 - val2.rank / size2)) * (val1.phase == val2.phase);
         double importance = 1 - abs(val1.value - val2.value);
         if (i == 100)
             printf("%d, %d, %lf, %lf, %lf\n", val1.rank, val1.phase, val1.value, similarity, importance);
+
         ssi += similarity * importance;
     }
 

@@ -1232,7 +1232,8 @@ lbool Solver::search(int &nof_conflicts)
     //UPDATE:: csd share at every restart
     CSD current_CSD = getCSD();
 
-    double testExternVar = 100;
+    testExternVar++;
+
     if (current_CSD.nonZeroVars != 0)
     {
         cbkExportCSD(issuer, current_CSD);

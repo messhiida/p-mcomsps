@@ -119,6 +119,7 @@ namespace MapleCOMSPS
         double calculate_SSI(CSD, CSD);
         similarityLevel judge_SSI_score(double);
         vector<double> ssi_database;
+        int prevChange;
         double _average(vector<double>);
         double _standardDeviation(vector<double>);
         void _save_SSI(double);

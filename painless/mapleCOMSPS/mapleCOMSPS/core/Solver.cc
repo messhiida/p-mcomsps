@@ -61,6 +61,7 @@ Solver::Solver() :
 
                    //UPDATE:: ssi_databaseの宣言
                    ssi_database(0),
+                   prevChange(0),
 
                    // Parameters (user settable):
                    //
@@ -100,6 +101,8 @@ Solver::Solver() :
 
 Solver::Solver(const Solver &s) : //UPDATE:: ssi_databaseの宣言
                                   ssi_database(s.ssi_database),
+                                  prevChange(s.prevChange),
+
                                   // Parameters (user settable):
                                   //
                                   drup_file(s.drup_file), verbosity(s.verbosity), step_size(s.step_size), step_size_dec(s.step_size_dec), min_step_size(s.min_step_size), timer(s.timer), var_decay(s.var_decay), clause_decay(s.clause_decay), random_var_freq(s.random_var_freq), random_seed(s.random_seed), VSIDS(s.VSIDS), verso(s.verso), ccmin_mode(s.ccmin_mode), phase_saving(s.phase_saving), rnd_pol(s.rnd_pol), rnd_init_act(s.rnd_init_act), garbage_frac(s.garbage_frac), restart_first(s.restart_first), restart_inc(s.restart_inc), learntsize_factor(s.learntsize_factor)
@@ -1252,17 +1255,17 @@ lbool Solver::search(int &nof_conflicts)
             double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
             if (ssi != 0)
             {
-                //printf("[%d] ssi: %lf in %lf (%d)\n", starts, ssi, spent, ssi_database.size());
                 similarityLevel lv = judge_SSI_score(ssi);
-                //printf("[%d] ssi: %lf in %s\n", starts, ssi, spent, lv);
-                printf("[%d] ssi: %lf in %lf (db size %d - %d)\n", starts, ssi, spent, ssi_database.size(), lv);
+                //printf("[%d] ssi: %lf in %lf (db size %d - %d)\n", starts, ssi, spent, ssi_database.size(), lv);
+                if (lv == high && starts >= (prevChange + CHANGE_INTERVAL))
+                {
+                    changeSearchActivity();
+                    printf("[%d] SSI %lf (%d s) previously changed at %d \n", starts, spent, prevChange);
+                    prevChange = starts;
+                }
             }
         }
     }
-
-    //UPDATE:: random change test
-    if (starts % CHANGE_RESTART_FREQ == 0)
-        changeSearchActivity();
 
     for (;;)
     {
@@ -1984,7 +1987,6 @@ void Solver::changeSearchActivity()
 {
     int n = order_heap_VSIDS.size();
     int change_n = (double)n * CHANGE_RATIO;
-    //printf("[%d restarts] OrderHeap %d, Change %d in Total nVar %d\n", starts, n, change_n, nVars());
     for (int i = n; i >= change_n; i--) //orderHeapのrankが低い下から順にVarを取得していく
     {
         assert(i >= 0);

@@ -1234,16 +1234,15 @@ lbool Solver::search(int &nof_conflicts)
     if (current_CSD.nonZeroVars != 0)
     {
         cbkExportCSD(issuer, current_CSD);
+
         vector<CSD> sharedCSD = cbkImportCSD(issuer);
-        int counterCSD = 0;
         for (size_t i = 0; i < sharedCSD.size(); i++)
         {
             if (sharedCSD[i].nonZeroVars == 0)
-                continue;
-            // printf("debug %d\n", sharedCSD[i].nonZeroVars);
-            counterCSD++;
+                continue; //自分やSharer, Reducer, 自分よりIDが小さいものとは比較しない
+
+            printf("debug %d\n", sharedCSD[i].nonZeroVars);
         }
-        printf("count:%d\n", counterCSD, issuer->id);
     }
 
     //UPDATE:: random change test

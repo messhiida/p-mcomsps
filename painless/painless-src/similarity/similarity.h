@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SimilarityIndex
+#define SimilarityIndex
 
 #include <stdio.h>
 #include <vector>
@@ -52,3 +53,5 @@ enum similarityLevel
     normal,
     low
 };
+
+#endif

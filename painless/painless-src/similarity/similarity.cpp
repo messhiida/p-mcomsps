@@ -51,22 +51,3 @@ void _save_SSI(double ssi, vector<double> &history)
     if ((int)history.size() > LIMIT_SAVING_SSI)
         history.erase(history.begin());
 }
-
-similarityLevel Solver::judge_SSI_score(double ssi, vector<double> &history)
-{
-    if (ssi == 0)
-        return normal;
-
-    double ave = _average(history);
-    double std = _standardDeviation(history);
-    _save_SSI(ssi, history); //次回以降の為に、今回のssiの値を保存
-
-    if (ave == 0 || std == 0)
-        return normal;
-    if (ssi >= ave + std * ALPHA_TO_JUDGE_SSI || ((ave + std) >= 1 && ssi >= 0.99))
-        return high;
-    if (ssi < ave - std * ALPHA_TO_JUDGE_SSI || ((ave - std) <= 0 && ssi <= 0.01))
-        return low;
-    else
-        return normal;
-}

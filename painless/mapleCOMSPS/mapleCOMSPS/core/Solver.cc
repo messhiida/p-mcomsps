@@ -1242,10 +1242,11 @@ lbool Solver::search(int &nof_conflicts)
                 continue; //自分やSharer, Reducer, 自分よりIDが小さいものとは比較しない
 
             double ssi = calculate_SSI(current_CSD, sharedCSD[i]);
-            //similarityLevel lv = judge_SSI_score(ssi, ssi_database);
-
-            printf("debug %lf, %d %s\n", ssi, ssi_database.size());
-            //printf("debug %lf, %d %s\n", ssi, ssi_database.size(), lv);
+            if (ssi != 0)
+            {
+                similarityLevel lv = judge_SSI_score(ssi, ssi_database);
+                printf("debug %lf, %d %s\n", ssi, ssi_database.size(), lv);
+            }
         }
     }
 

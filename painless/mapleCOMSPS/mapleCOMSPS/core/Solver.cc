@@ -1273,7 +1273,7 @@ lbool Solver::search(int &nof_conflicts)
     */
     if (starts % CHANGE_RESTART_FREQ == 0)
     {
-        int id = (*issuer)->id;
+        int id = issuer->id;
         printf("[%d] changes search %d\n", starts, id);
         changeSearchActivity();
     }

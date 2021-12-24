@@ -1276,8 +1276,8 @@ lbool Solver::search(int &nof_conflicts)
     if (starts % CHANGE_RESTART_FREQ == 0)
     {
         MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
-        int id = mp->id;
-        printf("[%d] changes search %d\n", starts, id);
+        int workerId = mp->id;
+        printf("[%d] changes search at %d restarts\n", starts, workerId);
         changeSearchActivity();
     }
 

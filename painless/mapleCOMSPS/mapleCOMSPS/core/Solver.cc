@@ -26,6 +26,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 #include "../core/Solver.h"
 
 //#include "../../../painless-src/similarity/similarity.h"
+#include "../../../painless-src/solvers/MapleCOMSPSSolver.h"
 
 using namespace MapleCOMSPS;
 
@@ -1274,7 +1275,6 @@ lbool Solver::search(int &nof_conflicts)
 
     if (starts % CHANGE_RESTART_FREQ == 0)
     {
-
         MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
         int id = mp->id;
         printf("[%d] changes search %d\n", starts, id);

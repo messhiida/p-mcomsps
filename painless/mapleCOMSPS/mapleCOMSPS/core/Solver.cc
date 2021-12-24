@@ -2006,13 +2006,17 @@ void Solver::changeSearchActivity()
 {
     int n = order_heap_VSIDS.size();
     int change_n = (double)n * CHANGE_RATIO;
+    vector<Var> varList;
     for (int i = n; i >= change_n; i--) //orderHeapのrankが低い下から順にVarを取得していく
     {
         assert(i >= 0);
         Var v = order_heap_VSIDS[i];
-        varBumpActivity(v, CHANGE_VAR_BUMP_TIMES);
+        varList.push_back(v);
+        //varBumpActivity(v, CHANGE_VAR_BUMP_TIMES);
         //printf("order %d: var %d, activity %lf, order[v] %d, rank[v] %d\n", i, v, activity_VSIDS[v], order_heap_VSIDS[v], order_heap_VSIDS.rank(v));
     }
+    for (const Var v : varList)
+        varBumpActivity(v, CHANGE_VAR_BUMP_TIMES);
 }
 
 CSD Solver::getCSD()

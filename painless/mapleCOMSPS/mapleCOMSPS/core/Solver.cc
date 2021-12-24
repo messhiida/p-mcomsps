@@ -1238,33 +1238,44 @@ lbool Solver::search(int &nof_conflicts)
     starts++;
 
     //UPDATE:: csd share at every restart
+    /*
     CSD current_CSD = getCSD();
     if (current_CSD.nonZeroVars != 0)
     {
         cbkExportCSD(issuer, current_CSD);
 
-        vector<CSD> sharedCSD = cbkImportCSD(issuer);
-        for (size_t i = 0; i < sharedCSD.size(); i++)
+        if (starts >= (prevChange + CHANGE_INTERVAL))
         {
-            if (sharedCSD[i].nonZeroVars == 0)
-                continue; //自分やSharer, Reducer, 自分よりIDが小さいものとは比較しない
-
-            clock_t t1 = clock();
-            double ssi = calculate_SSI(current_CSD, sharedCSD[i]);
-            clock_t t2 = clock();
-            double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
-            if (ssi != 0)
+            vector<CSD> sharedCSD = cbkImportCSD(issuer);
+            for (size_t i = 0; i < sharedCSD.size(); i++)
             {
-                similarityLevel lv = judge_SSI_score(ssi);
-                //printf("[%d] ssi: %lf in %lf (db size %d - %d)\n", starts, ssi, spent, ssi_database.size(), lv);
-                if (lv == high && starts >= (prevChange + CHANGE_INTERVAL))
+                if (sharedCSD[i].nonZeroVars == 0)
+                    continue; //自分やSharer, Reducer, 自分よりIDが小さいものとは比較しない
+
+                clock_t t1 = clock();
+                double ssi = calculate_SSI(current_CSD, sharedCSD[i]);
+                clock_t t2 = clock();
+                double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
+                if (ssi != 0)
                 {
-                    changeSearchActivity();
-                    printf("[%d] SSI %lf (%lf s) previously changed at %d \n", starts, ssi, spent, prevChange);
-                    prevChange = starts;
+                    similarityLevel lv = judge_SSI_score(ssi);
+                    //printf("[%d] ssi: %lf in %lf (db size %d - %d)\n", starts, ssi, spent, ssi_database.size(), lv);
+                    if (lv == high)
+                    {
+                        changeSearchActivity();
+                        printf("[%d] SSI %lf (%lf s) previously changed at %d \n", starts, ssi, spent, prevChange);
+                        prevChange = starts;
+                    }
                 }
             }
         }
+    }
+    */
+    if (starts % CHANGE_RESTART_FREQ == 0)
+    {
+        int id = (*issuer)->id;
+        printf("[%d] changes search %d\n", starts, id);
+        changeSearchActivity();
     }
 
     for (;;)

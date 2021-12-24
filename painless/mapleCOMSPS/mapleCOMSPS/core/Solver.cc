@@ -1239,7 +1239,9 @@ lbool Solver::search(int &nof_conflicts)
     starts++;
 
     //UPDATE:: csd share at every restart
-    /*
+    MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
+    int workerId = mp->id;
+    clock_t t1 = clock();
     CSD current_CSD = getCSD();
     if (current_CSD.nonZeroVars != 0)
     {
@@ -1253,33 +1255,36 @@ lbool Solver::search(int &nof_conflicts)
                 if (sharedCSD[i].nonZeroVars == 0)
                     continue; //自分やSharer, Reducer, 自分よりIDが小さいものとは比較しない
 
-                clock_t t1 = clock();
+                //clock_t t1 = clock();
                 double ssi = calculate_SSI(current_CSD, sharedCSD[i]);
-                clock_t t2 = clock();
-                double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
+                printf("[%d - %d] SSI: %lf at %d\n", workerId, i, ssi, starts);
                 if (ssi != 0)
                 {
                     similarityLevel lv = judge_SSI_score(ssi);
-                    //printf("[%d] ssi: %lf in %lf (db size %d - %d)\n", starts, ssi, spent, ssi_database.size(), lv);
                     if (lv == high)
                     {
                         changeSearchActivity();
-                        printf("[%d] SSI %lf (%lf s) previously changed at %d \n", starts, ssi, spent, prevChange);
+                        //clock_t t2 = clock();
+                        //double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
+                        //printf("[%d] SSI %lf (%lf s) previously changed at %d \n", starts, ssi, spent, prevChange);
                         prevChange = starts;
                     }
                 }
             }
         }
     }
-    */
+    clock_t t2 = clock();
+    double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
+    printf("[%d] %lf s - at %d in Solver\n", workerId, spent, starts);
 
+    /*
     if (starts % CHANGE_RESTART_FREQ == 0)
     {
         MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
         int workerId = mp->id;
         printf("[%d] changes search at %d restarts\n", starts, workerId);
         changeSearchActivity();
-    }
+    }*/
 
     for (;;)
     {

@@ -85,6 +85,8 @@ SolverFactory::createReducerSolver(SolverInterface *_solver)
 
    SolverInterface *solver = new Reducer(id, _solver);
 
+   printf("Created ReduceSolver id %d\n", id);
+
    return solver;
 }
 

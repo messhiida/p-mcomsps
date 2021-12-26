@@ -199,7 +199,7 @@ int main(int argc, char **argv)
    // delete sharers;
 
    // Print solver stats
-   // SolverFactory::printStats(solvers);
+   SolverFactory::printStats(solvers);
 
    // Delete working strategy
    // delete working;
@@ -208,7 +208,7 @@ int main(int argc, char **argv)
    ClauseManager::joinClauseManager();
 
    // Print the result and the model if SAT
-   // cout << "c Resolution time: " << getRelativeTime() << "s" << endl;
+   cout << "c Resolution time: " << getRelativeTime() << "s" << endl;
 
    if (finalResult == SAT)
    {

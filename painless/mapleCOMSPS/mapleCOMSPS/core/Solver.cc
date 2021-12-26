@@ -1257,13 +1257,20 @@ lbool Solver::search(int &nof_conflicts)
 
                 //clock_t t1 = clock();
                 double ssi = calculate_SSI(current_CSD, sharedCSD[i]);
-                printf("[%d - %d] SSI: %lf at %d\n", workerId, i, ssi, starts);
+                printf("[%d - %d] SSI: %lf at %d (Vars -> %d, Size -> %d / %d, nonZero-> %d, %d)\n", workerId, i, ssi, starts, nVars(), current_CSD.data.size(), sharedCSD[i].data.size(), current_CSD.nonZeroVars, sharedCSD[i].nonZeroVars);
                 if (ssi != 0)
                 {
                     similarityLevel lv = judge_SSI_score(ssi);
                     if (lv == high)
                     {
                         changeSearchActivity();
+
+                        //追加 for 状況理解
+                        double bef_ssi = ssi;
+                        CSD new_CSD_afterChangeSearch = getCSD();
+                        double aft_ssi = calculate_SSI(new_CSD_afterChangeSearch, sharedCSD[i]);
+                        double aft_ssi2 = calculate_SSI(new_CSD_afterChangeSearch, current_CSD);
+                        printf("[%d - %d] SSI Changes: %lf -> %lf / %lf at %d, prev at %d\n", workerId, i, bef_ssi, aft_ssi, aft_ssi2, starts, prevChange);
                         //clock_t t2 = clock();
                         //double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
                         //printf("[%d] SSI %lf (%lf s) previously changed at %d \n", starts, ssi, spent, prevChange);
@@ -1282,7 +1289,7 @@ lbool Solver::search(int &nof_conflicts)
     {
         MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
         int workerId = mp->id;
-        printf("[%d] changes search at %d restarts\n", starts, workerId);
+        printf("[%d] changes search at %d restarts\n", workerId, starts);
         changeSearchActivity();
     }*/
 

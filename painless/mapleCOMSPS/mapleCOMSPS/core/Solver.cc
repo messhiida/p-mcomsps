@@ -1241,48 +1241,53 @@ lbool Solver::search(int &nof_conflicts)
     //UPDATE:: csd share at every restart
     MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
     int workerId = mp->id;
-    clock_t t1 = clock();
-    CSD current_CSD = getCSD();
-    if (current_CSD.nonZeroVars != 0)
+    if (workerId != 6 && workerId != 8)
     {
-        cbkExportCSD(issuer, current_CSD);
-
-        if (starts >= (prevChange + CHANGE_INTERVAL))
+        //clock_t t1 = clock();
+        CSD current_CSD = getCSD();
+        if (current_CSD.nonZeroVars != 0)
         {
-            vector<CSD> sharedCSD = cbkImportCSD(issuer);
-            for (size_t i = 0; i < sharedCSD.size(); i++)
+            cbkExportCSD(issuer, current_CSD);
+
+            if (starts >= (prevChange + CHANGE_INTERVAL))
             {
-                if (sharedCSD[i].nonZeroVars == 0)
-                    continue; //自分やSharer, Reducer, 自分よりIDが小さいものとは比較しない
-
-                //clock_t t1 = clock();
-                double ssi = calculate_SSI(current_CSD, sharedCSD[i]);
-                printf("[%d - %d] SSI: %lf at %d (Vars -> %d, Size -> %d / %d, nonZero-> %d, %d)\n", workerId, i, ssi, starts, nVars(), current_CSD.data.size(), sharedCSD[i].data.size(), current_CSD.nonZeroVars, sharedCSD[i].nonZeroVars);
-                if (ssi != 0)
+                vector<CSD> sharedCSD = cbkImportCSD(issuer);
+                for (size_t i = 0; i < sharedCSD.size(); i++)
                 {
-                    similarityLevel lv = judge_SSI_score(ssi);
-                    if (lv == high)
-                    {
-                        changeSearchActivity();
+                    if (sharedCSD[i].nonZeroVars == 0)
+                        continue; //自分やSharer, Reducer, 自分よりIDが小さいものとは比較しない
 
-                        //追加 for 状況理解
-                        double bef_ssi = ssi;
-                        CSD new_CSD_afterChangeSearch = getCSD();
-                        double aft_ssi = calculate_SSI(new_CSD_afterChangeSearch, sharedCSD[i]);
-                        double aft_ssi2 = calculate_SSI(new_CSD_afterChangeSearch, current_CSD);
-                        printf("[%d - %d] SSI Changes: %lf -> %lf / %lf at %d, prev at %d\n", workerId, i, bef_ssi, aft_ssi, aft_ssi2, starts, prevChange);
-                        //clock_t t2 = clock();
-                        //double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
-                        //printf("[%d] SSI %lf (%lf s) previously changed at %d \n", starts, ssi, spent, prevChange);
-                        prevChange = starts;
+                    //clock_t t1 = clock();
+                    double ssi = calculate_SSI(current_CSD, sharedCSD[i]);
+                    //printf("[%d - %d] SSI: %lf at %d (Vars -> %d, Size -> %d / %d, nonZero-> %d, %d)\n", workerId, i, ssi, starts, nVars(), current_CSD.data.size(), sharedCSD[i].data.size(), current_CSD.nonZeroVars, sharedCSD[i].nonZeroVars);
+                    if (ssi != 0)
+                    {
+                        similarityLevel lv = judge_SSI_score(ssi);
+                        if (lv == high)
+                        {
+                            changeSearchActivity();
+                            /*
+                            //追加 for 状況理解
+                            double bef_ssi = ssi;
+                            CSD new_CSD_afterChangeSearch = getCSD();
+                            double aft_ssi = calculate_SSI(new_CSD_afterChangeSearch, sharedCSD[i]);
+                            double aft_ssi2 = calculate_SSI(new_CSD_afterChangeSearch, current_CSD);
+                            printf("[%d - %d] SSI Changes: %lf -> %lf / %lf at %d, prev at %d\n", workerId, i, bef_ssi, aft_ssi, aft_ssi2, starts, prevChange);
+                            //clock_t t2 = clock();
+                            //double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
+                            */
+                            printf("[%d] SSI %lf at %d previously changed at %d \n", starts, ssi, workerId, prevChange);
+
+                            prevChange = starts;
+                        }
                     }
                 }
             }
         }
+        //clock_t t2 = clock();
+        //double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
+        //printf("[%d] %lf s - at %d in Solver\n", workerId, spent, starts);
     }
-    clock_t t2 = clock();
-    double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
-    printf("[%d] %lf s - at %d in Solver\n", workerId, spent, starts);
 
     /*
     if (starts % CHANGE_RESTART_FREQ == 0)

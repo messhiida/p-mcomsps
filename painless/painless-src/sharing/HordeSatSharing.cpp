@@ -47,11 +47,11 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
    static unsigned int round = 1;
 
    //UPDATE:: shared CSD loop
-
-   clock_t t1 = clock();
+   //clock_t t1 = clock();
    vector<int> tmp_sharedCSD;
    for (size_t i = 0; i < from.size(); i++)
    {
+      printf("%d, %d\n", i, from[i]->id);
       CSD tmp_csd = from[i]->loadSharedCSD();
       for (size_t j = 0; j < to.size(); j++)
       {
@@ -63,9 +63,9 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
          }
       }
    }
-   clock_t t2 = clock();
-   double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
-   printf("[%d] %lf s in Sharer\n", idSharer, spent);
+   //clock_t t2 = clock();
+   //double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
+   //printf("[%d] %lf s in Sharer\n", idSharer, spent);
 
    for (size_t i = 0; i < from.size(); i++)
    {

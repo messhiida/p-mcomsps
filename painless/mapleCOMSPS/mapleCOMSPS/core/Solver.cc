@@ -1241,7 +1241,8 @@ lbool Solver::search(int &nof_conflicts)
     //UPDATE:: csd share at every restart
     MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
     int workerId = mp->id;
-    if (workerId != 6 && workerId != 8)
+    if (workerId <= (MAX_PARALLEL - 4 + 1))
+    //if (workerId != MAX_PARALLEL && workerId != (MAX_PARALLEL - 2)) // reducer排除
     {
         //clock_t t1 = clock();
         CSD current_CSD = getCSD();
@@ -1272,11 +1273,11 @@ lbool Solver::search(int &nof_conflicts)
                             CSD new_CSD_afterChangeSearch = getCSD();
                             double aft_ssi = calculate_SSI(new_CSD_afterChangeSearch, sharedCSD[i]);
                             double aft_ssi2 = calculate_SSI(new_CSD_afterChangeSearch, current_CSD);
-                            printf("[%d - %d] SSI Changes: %lf -> %lf / %lf at %d, prev at %d\n", workerId, i, bef_ssi, aft_ssi, aft_ssi2, starts, prevChange);
+                            printf("[%d - %d] SSI Changes: %lf -> %lf / %lf at %d, prevAt %d\n", workerId, i, bef_ssi, aft_ssi, aft_ssi2, starts, prevChange);
                             //clock_t t2 = clock();
                             //double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
                             */
-                            printf("[%d] SSI %lf at %d previously changed at %d \n", starts, ssi, workerId, prevChange);
+                            printf("[%d] SSI %lf at %d prevChangedAt %d \n", workerId, ssi, starts, prevChange);
 
                             prevChange = starts;
                         }

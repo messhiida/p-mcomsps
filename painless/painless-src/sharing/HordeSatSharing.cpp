@@ -54,7 +54,7 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
       if (from[i]->id > (MAX_PARALLEL - 4 + 1))
       {
          printf("%d skip\n", from[i]->id);
-         continue;
+         //continue;
       }
       CSD tmp_csd = from[i]->loadSharedCSD();
       for (size_t j = 0; j < to.size(); j++)

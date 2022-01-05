@@ -1241,32 +1241,71 @@ lbool Solver::search(int &nof_conflicts)
     //UPDATE:: csd share at every restart
     MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
     int workerId = mp->id;
+
     if (workerId <= (MAX_PARALLEL - 4 + 1))
     //if (workerId != MAX_PARALLEL && workerId != (MAX_PARALLEL - 2)) // reducer排除
     {
-        //clock_t t1 = clock();
+
+        vector<double> times(10, 0);
+        clock_t t = clock();
+
         CSD current_CSD = getCSD();
+
+        clock_t tmp_t = clock();
+        double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+        times[0] = spent;
+        t = tmp_t;
+
         if (current_CSD.nonZeroVars != 0)
         {
             cbkExportCSD(issuer, current_CSD);
 
+            clock_t tmp_t = clock();
+            double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+            times[1] = spent;
+            t = tmp_t;
+
             if (starts >= (prevChange + CHANGE_INTERVAL))
             {
                 vector<CSD> sharedCSD = cbkImportCSD(issuer);
+
+                clock_t tmp_t = clock();
+                double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+                times[2] = spent;
+                t = tmp_t;
+
                 for (size_t i = 0; i < sharedCSD.size(); i++)
                 {
                     if (sharedCSD[i].nonZeroVars == 0)
                         continue; //自分やSharer, Reducer, 自分よりIDが小さいものとは比較しない
 
                     //clock_t t1 = clock();
+
+                    clock_t tmp_t = clock();
+                    double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+                    times[3] = spent;
+                    t = tmp_t;
                     double ssi = calculate_SSI(current_CSD, sharedCSD[i]);
                     //printf("[%d - %d] SSI: %lf at %d (Vars -> %d, Size -> %d / %d, nonZero-> %d, %d)\n", workerId, i, ssi, starts, nVars(), current_CSD.data.size(), sharedCSD[i].data.size(), current_CSD.nonZeroVars, sharedCSD[i].nonZeroVars);
+
+                    clock_t tmp_t = clock();
+                    double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+                    times[4] = spent;
+                    t = tmp_t;
+
                     if (ssi != 0)
                     {
                         similarityLevel lv = judge_SSI_score(ssi);
+
+                        clock_t tmp_t = clock();
+                        double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+                        times[5] = spent;
+                        t = tmp_t;
+
                         if (lv == high)
                         {
                             changeSearchActivity();
+
                             /*
                             //追加 for 状況理解
                             double bef_ssi = ssi;
@@ -1280,14 +1319,27 @@ lbool Solver::search(int &nof_conflicts)
                             printf("[%d] SSI %lf at %d prevChangedAt %d \n", workerId, ssi, starts, prevChange);
 
                             prevChange = starts;
+
+                            clock_t tmp_t = clock();
+                            double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+                            times[6] = spent;
+                            t = tmp_t;
                         }
                     }
                 }
             }
         }
-        //clock_t t2 = clock();
-        //double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
-        //printf("[%d] %lf s - at %d in Solver\n", workerId, spent, starts);
+        clock_t tmp_t = clock();
+        double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+        times[7] = spent;
+        t = tmp_t;
+
+        printf("[Worker %d @ %d]: ", workerId, starts);
+        for (size_t i = 0; i < times.size(); i++)
+        {
+            printf("%lf, ", times[i]);
+        }
+        printf("\n");
     }
 
     /*

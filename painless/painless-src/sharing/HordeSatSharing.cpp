@@ -47,27 +47,37 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
    static unsigned int round = 1;
 
    //UPDATE:: shared CSD loop
-   //clock_t t1 = clock();
+   vector<clock_t> times;
+   times.push_back(clock());
    vector<int> tmp_sharedCSD;
    for (size_t i = 0; i < from.size(); i++)
    {
       if (from[i]->id > (MAX_PARALLEL - 4 + 1))
          continue; //Reducer用のものはskip
 
+      times.push_back(clock());
       CSD tmp_csd = from[i]->loadSharedCSD();
+      times.push_back(clock());
       for (size_t j = 0; j < to.size(); j++)
       {
          //from, To ともにChange searchさせないために、[0]はすべてを受けるが、[7]は何も受けない調整を実施
          //nonZeroVars == 0は、SharerやReducerのものが該当。これは無視
          if (from[i]->id > to[j]->id && tmp_csd.nonZeroVars != 0)
          {
+            times.push_back(clock());
             to[j]->registerSharedCSD(tmp_csd, from[i]->id);
+            times.push_back(clock());
          }
       }
    }
-   //clock_t t2 = clock();
-   //double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
-   //printf("[%d] %lf s in Sharer\n", idSharer, spent);
+
+   times.push_back(clock());
+   printf("[Sharer %d]: ", idSharer);
+   for (size_t i = 0; i < times.size(); i++)
+   {
+      printf("%lf, ", times[i] / CLOCKS_PER_SEC);
+   }
+   printf("\n");
 
    for (size_t i = 0; i < from.size(); i++)
    {

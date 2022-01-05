@@ -1242,30 +1242,49 @@ lbool Solver::search(int &nof_conflicts)
     MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
     int workerId = mp->id;
     if (workerId <= (MAX_PARALLEL - 4 + 1))
-    //if (workerId != MAX_PARALLEL && workerId != (MAX_PARALLEL - 2)) // reducer排除
     {
+
+        vector<clock_t> times;
+        times.push_back(clock());
         //clock_t t1 = clock();
         CSD current_CSD = getCSD();
+        times.push_back(clock());
         if (current_CSD.nonZeroVars != 0)
         {
+
+            times.push_back(clock());
             cbkExportCSD(issuer, current_CSD);
+
+            times.push_back(clock());
 
             if (starts >= (prevChange + CHANGE_INTERVAL))
             {
+
+                times.push_back(clock());
                 vector<CSD> sharedCSD = cbkImportCSD(issuer);
+
+                times.push_back(clock());
                 for (size_t i = 0; i < sharedCSD.size(); i++)
                 {
                     if (sharedCSD[i].nonZeroVars == 0)
                         continue; //自分やSharer, Reducer, 自分よりIDが小さいものとは比較しない
 
-                    //clock_t t1 = clock();
+                    times.push_back(clock());
                     double ssi = calculate_SSI(current_CSD, sharedCSD[i]);
+
+                    times.push_back(clock());
                     //printf("[%d - %d] SSI: %lf at %d (Vars -> %d, Size -> %d / %d, nonZero-> %d, %d)\n", workerId, i, ssi, starts, nVars(), current_CSD.data.size(), sharedCSD[i].data.size(), current_CSD.nonZeroVars, sharedCSD[i].nonZeroVars);
                     if (ssi != 0)
                     {
+
+                        times.push_back(clock());
                         similarityLevel lv = judge_SSI_score(ssi);
+
+                        times.push_back(clock());
                         if (lv == high)
                         {
+
+                            times.push_back(clock());
                             changeSearchActivity();
                             /*
                             //追加 for 状況理解
@@ -1280,14 +1299,21 @@ lbool Solver::search(int &nof_conflicts)
                             printf("[%d] SSI %lf at %d prevChangedAt %d \n", workerId, ssi, starts, prevChange);
 
                             prevChange = starts;
+
+                            times.push_back(clock());
                         }
                     }
                 }
             }
         }
-        //clock_t t2 = clock();
-        //double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
-        //printf("[%d] %lf s - at %d in Solver\n", workerId, spent, starts);
+
+        times.push_back(clock());
+        printf("[Worker %d @ starts]: ", workerId);
+        for (size_t i = 0; i < times.size(); i++)
+        {
+            printf("%lf, ", times[i] / CLOCKS_PER_SEC);
+        }
+        printf("\n");
     }
 
     /*

@@ -50,11 +50,13 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
 
    vector<double> times(5, 0);
    clock_t t = clock();
+   clock_t tmp_t = clock();
+   double spent = 0;
 
    vector<int> tmp_sharedCSD;
 
-   clock_t tmp_t = clock();
-   double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+   tmp_t = clock();
+   spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
    times[0] = spent;
    t = tmp_t;
 
@@ -63,15 +65,15 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
       if (from[i]->id > (MAX_PARALLEL - 4 + 1))
          continue;
 
-      clock_t tmp_t = clock();
-      double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+      tmp_t = clock();
+      spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
       times[1] = spent;
       t = tmp_t;
 
       CSD tmp_csd = from[i]->loadSharedCSD();
 
-      clock_t tmp_t = clock();
-      double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+      tmp_t = clock();
+      spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
       times[2] = spent;
       t = tmp_t;
 
@@ -84,15 +86,15 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
             to[j]->registerSharedCSD(tmp_csd, from[i]->id);
          }
 
-         clock_t tmp_t = clock();
-         double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+         tmp_t = clock();
+         spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
          times[3] = spent;
          t = tmp_t;
       }
    }
 
-   clock_t tmp_t = clock();
-   double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+   tmp_t = clock();
+   spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
    times[4] = spent;
    t = tmp_t;
 

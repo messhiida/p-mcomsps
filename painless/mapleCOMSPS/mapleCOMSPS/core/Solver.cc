@@ -1248,11 +1248,13 @@ lbool Solver::search(int &nof_conflicts)
 
         vector<double> times(10, 0);
         clock_t t = clock();
+        clock_t tmp_t = clock();
+        double spent = 0;
 
         CSD current_CSD = getCSD();
 
-        clock_t tmp_t = clock();
-        double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+        tmp_t = clock();
+        spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
         times[0] = spent;
         t = tmp_t;
 
@@ -1260,8 +1262,8 @@ lbool Solver::search(int &nof_conflicts)
         {
             cbkExportCSD(issuer, current_CSD);
 
-            clock_t tmp_t = clock();
-            double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+            tmp_t = clock();
+            spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
             times[1] = spent;
             t = tmp_t;
 
@@ -1269,8 +1271,8 @@ lbool Solver::search(int &nof_conflicts)
             {
                 vector<CSD> sharedCSD = cbkImportCSD(issuer);
 
-                clock_t tmp_t = clock();
-                double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+                tmp_t = clock();
+                spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
                 times[2] = spent;
                 t = tmp_t;
 
@@ -1281,15 +1283,15 @@ lbool Solver::search(int &nof_conflicts)
 
                     //clock_t t1 = clock();
 
-                    clock_t tmp_t = clock();
-                    double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+                    tmp_t = clock();
+                    spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
                     times[3] = spent;
                     t = tmp_t;
                     double ssi = calculate_SSI(current_CSD, sharedCSD[i]);
                     //printf("[%d - %d] SSI: %lf at %d (Vars -> %d, Size -> %d / %d, nonZero-> %d, %d)\n", workerId, i, ssi, starts, nVars(), current_CSD.data.size(), sharedCSD[i].data.size(), current_CSD.nonZeroVars, sharedCSD[i].nonZeroVars);
 
-                    clock_t tmp_t = clock();
-                    double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+                    tmp_t = clock();
+                    spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
                     times[4] = spent;
                     t = tmp_t;
 
@@ -1297,8 +1299,8 @@ lbool Solver::search(int &nof_conflicts)
                     {
                         similarityLevel lv = judge_SSI_score(ssi);
 
-                        clock_t tmp_t = clock();
-                        double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+                        tmp_t = clock();
+                        spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
                         times[5] = spent;
                         t = tmp_t;
 
@@ -1320,8 +1322,8 @@ lbool Solver::search(int &nof_conflicts)
 
                             prevChange = starts;
 
-                            clock_t tmp_t = clock();
-                            double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+                            tmp_t = clock();
+                            spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
                             times[6] = spent;
                             t = tmp_t;
                         }
@@ -1329,8 +1331,9 @@ lbool Solver::search(int &nof_conflicts)
                 }
             }
         }
-        clock_t tmp_t = clock();
-        double spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
+
+        tmp_t = clock();
+        spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
         times[7] = spent;
         t = tmp_t;
 

@@ -1308,10 +1308,13 @@ lbool Solver::search(int &nof_conflicts)
         }
 
         times.push_back(clock());
-        printf("[Worker %d @ starts]: ", workerId);
+        printf("[Worker %d @ %d]: ", workerId, starts);
+        double prevTime = 0;
         for (size_t i = 0; i < times.size(); i++)
         {
-            printf("%lf, ", times[i] / CLOCKS_PER_SEC);
+            double t = (double)times[i];
+            printf("%lf, ", (t - prevTime) / CLOCKS_PER_SEC);
+            prevTime = t;
         }
         printf("\n");
     }

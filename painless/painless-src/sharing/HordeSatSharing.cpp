@@ -73,9 +73,12 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
 
    times.push_back(clock());
    printf("[Sharer %d]: ", idSharer);
+   double prevTime = 0;
    for (size_t i = 0; i < times.size(); i++)
    {
-      printf("%lf, ", times[i] / CLOCKS_PER_SEC);
+      double t = (double)times[i];
+      printf("%lf, ", (t - prevTime) / CLOCKS_PER_SEC);
+      prevTime = t;
    }
    printf("\n");
 

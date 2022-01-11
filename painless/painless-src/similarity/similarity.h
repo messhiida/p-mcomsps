@@ -13,9 +13,9 @@ using namespace std;
 #define CHANGE_RATIO 0.1            //CHANGE_RATIO x nVars()の変数分を変更
 #define CHANGE_VAR_BUMP_TIMES 10000 //varBumpActivity CHANGE_VAR_BUMP_TIMES回分実行
 #define MAX_PARALLEL 8              //適切に並列数を選択すること
-#define ALPHA_TO_JUDGE_SSI 2        //標準偏差の閾値
-#define LIMIT_SAVING_SSI 1000       //SSI databaseの保存上限
-#define CHANGE_INTERVAL 100         //この回数以上間が空いていないとChange searchさせない
+#define ALPHA_TO_JUDGE_SSI 1        //標準偏差の閾値
+#define LIMIT_SAVING_SSI 100        //SSI databaseの保存上限
+#define CHANGE_INTERVAL 0           //この回数以上間が空いていないとChange searchさせない
 
 struct csd_element
 {

@@ -1261,11 +1261,11 @@ lbool Solver::search(int &nof_conflicts)
                         continue; //自分やSharer, Reducer, 自分よりIDが小さいものとは比較しない
 
                     double ssi = calculate_SSI(current_CSD, sharedCSD[i]);
-                    //printf("[%d - %d] SSI: %lf at %d (Vars -> %d, Size -> %d / %d, nonZero-> %d, %d)\n", workerId, i, ssi, starts, nVars(), current_CSD.data.size(), sharedCSD[i].data.size(), current_CSD.nonZeroVars, sharedCSD[i].nonZeroVars);
 
                     if (ssi != 0)
                     {
                         similarityLevel lv = judge_SSI_score(ssi);
+                        printf("[%d - %d] SSI: %lf %d at %d restarts, nonZeroSize-> %d, %d)\n", workerId, i, ssi, lv, starts, current_CSD.nonZeroVars, sharedCSD[i].nonZeroVars);
 
                         if (lv == high)
                         {
@@ -1282,7 +1282,7 @@ lbool Solver::search(int &nof_conflicts)
                             //double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
                             */
 
-                            printf("[%d] SSI %lf at %d prevChangedAt %d \n", workerId, ssi, starts, prevChange);
+                            printf("[%d - %d] SSI %lf changes search at %d restarts prevAt %d \n", workerId, i, ssi, starts, prevChange);
                             prevChange = starts;
                         }
                     }

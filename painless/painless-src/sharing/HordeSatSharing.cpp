@@ -47,35 +47,14 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
    static unsigned int round = 1;
 
    //UPDATE:: shared CSD loop
-
-   vector<double> times(5, 0);
-   clock_t t = clock();
-   clock_t tmp_t = clock();
-   double spent = 0;
-
    vector<int> tmp_sharedCSD;
-
-   tmp_t = clock();
-   spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
-   times[0] = spent;
-   t = tmp_t;
 
    for (size_t i = 0; i < from.size(); i++)
    {
       if (from[i]->id > (MAX_PARALLEL - 4 + 1))
          continue;
 
-      tmp_t = clock();
-      spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
-      times[1] = spent;
-      t = tmp_t;
-
       CSD tmp_csd = from[i]->loadSharedCSD();
-
-      tmp_t = clock();
-      spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
-      times[2] = spent;
-      t = tmp_t;
 
       for (size_t j = 0; j < to.size(); j++)
       {
@@ -85,28 +64,8 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
          {
             to[j]->registerSharedCSD(tmp_csd, from[i]->id);
          }
-
-         tmp_t = clock();
-         spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
-         times[3] = spent;
-         t = tmp_t;
       }
    }
-
-   tmp_t = clock();
-   spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
-   times[4] = spent;
-   t = tmp_t;
-
-   printf("[Sharer %d]: ", idSharer);
-   for (size_t i = 0; i < times.size(); i++)
-   {
-      printf("%lf, ", times[i]);
-   }
-   printf("\n");
-   //clock_t t2 = clock();
-   //double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
-   //printf("[%d] %lf s in Sharer\n", idSharer, spent);
 
    for (size_t i = 0; i < from.size(); i++)
    {

@@ -1245,64 +1245,27 @@ lbool Solver::search(int &nof_conflicts)
     if (workerId <= (MAX_PARALLEL - 4 + 1))
     //if (workerId != MAX_PARALLEL && workerId != (MAX_PARALLEL - 2)) // reducer排除
     {
-
-        vector<double> times(10, 0);
-        clock_t t = clock();
-        clock_t tmp_t = clock();
-        double spent = 0;
-
         CSD current_CSD = getCSD();
-
-        tmp_t = clock();
-        spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
-        times[0] = spent;
-        t = tmp_t;
 
         if (current_CSD.nonZeroVars != 0)
         {
             cbkExportCSD(issuer, current_CSD);
 
-            tmp_t = clock();
-            spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
-            times[1] = spent;
-            t = tmp_t;
-
             if (starts >= (prevChange + CHANGE_INTERVAL))
             {
                 vector<CSD> sharedCSD = cbkImportCSD(issuer);
-
-                tmp_t = clock();
-                spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
-                times[2] = spent;
-                t = tmp_t;
 
                 for (size_t i = 0; i < sharedCSD.size(); i++)
                 {
                     if (sharedCSD[i].nonZeroVars == 0)
                         continue; //自分やSharer, Reducer, 自分よりIDが小さいものとは比較しない
 
-                    //clock_t t1 = clock();
-
-                    tmp_t = clock();
-                    spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
-                    times[3] = spent;
-                    t = tmp_t;
                     double ssi = calculate_SSI(current_CSD, sharedCSD[i]);
                     //printf("[%d - %d] SSI: %lf at %d (Vars -> %d, Size -> %d / %d, nonZero-> %d, %d)\n", workerId, i, ssi, starts, nVars(), current_CSD.data.size(), sharedCSD[i].data.size(), current_CSD.nonZeroVars, sharedCSD[i].nonZeroVars);
-
-                    tmp_t = clock();
-                    spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
-                    times[4] = spent;
-                    t = tmp_t;
 
                     if (ssi != 0)
                     {
                         similarityLevel lv = judge_SSI_score(ssi);
-
-                        tmp_t = clock();
-                        spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
-                        times[5] = spent;
-                        t = tmp_t;
 
                         if (lv == high)
                         {
@@ -1318,31 +1281,14 @@ lbool Solver::search(int &nof_conflicts)
                             //clock_t t2 = clock();
                             //double spent = (double)(t2 - t1) / CLOCKS_PER_SEC;
                             */
+
                             printf("[%d] SSI %lf at %d prevChangedAt %d \n", workerId, ssi, starts, prevChange);
-
                             prevChange = starts;
-
-                            tmp_t = clock();
-                            spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
-                            times[6] = spent;
-                            t = tmp_t;
                         }
                     }
                 }
             }
         }
-
-        tmp_t = clock();
-        spent = (double)(tmp_t - t) / CLOCKS_PER_SEC;
-        times[7] = spent;
-        t = tmp_t;
-
-        printf("[Worker %d @ %d]: ", workerId, starts);
-        for (size_t i = 0; i < times.size(); i++)
-        {
-            printf("%lf, ", times[i]);
-        }
-        printf("\n");
     }
 
     /*
@@ -2080,7 +2026,6 @@ void Solver::changeSearchActivity()
         assert(i >= 0);
         Var v = order_heap_VSIDS[i];
         varList.push_back(v);
-        //varBumpActivity(v, CHANGE_VAR_BUMP_TIMES);
         //printf("order %d: var %d, activity %lf, order[v] %d, rank[v] %d\n", i, v, activity_VSIDS[v], order_heap_VSIDS[v], order_heap_VSIDS.rank(v));
     }
     for (const Var v : varList)
@@ -2091,59 +2036,65 @@ CSD Solver::getCSD()
 {
     CSD csd;
     int var_size = nVars();
-    csd.nonZeroVars = 0;
     csd.data.resize(var_size);
+    csd.nonZeroVars = 0;
 
     for (int i = 0; i < var_size; i++)
     {
-        double score = activity_VSIDS[i];
-        if (!order_heap_VSIDS.inHeap(i) || score < CSD_SET_CRITERIA || score == 0.0)
-            continue;
-
         csd_element e;
-        e.rank = order_heap_VSIDS.rank(i) + 1; //orderHeapの最上位は0始まりの為、+1で補正
-        e.phase = polarity[i];
-        e.value = pow(0.5, (double)e.rank * CONSTANT_FOR_RANK_CALC / (double)var_size);
-        csd.data[i] = e;
+        double score = activity_VSIDS[i];
 
-        csd.nonZeroVars++;
+        if (order_heap_VSIDS.inHeap(i) || score > 0.0)
+        {
+            e.rank = order_heap_VSIDS.rank(i) + 1; //orderHeapの最上位は0始まりの為、+1で補正
+            e.phase = polarity[i];
+            //e.value = pow(0.5, (double)e.rank * CONSTANT_FOR_RANK_CALC / (double)var_size);
+            csd.nonZeroVars++;
+        }
+        else
+        {
+            e.rank = 0;
+            e.phase = 0;
+        }
+        csd.data[i] = e;
     }
     return csd;
 }
 
 double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
 {
-    double size1 = (double)my_csd.data.size();
-    double size2 = (double)comp_csd.data.size();
-    double min_NonZeroSize = min(my_csd.nonZeroVars, my_csd.nonZeroVars);
-    if (size1 != size2 || size1 == 0 || size2 == 0)
+    double size1 = (double)my_csd.nonZeroVars;
+    double size2 = (double)comp_csd.nonZeroVars;
+    //double min_NonZeroSize = min(my_csd.nonZeroVars, my_csd.nonZeroVars);
+    if (size1 == 0 || size2 == 0) //何もCSDの中に入っていない場合に相当、エラー処理
         return 0;
 
     double ssi = 0;
-    double counter = 0;
-    for (size_t i = 0; i < my_csd.data.size(); i++)
+    double normalization = 0;
+    for (size_t i = 0; i < my_csd.data.size(); i++) //my_csd.data.size()は常にnVars()に相当し一定のはず
     {
         csd_element val1 = my_csd.data[i];
         csd_element val2 = comp_csd.data[i];
 
-        if (val1.rank == 0 && val2.rank == 0)
-            continue; //ともにCSD外ならカウント対象外
+        if (val1.rank == 0 || val2.rank == 0) //修論に合わせるため、どちらかのCSDがVSIDSを持っていなければ対象外とする
+            continue;
 
         double similarity = 0.0;
-        if (val1.rank != 0 && val2.rank != 0)
-            similarity = (1 - abs(val1.rank / size1 - val2.rank / size2)) * (val1.phase == val2.phase);
+        //if (val1.rank != 0 && val2.rank != 0)
+        similarity = (1 - abs(val1.rank / size1 - val2.rank / size2)) * (val1.phase == val2.phase);
+
+        val1.value = pow(0.5, (double)val1.rank * CONSTANT_FOR_RANK_CALC / size1);
+        val2.value = pow(0.5, (double)val2.rank * CONSTANT_FOR_RANK_CALC / size2);
 
         double importance = (val1.value + val2.value) / 2.0;
-        //double importance = 1 - abs(val1.value - val2.value);
-        counter += importance;
-
         ssi += similarity * importance;
+        normalization += importance;
     }
 
-    if (counter == 0)
+    if (normalization == 0.0)
         return 0;
 
-    ssi /= counter;
+    ssi /= normalization;
     return ssi;
 }
 

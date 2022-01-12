@@ -2044,7 +2044,7 @@ CSD Solver::getCSD()
         csd_element e;
         double score = activity_VSIDS[i];
 
-        if (order_heap_VSIDS.inHeap(i) || score > 0.0)
+        if (order_heap_VSIDS.inHeap(i) && score > 0.0)
         {
             e.rank = order_heap_VSIDS.rank(i) + 1; //orderHeapの最上位は0始まりの為、+1で補正
             e.phase = polarity[i];
@@ -2065,7 +2065,6 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
 {
     double size1 = (double)my_csd.nonZeroVars;
     double size2 = (double)comp_csd.nonZeroVars;
-    //double min_NonZeroSize = min(my_csd.nonZeroVars, my_csd.nonZeroVars);
     if (size1 == 0 || size2 == 0) //何もCSDの中に入っていない場合に相当、エラー処理
         return 0;
 

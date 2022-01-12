@@ -2045,7 +2045,7 @@ CSD Solver::getCSD()
     {
         double score = activity_VSIDS[i];
         if (order_heap_VSIDS.inHeap(i) && score > 0.0)
-            scoreTable.push_back(make_pair(score, i));
+            scoreTable.push_back(make_pair(score * (-1), i));
     }
 
     printf("before:");

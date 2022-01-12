@@ -2092,7 +2092,7 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
         val2.value = pow(0.5, (double)val2.rank * CONSTANT_FOR_RANK_CALC / size2);
 
         double importance = (val1.value + val2.value) / 2.0;
-        printf("[%d]%lf,%lf by %d,%lf:%d%lf\n", i, similarity, importance, val1.rank, size1, val2.rank, size2);
+        printf("[%d]%lf,%lf by %d,%lf:%d,%lf\n", i, similarity, importance, val1.rank, size1, val2.rank, size2);
         ssi += similarity * importance;
         normalization += importance;
     }

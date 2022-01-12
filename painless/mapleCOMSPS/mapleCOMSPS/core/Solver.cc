@@ -2049,7 +2049,7 @@ CSD Solver::getCSD()
     {
         double score = activity_VSIDS[i];
         if (order_heap_VSIDS.inHeap(i) && score > 0.0)
-            scoreTable.push_back(make_pair(score * (-1), i));
+            scoreTable.push_back(make_pair(score * (-1), i)); //降順ソートするために、-1をかけておく
     }
     sort(scoreTable.begin(), scoreTable.end());
     for (size_t j = 0; j < scoreTable.size(); j++)
@@ -2058,7 +2058,7 @@ CSD Solver::getCSD()
         double score = scoreTable[j].first * (-1);
         int var = scoreTable[j].second;
 
-        e.rank = j + 1; //orderHeapの最上位は0始まりの為、+1で補正
+        e.rank = (int)j + 1; //rankの最上位は0始まりの為、+1で補正
         e.phase = polarity[var];
         csd.data[var] = e;
     }
@@ -2085,7 +2085,6 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
             continue;
 
         double similarity = 0.0;
-        //if (val1.rank != 0 && val2.rank != 0)
         similarity = (1 - abs((double)val1.rank / size1 - (double)val2.rank / size2)) * (val1.phase == val2.phase);
 
         val1.value = pow(0.5, (double)val1.rank * CONSTANT_FOR_RANK_CALC / size1);

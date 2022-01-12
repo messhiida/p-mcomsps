@@ -2039,6 +2039,33 @@ CSD Solver::getCSD()
     csd.data.resize(var_size);
     csd.nonZeroVars = 0;
 
+    vector<pair<double, int>> scoreTable;
+
+    for (int i = 0; i < var_size; i++)
+    {
+        double score = activity_VSIDS[i];
+        if (order_heap_VSIDS.inHeap(i) && score > 0.0)
+            scoreTable.push_back(make_pair(score, i));
+    }
+
+    for (size_t j = 0; j < scoreTable.size(); j++)
+    {
+        printf("(%d,%lf,%d), ", j, scoreTable[j].first, scoreTable[j].second);
+        if (j >= 20)
+            break;
+    }
+    printf("\n");
+
+    sort(scoreTable.begin(), scoreTable.end());
+
+    for (size_t j = 0; j < scoreTable.size(); j++)
+    {
+        printf("(%d,%lf,%d), ", j, scoreTable[j].first, scoreTable[j].second);
+        if (j >= 20)
+            break;
+    }
+    printf("\n");
+
     for (int i = 0; i < var_size; i++)
     {
         csd_element e;
@@ -2080,12 +2107,13 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
 
         double similarity = 0.0;
         //if (val1.rank != 0 && val2.rank != 0)
-        similarity = (1 - abs(val1.rank / size1 - val2.rank / size2)) * (val1.phase == val2.phase);
+        similarity = (1 - abs((double)val1.rank / size1 - (double)val2.rank / size2)) * (val1.phase == val2.phase);
 
         val1.value = pow(0.5, (double)val1.rank * CONSTANT_FOR_RANK_CALC / size1);
         val2.value = pow(0.5, (double)val2.rank * CONSTANT_FOR_RANK_CALC / size2);
 
         double importance = (val1.value + val2.value) / 2.0;
+        printf("[%d]%lf,%lf by %d,%lf:%d%lf\n", i, similarity, importance, val1.rank, size1, val2.rank, size2);
         ssi += similarity * importance;
         normalization += importance;
     }

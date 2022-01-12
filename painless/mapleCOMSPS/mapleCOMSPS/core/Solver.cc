@@ -2036,8 +2036,12 @@ CSD Solver::getCSD()
 {
     CSD csd;
     int var_size = nVars();
+    csd_element init_e;
+    init_e.phase = false;
+    init_e.rank = 0;
+    init_e.value = 0;
     csd.data.resize(var_size);
-    csd.nonZeroVars = 0;
+    fill(csd.data.begin(), csd.data.end(), init_e);
 
     vector<pair<double, int>> scoreTable;
 
@@ -2047,46 +2051,19 @@ CSD Solver::getCSD()
         if (order_heap_VSIDS.inHeap(i) && score > 0.0)
             scoreTable.push_back(make_pair(score * (-1), i));
     }
-
-    printf("before:");
-    for (size_t j = 0; j < scoreTable.size(); j++)
-    {
-        printf("(%d,%lf,%d), ", j, scoreTable[j].first, scoreTable[j].second);
-        if (j >= 20)
-            break;
-    }
-    printf("\n");
-
     sort(scoreTable.begin(), scoreTable.end());
-
-    printf("after:");
     for (size_t j = 0; j < scoreTable.size(); j++)
-    {
-        printf("(%d,%lf,%d), ", j, scoreTable[j].first, scoreTable[j].second);
-        if (j >= 20)
-            break;
-    }
-    printf("\n");
-
-    for (int i = 0; i < var_size; i++)
     {
         csd_element e;
-        double score = activity_VSIDS[i];
+        double score = scoreTable[j].first * (-1);
+        int var = scoreTable[j].second;
 
-        if (order_heap_VSIDS.inHeap(i) && score > 0.0)
-        {
-            e.rank = order_heap_VSIDS.rank(i) + 1; //orderHeapの最上位は0始まりの為、+1で補正
-            e.phase = polarity[i];
-            //e.value = pow(0.5, (double)e.rank * CONSTANT_FOR_RANK_CALC / (double)var_size);
-            csd.nonZeroVars++;
-        }
-        else
-        {
-            e.rank = 0;
-            e.phase = 0;
-        }
-        csd.data[i] = e;
+        e.rank = j + 1; //orderHeapの最上位は0始まりの為、+1で補正
+        e.phase = polarity[var];
+        csd.data[var] = e;
     }
+    csd.nonZeroVars = (int)scoreTable.size();
+
     return csd;
 }
 
@@ -2115,7 +2092,7 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
         val2.value = pow(0.5, (double)val2.rank * CONSTANT_FOR_RANK_CALC / size2);
 
         double importance = (val1.value + val2.value) / 2.0;
-        //printf("[%d]%lf,%lf by %d,%lf:%d%lf\n", i, similarity, importance, val1.rank, size1, val2.rank, size2);
+        printf("[%d]%lf,%lf by %d,%lf:%d%lf\n", i, similarity, importance, val1.rank, size1, val2.rank, size2);
         ssi += similarity * importance;
         normalization += importance;
     }

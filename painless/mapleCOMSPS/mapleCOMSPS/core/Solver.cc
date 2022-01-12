@@ -2048,6 +2048,7 @@ CSD Solver::getCSD()
             scoreTable.push_back(make_pair(score, i));
     }
 
+    printf("before:");
     for (size_t j = 0; j < scoreTable.size(); j++)
     {
         printf("(%d,%lf,%d), ", j, scoreTable[j].first, scoreTable[j].second);
@@ -2058,6 +2059,7 @@ CSD Solver::getCSD()
 
     sort(scoreTable.begin(), scoreTable.end());
 
+    printf("after:");
     for (size_t j = 0; j < scoreTable.size(); j++)
     {
         printf("(%d,%lf,%d), ", j, scoreTable[j].first, scoreTable[j].second);

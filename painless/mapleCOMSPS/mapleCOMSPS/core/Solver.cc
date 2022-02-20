@@ -60,7 +60,7 @@ static DoubleOption opt_garbage_frac(_cat, "gc-frac", "The fraction of wasted me
 
 Solver::Solver() :
 
-                   //UPDATE:: ssi_databaseの宣言
+                   // UPDATE:: ssi_databaseの宣言
                    ssi_database(0),
                    prevChange(0),
 
@@ -100,7 +100,7 @@ Solver::Solver() :
 {
 }
 
-Solver::Solver(const Solver &s) : //UPDATE:: ssi_databaseの宣言
+Solver::Solver(const Solver &s) : // UPDATE:: ssi_databaseの宣言
                                   ssi_database(s.ssi_database),
                                   prevChange(s.prevChange),
 
@@ -983,8 +983,8 @@ struct reduceDB_lt
 void Solver::reduceDB()
 {
     int i, j;
-    //if (local_learnts_dirty) cleanLearnts(learnts_local, LOCAL);
-    //local_learnts_dirty = false;
+    // if (local_learnts_dirty) cleanLearnts(learnts_local, LOCAL);
+    // local_learnts_dirty = false;
 
     sort(learnts_local, reduceDB_lt(ca));
 
@@ -1018,7 +1018,7 @@ void Solver::reduceDB_Tier2()
             {
                 learnts_local.push(learnts_tier2[i]);
                 c.mark(LOCAL);
-                //c.removable(true);
+                // c.removable(true);
                 c.activity() = 0;
                 claBumpActivity(c);
             }
@@ -1238,12 +1238,12 @@ lbool Solver::search(int &nof_conflicts)
     bool cached = false;
     starts++;
 
-    //UPDATE:: csd share at every restart
+    // UPDATE:: csd share at every restart
     MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
     int workerId = mp->id;
 
     if (workerId <= (MAX_PARALLEL - 4 + 1))
-    //if (workerId != MAX_PARALLEL && workerId != (MAX_PARALLEL - 2)) // reducer排除
+    // if (workerId != MAX_PARALLEL && workerId != (MAX_PARALLEL - 2)) // reducer排除
     {
         CSD current_CSD = getCSD();
 
@@ -1269,8 +1269,8 @@ lbool Solver::search(int &nof_conflicts)
 
                         if (lv == high)
                         {
-                            changeSearchActivity();
-                            printf("[%d - %d] SSI %lf changes search at %d restarts prevAt %d \n", workerId, i, ssi, starts, prevChange);
+                            // changeSearchActivity();
+                            // printf("[%d - %d] SSI %lf changes search at %d restarts prevAt %d \n", workerId, i, ssi, starts, prevChange);
                             prevChange = starts;
                         }
                     }
@@ -1572,11 +1572,11 @@ lbool Solver::solve_()
 
     add_tmp.clear();
 
-    //VSIDS = true;
-    //int init = 10000;
-    //while (status == l_Undef && init > 0 /*&& withinBudget()*/)
-    //   status = search(init);
-    //VSIDS = false;
+    // VSIDS = true;
+    // int init = 10000;
+    // while (status == l_Undef && init > 0 /*&& withinBudget()*/)
+    //    status = search(init);
+    // VSIDS = false;
 
     // Search:
     int phase_allotment = 10000;
@@ -1601,7 +1601,7 @@ lbool Solver::solve_()
         if (status != l_Undef /*|| !withinBudget()*/)
             break; // Should break here for correctness in incremental SAT solving.
 
-        //VSIDS = !VSIDS;
+        // VSIDS = !VSIDS;
         if (!VSIDS)
             phase_allotment *= 2;
     }
@@ -1887,7 +1887,7 @@ int Solver::stamp(Lit p, int stamp_time, bool use_bin_learnts)
                         analyze_toclear.push(the_other);
 
                         rec_stack.push(Frame(Frame::ENTER, f.curr, the_other, 0));
-                        //rec_stack.push(Frame(Frame::ENTER, f.curr, the_other, ca[ws[k].cref].learnt()));
+                        // rec_stack.push(Frame(Frame::ENTER, f.curr, the_other, ca[ws[k].cref].learnt()));
                     }
                 }
                 for (int k = 0; k < analyze_toclear.size(); k++)
@@ -2009,12 +2009,12 @@ void Solver::changeSearchActivity()
     int n = order_heap_VSIDS.size();
     int change_n = (double)n * CHANGE_RATIO;
     vector<Var> varList;
-    for (int i = n; i >= change_n; i--) //orderHeapのrankが低い下から順にVarを取得していく
+    for (int i = n; i >= change_n; i--) // orderHeapのrankが低い下から順にVarを取得していく
     {
         assert(i >= 0);
         Var v = order_heap_VSIDS[i];
         varList.push_back(v);
-        //printf("order %d: var %d, activity %lf, order[v] %d, rank[v] %d\n", i, v, activity_VSIDS[v], order_heap_VSIDS[v], order_heap_VSIDS.rank(v));
+        // printf("order %d: var %d, activity %lf, order[v] %d, rank[v] %d\n", i, v, activity_VSIDS[v], order_heap_VSIDS[v], order_heap_VSIDS.rank(v));
     }
     for (const Var v : varList)
         varBumpActivity(v, CHANGE_VAR_BUMP_TIMES);
@@ -2036,7 +2036,7 @@ CSD Solver::getCSD()
     for (int i = 0; i < var_size; i++)
     {
         double score = activity_VSIDS[i];
-        //if (order_heap_VSIDS.inHeap(i) && score > 0.0)
+        // if (order_heap_VSIDS.inHeap(i) && score > 0.0)
         if (order_heap_VSIDS.inHeap(i) && score > CSD_SET_CRITERIA)
             scoreTable.push_back(make_pair(score * (-1), i)); //降順ソートするために、-1をかけておく
     }
@@ -2047,7 +2047,7 @@ CSD Solver::getCSD()
         double score = scoreTable[j].first * (-1);
         int var = scoreTable[j].second;
 
-        e.rank = (int)j + 1; //rankの最上位は0始まりの為、+1で補正
+        e.rank = (int)j + 1; // rankの最上位は0始まりの為、+1で補正
         e.phase = polarity[var];
         csd.data[var] = e;
     }
@@ -2065,7 +2065,7 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
 
     double ssi = 0;
     double normalization = 0;
-    for (size_t i = 0; i < my_csd.data.size(); i++) //my_csd.data.size()は常にnVars()に相当し一定のはず
+    for (size_t i = 0; i < my_csd.data.size(); i++) // my_csd.data.size()は常にnVars()に相当し一定のはず
     {
         csd_element val1 = my_csd.data[i];
         csd_element val2 = comp_csd.data[i];
@@ -2080,7 +2080,7 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
         val2.value = pow(0.5, (double)val2.rank * CONSTANT_FOR_RANK_CALC / size2);
 
         double importance = (val1.value + val2.value) / 2.0;
-        //printf("[%d]%lf,%lf by %d,%lf:%d,%lf\n", i, similarity, importance, val1.rank, size1, val2.rank, size2);
+        // printf("[%d]%lf,%lf by %d,%lf:%d,%lf\n", i, similarity, importance, val1.rank, size1, val2.rank, size2);
         ssi += similarity * importance;
         normalization += importance;
     }

@@ -27,7 +27,8 @@
         "random": "cpp",
         "new": "cpp",
         "numeric": "cpp",
-        "system_error": "cpp"
+        "system_error": "cpp",
+        "type_traits": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

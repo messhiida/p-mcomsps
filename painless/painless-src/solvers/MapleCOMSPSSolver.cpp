@@ -37,33 +37,33 @@ using namespace MapleCOMSPS;
 
 #define INT_LIT(lit) sign(lit) ? -(var(lit) + 1) : (var(lit) + 1)
 
-//UPDATE:: Similarity Index Functions
+// UPDATE:: Similarity Index Functions
 void cbkMapleCOMSPSExportCSD(void *issuer, CSD myCSD)
 {
    MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
    mp->csdToExport.setCSD(myCSD);
-   //printf("[%d] cbkMaple export : %d\n", from, tmp);
+   // printf("[%d] cbkMaple export : %d\n", from, tmp);
 }
 
 vector<CSD> cbkMapleCOMSPSImportCSD(void *issuer)
 {
    MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
    vector<CSD> result = mp->csdToImport.readRecordedCSD();
-   //printf("[%d]cbkMaple import : %d\n", mp->id, tmp);
+   // printf("[%d]cbkMaple import : %d\n", mp->id, tmp);
    return result;
 }
 
 CSD MapleCOMSPSSolver::loadSharedCSD()
 {
    CSD tmp = csdToExport.catchCSD();
-   //printf("Maple load : %d\n", tmp);
+   // printf("Maple load : %d\n", tmp);
    return tmp;
 }
 
 void MapleCOMSPSSolver::registerSharedCSD(CSD input, int id)
 {
    csdToImport.recordCSD(input, id);
-   //printf("Maple register : %d from %d\n", tmp, id);
+   // printf("Maple register : %d from %d\n", tmp, id);
 }
 
 static void makeMiniVec(ClauseExchange *cls, vec<Lit> &mcls)
@@ -140,7 +140,7 @@ MapleCOMSPSSolver::MapleCOMSPSSolver(int id) : SolverInterface(id, MAPLE)
    solver->cbkImportClause = cbkMapleCOMSPSImportClause;
    solver->cbkImportUnit = cbkMapleCOMSPSImportUnit;
 
-   //UPDATE:: add cbk functions
+   // UPDATE:: add cbk functions
    solver->cbkExportCSD = cbkMapleCOMSPSExportCSD;
    solver->cbkImportCSD = cbkMapleCOMSPSImportCSD;
 
@@ -157,7 +157,7 @@ MapleCOMSPSSolver::MapleCOMSPSSolver(const MapleCOMSPSSolver &other, int id) : S
    solver->cbkImportClause = cbkMapleCOMSPSImportClause;
    solver->cbkImportUnit = cbkMapleCOMSPSImportUnit;
 
-   //UPDATE:: add cbk functions
+   // UPDATE:: add cbk functions
    solver->cbkExportCSD = cbkMapleCOMSPSExportCSD;
    solver->cbkImportCSD = cbkMapleCOMSPSImportCSD;
 
@@ -180,7 +180,7 @@ bool MapleCOMSPSSolver::loadFormula(const char *filename)
    return true;
 }
 
-//Get the number of variables of the formula
+// Get the number of variables of the formula
 int MapleCOMSPSSolver::getVariablesCount()
 {
    return solver->nVars();
@@ -221,7 +221,7 @@ void MapleCOMSPSSolver::unsetSolverInterrupt()
 // Diversify the solver
 void MapleCOMSPSSolver::diversify(int id)
 {
-   if (id == ID_XOR)
+   if (id == ID_XOR && GE_diversification)
    {
       solver->GE = true;
    }
@@ -230,17 +230,17 @@ void MapleCOMSPSSolver::diversify(int id)
       solver->GE = false;
    }
 
-   //UPDATE:: no LBD, VSIDS only
-   //if (id % 2)
+   // UPDATE:: no LBD, VSIDS only
+   // if (id % 2)
    //{
-   //solver->VSIDS = false;
-   //}
-   //else
+   // solver->VSIDS = false;
+   // }
+   // else
    //{
    solver->VSIDS = true;
    //}
 
-   if (id % 4 >= 2)
+   if (id % 4 >= 2 && verso_diversification)
    {
       solver->verso = false;
    }

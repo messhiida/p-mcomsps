@@ -21,6 +21,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 **************************************************************************************************/
 
 #include <math.h>
+#include <time.h>
 
 #include "../mtl/Sort.h"
 #include "../core/Solver.h"
@@ -1239,6 +1240,8 @@ lbool Solver::search(int &nof_conflicts)
     starts++;
 
     // UPDATE:: csd share at every restart
+    clock_t start = clock();
+
     MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
     int workerId = mp->id;
 
@@ -1269,8 +1272,8 @@ lbool Solver::search(int &nof_conflicts)
 
                         if (lv == high)
                         {
-                            // changeSearchActivity();
-                            // printf("[%d - %d] SSI %lf changes search at %d restarts prevAt %d \n", workerId, i, ssi, starts, prevChange);
+                            changeSearchActivity();
+                            printf("[%d - %d] SSI %lf changes search at %d restarts prevAt %d \n", workerId, i, ssi, starts, prevChange);
                             prevChange = starts;
                         }
                     }
@@ -1278,6 +1281,9 @@ lbool Solver::search(int &nof_conflicts)
             }
         }
     }
+
+    clock_t end = clock();
+    printf("search[%d]: %f\n", workerId, (double)(end - start) / CLOCKS_PER_SEC);
 
     /*
     if (starts % CHANGE_RESTART_FREQ == 0)

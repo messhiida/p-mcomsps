@@ -25,6 +25,8 @@
 
 #include "../similarity/similarity.h"
 
+#include <time.h>
+
 HordeSatSharing::HordeSatSharing()
 {
    this->literalPerRound = Parameters::getIntParam("shr-lit", 1500);
@@ -46,7 +48,8 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
 {
    static unsigned int round = 1;
 
-   //UPDATE:: shared CSD loop
+   // UPDATE:: shared CSD loop
+   clock_t start = clock();
    vector<int> tmp_sharedCSD;
 
    for (size_t i = 0; i < from.size(); i++)
@@ -58,14 +61,17 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
 
       for (size_t j = 0; j < to.size(); j++)
       {
-         //from, To ともにChange searchさせないために、[0]はすべてを受けるが、[7]は何も受けない調整を実施
-         //nonZeroVars == 0は、SharerやReducerのものが該当。これは無視
+         // from, To ともにChange searchさせないために、[0]はすべてを受けるが、[7]は何も受けない調整を実施
+         // nonZeroVars == 0は、SharerやReducerのものが該当。これは無視
          if (from[i]->id > to[j]->id && tmp_csd.nonZeroVars != 0)
          {
             to[j]->registerSharedCSD(tmp_csd, from[i]->id);
          }
       }
    }
+
+   clock_t end = clock();
+   printf("doSharing[%d]: %f\n", idSharer, (double)(end - start) / CLOCKS_PER_SEC);
 
    for (size_t i = 0; i < from.size(); i++)
    {

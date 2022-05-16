@@ -41,41 +41,29 @@ using namespace MapleCOMSPS;
 // UPDATE:: Similarity Index Functions
 void cbkMapleCOMSPSExportCSD(void *issuer, CSD myCSD)
 {
-   clock_t start = clock();
    MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
    mp->csdToExport.setCSD(myCSD);
-   clock_t end = clock();
-   printf("cbkMapleCOMSPSExportCSD[%d]: %f\n", mp->id, (double)(end - start) / CLOCKS_PER_SEC);
    // printf("[%d] cbkMaple export : %d\n", from, tmp);
 }
 
 vector<CSD> cbkMapleCOMSPSImportCSD(void *issuer)
 {
-   clock_t start = clock();
    MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
    vector<CSD> result = mp->csdToImport.readRecordedCSD();
-   clock_t end = clock();
-   printf("cbkMapleCOMSPSImportCSD[%d]: %f\n", mp->id, (double)(end - start) / CLOCKS_PER_SEC);
    // printf("[%d]cbkMaple import : %d\n", mp->id, tmp);
    return result;
 }
 
 CSD MapleCOMSPSSolver::loadSharedCSD()
 {
-   clock_t start = clock();
    CSD tmp = csdToExport.catchCSD();
-   clock_t end = clock();
-   printf("loadSharedCSD: %f\n", (double)(end - start) / CLOCKS_PER_SEC);
    // printf("Maple load : %d\n", tmp);
    return tmp;
 }
 
 void MapleCOMSPSSolver::registerSharedCSD(CSD input, int id)
 {
-   clock_t start = clock();
    csdToImport.recordCSD(input, id);
-   clock_t end = clock();
-   printf("registerSharedCSD[%d]: %f\n", id, (double)(end - start) / CLOCKS_PER_SEC);
    // printf("Maple register : %d from %d\n", tmp, id);
 }
 

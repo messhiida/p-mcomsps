@@ -1246,6 +1246,7 @@ lbool Solver::search(int &nof_conflicts)
     double time_comm_exp = 0;
     double time_calc_csd = 0;
     double time_calc_ssi = 0;
+    double s, e;
 
     MapleCOMSPSSolver *mp = (MapleCOMSPSSolver *)issuer;
     int workerId = mp->id;
@@ -1253,26 +1254,26 @@ lbool Solver::search(int &nof_conflicts)
     if (workerId <= (MAX_PARALLEL - 4 + 1))
     // if (workerId != MAX_PARALLEL && workerId != (MAX_PARALLEL - 2)) // reducer排除
     {
-        double s = getAbsoluteTime();
+        s = getAbsoluteTime();
         CSD current_CSD = getCSD();
-        double e = getAbsoluteTime();
+        e = getAbsoluteTime();
         time_calc_csd += (e - s);
 
         if (current_CSD.nonZeroVars != 0)
         {
-            double s = getAbsoluteTime();
+            s = getAbsoluteTime();
             cbkExportCSD(issuer, current_CSD);
-            double e = getAbsoluteTime();
+            e = getAbsoluteTime();
             time_comm_exp += (e - s);
 
             if (starts >= (prevChange + CHANGE_INTERVAL))
             {
-                double s = getAbsoluteTime();
+                s = getAbsoluteTime();
                 vector<CSD> sharedCSD = cbkImportCSD(issuer);
-                double e = getAbsoluteTime();
+                e = getAbsoluteTime();
                 time_comm_imp += (e - s);
 
-                double s = getAbsoluteTime();
+                s = getAbsoluteTime();
                 for (size_t i = 0; i < sharedCSD.size(); i++)
                 {
                     if (sharedCSD[i].nonZeroVars == 0)
@@ -1293,7 +1294,7 @@ lbool Solver::search(int &nof_conflicts)
                         }
                     }
                 }
-                double e = getAbsoluteTime();
+                e = getAbsoluteTime();
                 time_calc_ssi += (e - s);
             }
         }

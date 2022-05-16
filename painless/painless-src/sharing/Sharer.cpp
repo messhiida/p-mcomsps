@@ -21,6 +21,7 @@
 #include "../sharing/Sharer.h"
 #include "../solvers/SolverInterface.h"
 #include "../utils/Logger.h"
+#include "../utils/System.h"
 #include "../utils/Parameters.h"
 
 #include <algorithm>
@@ -40,6 +41,10 @@ static void *mainThrSharing(void *arg)
    {
       // Sleep
       usleep(sleepTime);
+
+      // UPDATE:: time tracking
+      double onSharer = getAbsoluteTime();
+      printf("mainThrSharing[ %d ]: %f\n", shr->id, onSharer);
 
       if (globalEnding)
          break; // Need to stop

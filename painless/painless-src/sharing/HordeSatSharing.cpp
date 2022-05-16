@@ -26,8 +26,6 @@
 
 #include "../similarity/similarity.h"
 
-#include <time.h>
-
 HordeSatSharing::HordeSatSharing()
 {
    this->literalPerRound = Parameters::getIntParam("shr-lit", 1500);
@@ -75,7 +73,7 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
 
    double end = getAbsoluteTime();
    // clock_t end = clock();
-   printf("doSharing[%d]: %f (%f - %f)\n", idSharer, (end - start), end, start);
+   printf("doSharing[ %d ]: %f ( %f - %f )\n", idSharer, (end - start), end, start);
 
    for (size_t i = 0; i < from.size(); i++)
    {

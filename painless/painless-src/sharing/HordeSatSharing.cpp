@@ -22,6 +22,7 @@
 #include "../solvers/SolverFactory.h"
 #include "../utils/Logger.h"
 #include "../utils/Parameters.h"
+#include "../utils/System.h"
 
 #include "../similarity/similarity.h"
 
@@ -49,7 +50,9 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
    static unsigned int round = 1;
 
    // UPDATE:: shared CSD loop
-   clock_t start = clock();
+   // clock_t start = clock();
+   double start = getAbsoluteTime();
+
    vector<int> tmp_sharedCSD;
 
    for (size_t i = 0; i < from.size(); i++)
@@ -70,8 +73,9 @@ void HordeSatSharing::doSharing(int idSharer, const vector<SolverInterface *> &f
       }
    }
 
-   clock_t end = clock();
-   printf("doSharing[%d]: %f\n", idSharer, (double)(end - start) / CLOCKS_PER_SEC);
+   double end = getAbsoluteTime();
+   // clock_t end = clock();
+   printf("doSharing[%d]: %f (%f - %f)\n", idSharer, (end - start), end, start);
 
    for (size_t i = 0; i < from.size(); i++)
    {

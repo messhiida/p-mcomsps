@@ -37,14 +37,18 @@ static void *mainThrSharing(void *arg)
    int round = 0;
    int sleepTime = Parameters::getIntParam("shr-sleep", 500000);
 
+   // UPDATE::
+   double prevSharer_time = getAbsoluteTime();
+   double newSharer_time = 0;
+
    while (true)
    {
+      // UPDATE:: time tracking
+      newSharer_time = getAbsoluteTime();
+      printf("mainThrSharing[ %d ] at %d : %f %f %f\n", shr->id, round, (newSharer_time - prevSharer_time), prevSharer_time, newSharer_time);
+      prevSharer_time = newSharer_time;
       // Sleep
       usleep(sleepTime);
-
-      // UPDATE:: time tracking
-      double onSharer = getAbsoluteTime();
-      printf("mainThrSharing[ %d ]: %f\n", shr->id, onSharer);
 
       if (globalEnding)
          break; // Need to stop

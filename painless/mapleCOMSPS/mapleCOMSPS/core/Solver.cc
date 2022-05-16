@@ -1268,12 +1268,12 @@ lbool Solver::search(int &nof_conflicts)
                     if (ssi != 0)
                     {
                         similarityLevel lv = judge_SSI_score(ssi);
-                        printf("[%d - %d] SSI: %lf %d at %d restarts, nonZeroSize-> %d, %d)\n", workerId, i, ssi, lv, starts, current_CSD.nonZeroVars, sharedCSD[i].nonZeroVars);
+                        // printf("[%d - %d] SSI: %lf %d at %d restarts, nonZeroSize-> %d, %d)\n", workerId, i, ssi, lv, starts, current_CSD.nonZeroVars, sharedCSD[i].nonZeroVars);
 
                         if (lv == high)
                         {
                             changeSearchActivity();
-                            printf("[%d - %d] SSI %lf changes search at %d restarts prevAt %d \n", workerId, i, ssi, starts, prevChange);
+                            // printf("[%d - %d] SSI %lf changes search at %d restarts prevAt %d \n", workerId, i, ssi, starts, prevChange);
                             prevChange = starts;
                         }
                     }

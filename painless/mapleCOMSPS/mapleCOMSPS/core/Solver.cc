@@ -24,7 +24,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 
 #include "../mtl/Sort.h"
 #include "../core/Solver.h"
-#include "../../../painless-src/utils/System.h"
+//#include "../../../painless-src/utils/System.h"
 
 //#include "../../../painless-src/similarity/similarity.h"
 #include "../../../painless-src/solvers/MapleCOMSPSSolver.h"
@@ -2168,4 +2168,13 @@ void Solver::_save_SSI(double ssi)
     ssi_database.push_back(ssi);
     if ((int)ssi_database.size() > LIMIT_SAVING_SSI)
         ssi_database.erase(ssi_database.begin());
+}
+
+double Solver::getAbsoluteTime()
+{
+    timeval time;
+
+    gettimeofday(&time, NULL);
+
+    return (double)time.tv_sec + (double)time.tv_usec * 0.000001;
 }

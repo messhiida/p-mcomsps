@@ -35,6 +35,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 #endif
 
 #include <memory>
+#include <sys/time.h>
 
 #include "../mtl/Vec.h"
 #include "../mtl/Heap.h"

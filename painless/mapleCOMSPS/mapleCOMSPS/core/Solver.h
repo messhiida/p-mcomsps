@@ -113,7 +113,7 @@ namespace MapleCOMSPS
         Solver(const Solver &s);
         virtual ~Solver();
 
-        //UPDATE:: Similarity Index Functions
+        // UPDATE:: Similarity Index Functions
         void changeSearchActivity();
         CSD getCSD();
         double calculate_SSI(CSD, CSD);
@@ -123,6 +123,7 @@ namespace MapleCOMSPS
         double _average(vector<double>);
         double _standardDeviation(vector<double>);
         void _save_SSI(double);
+        double getAbsoluteTime();
 
         void (*cbkExportCSD)(void *, CSD);
         vector<CSD> (*cbkImportCSD)(void *);
@@ -467,7 +468,7 @@ namespace MapleCOMSPS
         static inline void binDRUP_flush(FILE *drup_file)
         {
             fwrite(drup_buf, sizeof(unsigned char), buf_len, drup_file);
-            //fwrite_unlocked(drup_buf, sizeof(unsigned char), buf_len, drup_file);
+            // fwrite_unlocked(drup_buf, sizeof(unsigned char), buf_len, drup_file);
             buf_ptr = drup_buf;
             buf_len = 0;
         }

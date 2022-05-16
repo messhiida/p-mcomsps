@@ -1283,7 +1283,8 @@ lbool Solver::search(int &nof_conflicts)
     }
 
     clock_t end = clock();
-    printf("search[%d]: %f\n", workerId, (double)(end - start) / CLOCKS_PER_SEC);
+    if (workerId != 46 && workerId != 48)
+        printf("search[%d]: %f\n", workerId, (double)(end - start) / CLOCKS_PER_SEC);
 
     /*
     if (starts % CHANGE_RESTART_FREQ == 0)

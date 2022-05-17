@@ -2094,6 +2094,7 @@ double Solver::calculate_SSI(CSD my_csd, CSD comp_csd)
 
     double ssi = 0;
     double normalization = 0;
+    printf("in calculateSSI %d %d\n", my_csd.data.size(), comp_csd.data.size());
     for (size_t i = 0; i < my_csd.data.size(); i++) // my_csd.data.size()は常にnVars()に相当し一定のはず
     {
         csd_element val1 = my_csd.data[i];

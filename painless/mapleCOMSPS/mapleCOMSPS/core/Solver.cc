@@ -1279,6 +1279,7 @@ lbool Solver::search(int &nof_conflicts)
                     if (sharedCSD[i].nonZeroVars == 0)
                         continue; //自分やSharer, Reducer, 自分よりIDが小さいものとは比較しない
 
+                    printf("shared CSD %d %d\n", i, sharedCSD.size());
                     double ssi = calculate_SSI(current_CSD, sharedCSD[i]);
 
                     if (ssi != 0)
